@@ -18,3 +18,17 @@ body {
 .post-binaire-texte {
   font-feature-settings: "liga" 1, "dlig" 1, "salt" 1;
 }
+.page {
+  max-width: 700px;
+  margin: 120px auto;
+  padding: 40px;
+}
+
+.titre {
+  font-size: 48px;
+  margin-bottom: 40px;
+}
+
+.texte {
+  font-size: 22px;
+}
