@@ -97,5 +97,12 @@ body {
   opacity: 0.7;
 }
 
+.texte-hors-cadre {
+  color: #ffffff;              /* texte blanc sur fond rose */
+  max-width: 680px;
+  margin: 40px auto 80px auto; /* centré, un peu d’air en bas */
+  font-size: 18px;
+  line-height: 1.7;
+}
 
 
