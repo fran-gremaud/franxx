@@ -50,3 +50,8 @@ body {
 .site-footer {
   color: #ffffff;
 }
+.accueil {
+  text-align: center;
+  opacity: 0.9;
+  letter-spacing: 0.05em;
+}
