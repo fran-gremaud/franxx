@@ -8,8 +8,11 @@ body {
   font-family: PostBinaire, sans-serif;
   font-size: 20px;
   line-height: 1.6;
-  margin: 40px;
+  margin: 0;
+  background-color: #f5a6c8; /* rose */
+  color: #1a1a1a;
 }
+
 
 /* ✅ Activation des glyphes */
 .post-binaire-texte {
