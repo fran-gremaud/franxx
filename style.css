@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "PostBinaire";
+  src: url("ma-police.woff2") format("woff2"),
+       url("ma-police.woff") format("woff");
+}
+
+body {
+  font-family: PostBinaire, sans-serif;
+  font-size: 20px;
+  line-height: 1.6;
+  margin: 40px;
+}
+
+/* ✅ Activation des glyphes */
+.post-binaire-texte {
+  font-feature-settings: "liga" 1, "dlig" 1, "salt" 1;
+}
