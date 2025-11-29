@@ -10,21 +10,21 @@
   <!-- INTRO DANS LE CADRE -->
   <div class="page intro-wrapper">
     <p id="intro-text-1" class="post-binaire-texte texte intro-text visible">
-      <br>
+      
       "j’ai commencé à écrire pour essayer de trouver le chemin des temples cachés sur mes îles intérieures et dont j’ignore encore, 
       un jour sur deux, la voie d’accès. le soleil peut aider, la lune aussi mais le monde tangible 
       — celui que beaucoup appelle "le vrai" — est une vraie plaie : il bourdonne trop fort et ne fait pas beaucoup de miel."
-        <br>
+        
     </p>
   
     
 
     <p id="intro-text-2" class="post-binaire-texte texte intro-text">
-       <br>
+       
       "j’ai commencé à écrire pour essayer de trouver le chemin des temples cachés sur mes îles intérieures et dont j’ignore encore, 
       un jour sur deux, la voie d’accès. le soleil peut aider, la lune aussi mais le monde tangible 
       — celui que beaucoup appelle "le vrai" — est une vraie plaie : il bourdonne trop fort et ne fait pas beaucoup de miel."
-        <br>
+      
     </p>
 
     <a href="home.html" id="intro-enter">
@@ -39,54 +39,33 @@
   </div>
 
   <script>
-    const text1 = document.getElementById("intro-text-1");
-    const text2 = document.getElementById("intro-text-2");
-    const enterBtn = document.getElementById("intro-enter");
-    const glitch = document.getElementById("glitch-screen");
-    const frame = document.querySelector(".intro-wrapper");
+  const enterBtn = document.getElementById("intro-enter");
+  const glitch = document.getElementById("glitch-screen");
+  const frame = document.querySelector(".intro-wrapper");
 
-    function microGlitch(delay) {
-      setTimeout(() => {
-        glitch.classList.add("active");
-        frame.classList.add("frame-glitch");
-
-        setTimeout(() => {
-          glitch.classList.remove("active");
-          frame.classList.remove("frame-glitch");
-        }, 120);
-      }, delay);
-    }
-
-    /* Séquence principale — TES TEMPS */
-    setTimeout(() => {
-      glitch.classList.add("active");
-      frame.classList.add("frame-glitch");
-    }, 300);
+  function playGlitch() {
+    glitch.classList.add("active");
+    frame.classList.add("frame-glitch");
 
     setTimeout(() => {
       glitch.classList.remove("active");
       frame.classList.remove("frame-glitch");
-      text1.classList.remove("visible");
-      text2.classList.add("visible");
-    }, 700);
+    }, 180);
+  }
 
-    setTimeout(() => {
-      glitch.classList.add("active");
-      frame.classList.add("frame-glitch");
-    }, 950);
+  // 3 glitches aléatoires dans les 5 premières secondes
+  const glitchTimes = Array.from({ length: 3 }, () => Math.random() * 5000);
 
-    setTimeout(() => {
-      glitch.classList.remove("active");
-      frame.classList.remove("frame-glitch");
-      enterBtn.classList.add("visible");
-    }, 1400);
+  glitchTimes.forEach(time => {
+    setTimeout(playGlitch, time);
+  });
 
-    /* Micro-glitchs aléatoires */
-    for (let i = 0; i < 5; i++) {
-      const randomDelay = 1600 + Math.random() * 2000;
-      microGlitch(randomDelay);
-    }
-  </script>
+  // Apparition douce de la flèche après 5 secondes
+  setTimeout(() => {
+    enterBtn.classList.add("visible");
+  }, 5000);
+</script>
+
 
 </body>
 </html>
