@@ -174,3 +174,14 @@ body {
   text-align: right;
 }
 
+/* Supprimer le violet et le soulignement des liens visités */
+.intro-arrow:link,
+.intro-arrow:visited {
+  color: hotpink;
+  text-decoration: none;
+}
+a:visited {
+  color: inherit;
+}
+
+
