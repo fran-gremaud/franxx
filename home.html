@@ -5,6 +5,14 @@
   <title>fran·</title>
   <link rel="stylesheet" href="style.css">
 </head>
+  <script>
+  fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer-placeholder").innerHTML = data;
+    });
+</script>
+
 <body>
  <div class="page">
 
