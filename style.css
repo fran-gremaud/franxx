@@ -196,16 +196,19 @@ body {
 }
 
 #intro-enter:hover {
-  animation: hover-glitch 0.25s steps(2);
+  animation: hover-glitch-color 0.3s steps(2) infinite;
 }
 
-@keyframes hover-glitch {
-  0%   { transform: translateX(0); }
-  20%  { transform: translateX(-2px); }
-  40%  { transform: translateX(2px); }
-  60%  { transform: translateX(-1px); }
-  80%  { transform: translateX(1px); }
-  100% { transform: translateX(0); }
+/* Tremblement + clignotement rose / bleu */
+@keyframes hover-glitch-color {
+  0%   { transform: translate(0, 0); color: hotpink; }
+  20%  { transform: translate(-2px, 1px); color: #00c8ff; }
+  40%  { transform: translate(2px, -1px); color: hotpink; }
+  60%  { transform: translate(-1px, -1px); color: #00c8ff; }
+  80%  { transform: translate(1px, 1px); color: hotpink; }
+  100% { transform: translate(0, 0); color: #00c8ff; }
+}
+
 }
 intro-enter.visible {
   opacity: 1;
