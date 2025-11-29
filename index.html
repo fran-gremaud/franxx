@@ -28,32 +28,51 @@
     <img src="glitch.png" alt="">
   </div>
 
-  <script>
-    const text1 = document.getElementById("intro-text-1");
-    const text2 = document.getElementById("intro-text-2");
-    const enterBtn = document.getElementById("intro-enter");
-    const glitch = document.getElementById("glitch-screen");
+ <script>
+  const text1 = document.getElementById("intro-text-1");
+  const text2 = document.getElementById("intro-text-2");
+  const enterBtn = document.getElementById("intro-enter");
+  const glitch = document.getElementById("glitch-screen");
 
-    // timings saccadés
+  function microGlitch(delay) {
     setTimeout(() => {
       glitch.classList.add("active");
-    }, 400);
+      setTimeout(() => {
+        glitch.classList.remove("active");
+      }, 120);
+    }, delay);
+  }
 
-    setTimeout(() => {
-      glitch.classList.remove("active");
-      text1.classList.remove("visible");
-      text2.classList.add("visible");
-    }, 900);
+  // Apparition du premier texte
+  text1.classList.add("visible");
 
-    setTimeout(() => {
-      glitch.classList.add("active");
-    }, 1200);
+  // Séquence principale avec TES timings
+  setTimeout(() => {
+    glitch.classList.add("active");
+  }, 300);
 
-    setTimeout(() => {
-      glitch.classList.remove("active");
-      enterBtn.classList.add("visible");
-    }, 1800);
-  </script>
+  setTimeout(() => {
+    glitch.classList.remove("active");
+    text1.classList.remove("visible");
+    text2.classList.add("visible");
+  }, 700);
+
+  setTimeout(() => {
+    glitch.classList.add("active");
+  }, 950);
+
+  setTimeout(() => {
+    glitch.classList.remove("active");
+    enterBtn.classList.add("visible");
+  }, 1400);
+
+  // Micro-glitchs aléatoires après l’apparition du bouton
+  for (let i = 0; i < 5; i++) {
+    const randomDelay = 1600 + Math.random() * 2000;
+    microGlitch(randomDelay);
+  }
+</script>
+
 
 </body>
 </html>
