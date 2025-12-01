@@ -151,13 +151,16 @@ body {
   margin: 0 auto;
   text-align: center;
 }
+
 .footer-top {
   display: grid;
-  grid-template-columns: 1fr auto auto 1fr;
+  grid-template-columns: repeat(4, auto);
+  justify-content: space-between; /* ← espacement égal */
   align-items: center;
-  margin-bottom: 12px;
-  column-gap: 24px;   /* ← AJOUTE JUSTE ÇA */
+  max-width: 900px;
+  margin: 0 auto 12px auto;
 }
+
 
 
 .footer-left {
