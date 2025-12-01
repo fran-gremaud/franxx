@@ -28,7 +28,7 @@ body {
 
 .page {
   max-width: 680px;
-  margin: 120px auto;
+  margin: 120px auto 20px auto; /* ← 120px en haut, 20px en bas */
   padding: 48px;
   background-color: #ffffff;
   border: 6px solid #000000;
@@ -36,6 +36,7 @@ body {
   position: relative;
   top: -10px;
   left: -10px;
+
 }
 
 .titre {
