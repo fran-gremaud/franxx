@@ -158,7 +158,6 @@ body {
   justify-content: space-between; /* ← espacement égal */
   align-items: center;
   max-width: 900px;
-  margin: 0 auto 12px auto;
 }
 
 
@@ -182,9 +181,12 @@ body {
 
 /* Ligne du bas */
 .footer-bottom {
-  margin-top: 12px;   /* ← espace entre ligne 1 et 2 */
+  margin-top: 14px;   /* ← l’espace entre ligne 1 et ligne 2 est ICI */
+  margin-bottom: 0;
   opacity: 0.8;
+  text-align: center;
 }
+
 
 
 /* Liens propres (pas de violet après clic) */
