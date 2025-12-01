@@ -241,7 +241,7 @@ a:hover {
 /* --- POST-IT BLEU À DROITE --- */
 .apropos-postit-texte {
   float: right;
-  margin: -20px -120px 24px 32px;
+  margin: -20px -120px -80px auto;
   width: 340px;
   padding: 20px;
   font-family: "AdelpheFlorealBold", serif;
