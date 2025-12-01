@@ -151,13 +151,12 @@ body {
   margin: 0 auto;
   text-align: center;
 }
-
-/* Ligne du haut : 3 éléments */
 .footer-top {
   display: grid;
   grid-template-columns: 1fr auto auto 1fr;
   align-items: center;
   margin-bottom: 12px;
+  column-gap: 24px;   /* ← AJOUTE JUSTE ÇA */
 }
 
 
