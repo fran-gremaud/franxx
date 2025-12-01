@@ -156,8 +156,9 @@ body {
 .footer-top {
   display: grid;
   grid-template-columns: repeat(4, auto);
-  justify-content: space-between;
+  justify-content: center;   /* on centre le groupe */
   align-items: center;
+  column-gap: 48px;          /* ✅ l’espace ENTRE chaque lien */
   max-width: 900px;
   margin: 0 auto;
 }
