@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>fran· & co</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="page">
+    <h2 class="post-binaire-texte titre">crédits typographiques</h2>
+
+    <p class="post-binaire-texte texte">
+      ce site utilise des glyphes post-binaires disponibles sur 
+      <a href="https://typotheque.genderfluid.space" target="_blank">le site</a> 
+      de Bye Bye Binary.
+      <br><br>
+      pour l'instant le site est construit avec la typo 
+      <em>Enby Gertrude</em> de Valentin Chauveau et Léna Salabert-Triby
+      <br><br>
+      un énooooooorme merci aux typographes, aux ateliers, aux collectifs qui rendent ces formes possibles et nos existences visible. FULL LOVE ON FULL MOON. 
+    </p>
+  </div>
+
+  <!-- Footer partagé -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Écran de transition glitch -->
+  <div id="glitch-screen">
+    <img src="glitch.png" alt="">
+  </div>
+
+  <!-- Script glitch -->
+  <script src="glitch.js"></script>
+
+  <!-- Script de chargement du footer (TOUJOURS À LA FIN) -->
+  <script>
+    fetch("footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer-placeholder").innerHTML = data;
+      });
+  </script>
+
+</body>
+</html>

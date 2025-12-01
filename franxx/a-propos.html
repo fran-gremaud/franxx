@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>fran· — à propos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- TITRE -->
+    <h1 class="post-binaire-texte titre">fran·</h1>
+
+    <!-- SOUS-TITRE -->
+    <p class="post-binaire-texte apropos-subtitle">
+      vit et travaille à Fribourg, Suisse [mais vraiment pas que]
+    </p>
+
+    <!-- PHOTO + TEXTE EN HABILLAGE -->
+    <div class="apropos-content">
+
+      <img src="me.jpg" alt="portrait de fran·" class="apropos-photo"
+     style="width:200px; max-width:200px; height:auto; float:left; margin:-12px 32px 16px -12px; border:4px solid #000; box-shadow:10px 10px 0 #000; background:#fff; display:block;">
+
+
+      <p class="post-binaire-texte apropos-texte">
+        Né·e entre deux pays, deux siècles — deux millénaires même — pile le jour de l’équinoxe de printemps — à plus ou moins quarante-huit heures, fran· a pris l’habitude de se tenir dans les marges, « parce qu’on y respire mieux », dit-iel. Auteur..ice, performeur·euse et bricoleur·euse d’utopies portatives, iel écrit des poèmes, du théâtre et des formes hybrides qui célèbrent la douceur, la révolte et les désordres nécessaires.
+        <br><br>
+        Diplômé·e en cinéma (Université Rennes 2), en arts visuels (ESAM Caen) et en création littéraire (Haute École des Arts de Berne), iel développe un travail accessible, ouvert, qui préfère les petites secousses aux grands systèmes théoriques. Entre poésie performée, récits fragmentaires et vidéos, fran· cherche des trajectoires pour apprendre à se mouvoir dans un monde qui tremble.
+        <br><br>
+        Ses projets ont été soutenus par diverses institutions en France, en Suisse et à l’étranger : ministère de la Culture, fondation Antoine de Saint-Exupéry pour la Jeunesse, alliances françaises de Katmandou et de Tokyo, fondation franco-japonaise Sasakawa, Festival du Film de Montagne de Katmandou, et le programme Format Mondial. Quel que soit le médium, iel poursuit obstinément le même objectif : inventer des formes sensibles qui ouvrent des espaces respirables, des zones de rencontre, des mondes un peu plus vivables.
+      </p>
+
+      <p class="apropos-legende">
+        crédit photo :
+        <a href="https://www.instagram.com/pe_mry/" target="_blank">
+          Pernette Emery
+        </a>
+      </p>
+
+    </div>
+
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <script>
+    fetch("footer.html")
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById("footer-placeholder").innerHTML = html;
+      });
+  </script>
+
+</body>
+</html>

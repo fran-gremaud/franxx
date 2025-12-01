@@ -1,0 +1,302 @@
+/* =========================================================
+   FONT & BASE
+========================================================= */
+
+@font-face {
+  font-family: "PostBinaire";
+  src: url("ma-police.woff2") format("woff2"),
+       url("ma-police.woff") format("woff");
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: PostBinaire, sans-serif;
+  font-size: 20px;
+  line-height: 1.6;
+  background-color: #ff2fa3;
+  color: #000;
+}
+
+/* Activation des glyphes */
+.post-binaire-texte {
+  font-feature-settings: "liga" 1, "dlig" 1, "salt" 1;
+}
+
+/* =========================================================
+   STRUCTURE GÉNÉRALE DES PAGES
+========================================================= */
+
+.page {
+  max-width: 680px;
+  margin: 120px auto 20px auto;  /* top / right / bottom / left */
+  padding: 48px;
+  background-color: #ffffff;
+  border: 6px solid #000000;
+  box-shadow: 12px 12px 0 #000;
+  position: relative;
+  top: -10px;
+  left: -10px;
+}
+
+.titre {
+  font-size: 48px;
+  line-height: 1.05;   /* ← clé pour coller le sous-titre */
+  margin: 0;
+  color: #ff2fa3;
+}
+
+.texte {
+  font-size: 22px;
+  color: #ff2fa3;
+}
+
+/* Texte hors cadre */
+.texte-hors-cadre {
+  color: #ffffff;
+  max-width: 680px;
+  margin: 40px auto 80px auto;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.emoji {
+  font-size: 0.8em;
+  margin-left: 0.005em;
+}
+
+/* =========================================================
+   SYMBOLE ">" D’ENTRÉE
+========================================================= */
+
+.intro-arrow {
+  text-decoration: none;
+  margin-left: 6px;
+  color: hotpink;
+  animation: arrow-pulse 3s steps(5) infinite;
+  cursor: pointer;
+}
+
+@keyframes arrow-pulse {
+  0%   { color: hotpink; }
+  50%  { color: white; }
+  100% { color: hotpink; }
+}
+
+.intro-arrow:hover {
+  animation: none;
+  color: hotpink;
+}
+
+/* =========================================================
+   GLITCH ÉCRAN
+========================================================= */
+
+#glitch-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 0.15s steps(2);
+}
+
+#glitch-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: screen;
+}
+
+#glitch-screen.active {
+  opacity: 1;
+  pointer-events: all;
+  animation: glitch-flicker 0.6s steps(2);
+}
+
+@keyframes glitch-flicker {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  30% { opacity: 0; }
+  45% { opacity: 1; }
+  60% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* =========================================================
+   FOOTER — VERSION 2 LIGNES STABLE
+========================================================= */
+
+.site-footer {
+  color: #ffffff;
+  padding: 48px 40px 16px 40px;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.footer-inner.two-lines {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;   /* ✅ ESPACE ENTRE LIGNE 1 ET 2 */
+}
+
+/* Ligne 1 */
+.footer-top {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  justify-content: center;   /* on centre le groupe */
+  align-items: center;
+  column-gap: 48px;          /* ✅ l’espace ENTRE chaque lien */
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+  justify-self: center;
+}
+
+.footer-mail {
+  font-style: italic;
+}
+
+/* Ligne 2 */
+.footer-bottom {
+  margin: 0;
+  opacity: 0.8;
+  text-align: center;
+}
+
+/* Liens footer */
+.site-footer a,
+.site-footer a:visited {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.site-footer a:hover {
+  opacity: 0.7;
+}
+
+/* =========================================================
+   PAGE À PROPOS — TITRE, SOUS-TITRE, PHOTO, TEXTE
+========================================================= */
+
+.apropos-subtitle {
+  margin-top: 2px;     /* ← mini espace maîtrisé */
+  margin-bottom: 28px;
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1.4;
+  color: #ff2fa3;
+  opacity: 0.85;
+}
+
+}
+
+.apropos-photo {
+  float: left;
+  width: 200px !important;
+  max-width: 200px !important;
+  height: auto !important;
+
+  margin: -12px 32px 16px -12px;
+  border: 4px solid #000;
+  background: #fff;
+  box-shadow: 10px 10px 0 #000;
+
+  display: block;
+}
+
+
+
+.apropos-texte {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #ff2fa3;
+}
+
+.apropos-legende {
+  clear: both;
+  margin-top: 8px;
+  font-size: 12px;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.apropos-legende a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.apropos-legende a:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 700px) {
+  .apropos-photo {
+    float: none;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 16px 0;
+    box-shadow: 8px 8px 0 #000;
+  }
+}
+
+}
+
+/* =========================================================
+   CLIGNOTEMENT DOUX DE TOUS LES LIENS
+========================================================= */
+
+a {
+  animation: arrow-pulse 3s steps(5) infinite;
+}
+
+a:hover {
+  animation: none;
+  color: hotpink;
+
+   /* === VERROUILLAGE ABSOLU PHOTO À PROPOS === */
+
+.apropos-content img.apropos-photo {
+  width: 200px !important;
+  max-width: 200px !important;
+  height: auto !important;
+
+  float: left !important;
+  margin: -12px 32px 16px -12px !important;
+
+  border: 4px solid #000 !important;
+  background: #fff !important;
+  box-shadow: 10px 10px 0 #000 !important;
+
+  display: block !important;
+}
+@media (max-width: 700px) {
+  .apropos-content img.apropos-photo {
+    float: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 16px 0 !important;
+    box-shadow: 8px 8px 0 #000 !important;
+  }
+}
+
+}

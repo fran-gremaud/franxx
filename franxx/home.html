@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>fran·</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="page">
+
+    <h1 class="post-binaire-texte titre">
+      bienvenu..e <span class="emoji">❤️‍🔥</span>
+    </h1>
+
+    <p class="post-binaire-texte texte"> 
+      j'ai finalement réussi à faire un site avec mes petits doigts ! youhou !<br>
+      <br>
+      bon,<br>
+      il naît aussi lentement que mes poèmes...<br>
+      mais il sera bientôt là.<br> 
+      peut-être.<br> 
+      quand j'aurais fini tout ce qui traine dans mes tiroirs.<br>
+      <br>
+      bisous si consentis.<br>
+      <br>
+      love Ϫ<br>
+      <br>
+      fran·
+    </p>
+
+  </div>
+
+  <!-- ICI le footer partagé -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Écran de transition glitch -->
+  <div id="glitch-screen">
+    <img src="glitch.png" alt="">
+  </div>
+
+  <!-- Script de transition -->
+  <script src="glitch.js"></script>
+
+  <!-- Script de chargement du footer -->
+  <script>
+    fetch("footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer-placeholder").innerHTML = data;
+      });
+  </script>
+
+</body>
+</html>
