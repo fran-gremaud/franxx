@@ -44,7 +44,8 @@ body {
 
 .titre {
   font-size: 48px;
-  margin: 0 0 0 0;
+  line-height: 1.05;   /* ← clé pour coller le sous-titre */
+  margin: 0;
   color: #ff2fa3;
 }
 
@@ -197,13 +198,15 @@ body {
 ========================================================= */
 
 .apropos-subtitle {
-  margin-top: 0;
-  margin-bottom: 32px;
+  margin-top: 2px;     /* ← mini espace maîtrisé */
+  margin-bottom: 28px;
   font-size: 16px;
   font-style: italic;
   line-height: 1.4;
   color: #ff2fa3;
   opacity: 0.85;
+}
+
 }
 
 .apropos-photo {
@@ -214,8 +217,8 @@ body {
 }
 
 .apropos-texte {
-  font-size: 18px;
-  line-height: 1.75;
+  font-size: 14px;
+  line-height: 1.5;
   color: #ff2fa3;
 }
 
