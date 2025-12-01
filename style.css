@@ -209,6 +209,8 @@ body {
 
 .apropos-content {
   position: relative;
+  padding-top: 140px;  /* pousse le texte sous la photo */
+  z-index: 1;
 }
 
 .apropos-photo {
@@ -224,6 +226,11 @@ body {
 
   display: block;
 }
+
+.apropos-photo {
+  z-index: 20;
+}
+
 
 .apropos-texte {
   font-size: 16px;
@@ -367,7 +374,7 @@ a:hover {
   max-width: 200px;
   height: auto;
 
-  transform: rotate(-3deg);
+  transform: none;
 
   border: 4px solid #000;
   background: #ffffff;
@@ -382,33 +389,34 @@ a:hover {
 
 .apropos-postit-texte {
   position: absolute;
-  bottom: -80px;
-  right: -80px;
+  bottom: -120px;
+  right: -120px;
 
-  width: 320px;
-  padding: 18px 20px;
+  width: 340px;
+  padding: 20px;
 
   font-family: "AdelpheFlorealBold", serif;
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 15px;
+  line-height: 1.45;
 
-  color: #00a8ff; /* bleu fluo */
+  color: #00a8ff;
   background: #ffffff;
 
-  border: 4px solid #000;
-  box-shadow: 14px 14px 0 #000;
+  border: 4px solid #00a8ff;              /* cadre bleu */
+  box-shadow: 16px 16px 0 #00a8ff;        /* ombre bleue */
 
-  transform: rotate(4deg);
-
-  z-index: 6;
+  transform: none;                       /* plus de rotation */
+  z-index: 30;
 }
+
 
 .apropos-postit-source {
   display: block;
-  margin-top: 8px;
+  margin-top: 10px;
   font-size: 11px;
   font-style: italic;
-  opacity: 0.8;
+  opacity: 0.85;
+  color: #00a8ff;
 }
 
 /* =========================================================
@@ -421,26 +429,19 @@ a:hover {
     position: relative;
     top: 0;
     left: 0;
-    transform: rotate(-2deg);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     width: 100%;
-    max-width: 100%;
     box-shadow: 8px 8px 0 #000;
-  }
-
-  .apropos-content {
-    padding-top: 0;
   }
 
   .apropos-postit-texte {
     position: relative;
     bottom: 0;
     right: 0;
-    margin-top: 32px;
     width: 100%;
-    transform: rotate(-1deg);
-    box-shadow: 8px 8px 0 #000;
+    margin-top: 32px;
+    box-shadow: 8px 8px 0 #00a8ff;
+    transform: none;
   }
 
 }
-
