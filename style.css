@@ -253,3 +253,22 @@ a:hover {
   animation: none;
   color: hotpink;
 }
+
+/* =========================================================
+   RESET TOTAL DES MARGES BASSE DE PAGE
+========================================================= */
+
+.site-footer,
+.site-footer * {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+body {
+  padding-bottom: 0 !important;
+}
+
+html {
+  padding-bottom: 0 !important;
+}
+
