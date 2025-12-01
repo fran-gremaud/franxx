@@ -182,9 +182,10 @@ body {
 
 /* Ligne du bas */
 .footer-bottom {
-  margin: 0;
+  margin-top: 12px;   /* ← espace entre ligne 1 et 2 */
   opacity: 0.8;
 }
+
 
 /* Liens propres (pas de violet après clic) */
 .site-footer a,
@@ -243,4 +244,19 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================================================
+   CLIGNOTEMENT DOUX DE TOUS LES LIENS
+========================================================= */
+
+a {
+  animation: arrow-pulse 3s steps(5) infinite;
+}
+
+/* Au survol : on stoppe le clignotement, reste rose */
+a:hover {
+  animation: none;
+  color: hotpink;
+}
+
 
