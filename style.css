@@ -8,6 +8,11 @@
        url("ma-police.woff") format("woff");
 }
 
+@font-face {
+  font-family: "AdelpheFlorealBold";
+  src: url("Adelphe-Trouble-FlorealBold.otf") format("opentype");
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -21,30 +26,26 @@ body {
   color: #000;
 }
 
-/* Activation des glyphes */
 .post-binaire-texte {
   font-feature-settings: "liga" 1, "dlig" 1, "salt" 1;
 }
 
 /* =========================================================
-   STRUCTURE GÉNÉRALE DES PAGES
+   STRUCTURE GÉNÉRALE
 ========================================================= */
 
 .page {
   max-width: 680px;
-  margin: 120px auto 20px auto;  /* top / right / bottom / left */
+  margin: 120px auto 40px auto;
   padding: 48px;
   background-color: #ffffff;
   border: 6px solid #000000;
   box-shadow: 12px 12px 0 #000;
-  position: relative;
-  top: -10px;
-  left: -10px;
 }
 
 .titre {
   font-size: 48px;
-  line-height: 1.05;   /* ← clé pour coller le sous-titre */
+  line-height: 1.05;
   margin: 0;
   color: #ff2fa3;
 }
@@ -54,7 +55,6 @@ body {
   color: #ff2fa3;
 }
 
-/* Texte hors cadre */
 .texte-hors-cadre {
   color: #ffffff;
   max-width: 680px;
@@ -134,7 +134,7 @@ body {
 }
 
 /* =========================================================
-   FOOTER — VERSION 2 LIGNES STABLE
+   FOOTER
 ========================================================= */
 
 .site-footer {
@@ -150,16 +150,15 @@ body {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 12px;   /* ✅ ESPACE ENTRE LIGNE 1 ET 2 */
+  gap: 12px;
 }
 
-/* Ligne 1 */
 .footer-top {
   display: grid;
   grid-template-columns: repeat(4, auto);
-  justify-content: center;   /* on centre le groupe */
+  justify-content: center;
   align-items: center;
-  column-gap: 48px;          /* ✅ l’espace ENTRE chaque lien */
+  column-gap: 48px;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -174,14 +173,12 @@ body {
   font-style: italic;
 }
 
-/* Ligne 2 */
 .footer-bottom {
   margin: 0;
   opacity: 0.8;
   text-align: center;
 }
 
-/* Liens footer */
 .site-footer a,
 .site-footer a:visited {
   color: inherit;
@@ -194,40 +191,30 @@ body {
 }
 
 /* =========================================================
-   PAGE À PROPOS — VERSION NETTOYÉE
+   PAGE À PROPOS — VERSION STABLE
 ========================================================= */
 
 .apropos-subtitle {
-  margin-top: 2px;
+  margin-top: 4px;
   margin-bottom: 28px;
   font-size: 16px;
   font-style: italic;
-  line-height: 1.4;
   color: #ff2fa3;
   opacity: 0.85;
 }
 
 .apropos-content {
-  position: relative;
-  padding-top: 40px;
-  padding-left: 240px;   /* ✅ espace réel pour la photo */
-  z-index: 1;
+  overflow: hidden;
 }
 
-
 .apropos-photo {
-  position: absolute;
-  top: -80px;
-  left: -80px;
-
+  float: left;
   width: 200px;
-  height: auto;
+  margin: 0 32px 24px 0;
 
-  border: 4px solid #ff2fa3;          /* ✅ rose */
+  border: 4px solid #ff2fa3;
   background: #ffffff;
-  box-shadow: 16px 16px 0 #ff2fa3;    /* ✅ ombre rose */
-
-  z-index: 10;
+  box-shadow: 16px 16px 0 #ff2fa3;
 }
 
 .apropos-texte {
@@ -250,156 +237,15 @@ body {
   border-bottom: 1px solid currentColor;
 }
 
-.apropos-legende a:hover {
-  opacity: 0.7;
-}
-
-/* ===============================
-   RESPONSIVE
-================================ */
-
-@media (max-width: 700px) {
-  .apropos-content {
-    padding-left: 0;
-    padding-top: 0;
-  }
-}
-
-@media (max-width: 700px) {
-  .apropos-photo {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    margin-bottom: 20px;
-    box-shadow: 8px 8px 0 #ff2fa3;
-  }
-}
-
-
-
 /* =========================================================
-   CLIGNOTEMENT DOUX DE TOUS LES LIENS
-========================================================= */
-
-a {
-  animation: arrow-pulse 3s steps(5) infinite;
-}
-
-a:hover {
-  animation: none;
-  color: hotpink;
-
-   /* === VERROUILLAGE ABSOLU PHOTO À PROPOS === */
-
-.apropos-content img.apropos-photo {
-  width: 200px !important;
-  max-width: 200px !important;
-  height: auto !important;
-
-  float: left !important;
-  margin: -12px 32px 16px -12px !important;
-
-  border: 4px solid #000 !important;
-  background: #fff !important;
-  box-shadow: 10px 10px 0 #000 !important;
-
-  display: block !important;
-}
-@media (max-width: 700px) {
-  .apropos-content img.apropos-photo {
-    float: none !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 0 16px 0 !important;
-    box-shadow: 8px 8px 0 #000 !important;
-  }
-}
-
-}/* =========================================================
-   POLICE ADELpHE
-========================================================= */
-
-@font-face {
-  font-family: "AdelpheFlorealBold";
-  src: url("Adelphe-Trouble-FlorealBold.otf") format("opentype");
-}
-
-/* =========================================================
-   À PROPOS — STRUCTURE
-========================================================= */
-
-.apropos-subtitle {
-  margin-top: 2px;
-  margin-bottom: 28px;
-  font-size: 16px;
-  font-style: italic;
-  line-height: 1.4;
-  color: #ff2fa3;
-  opacity: 0.85;
-}
-
-.apropos-content {
-  position: relative;
-  padding-top: 120px; /* espace pour la photo qui déborde */
-}
-
-.apropos-texte {
-  font-size: 16px;
-  line-height: 1.5;
-  color: #ff2fa3;
-}
-
-.apropos-legende {
-  clear: both;
-  margin-top: 8px;
-  font-size: 12px;
-  font-style: italic;
-  opacity: 0.8;
-}
-
-.apropos-legende a {
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px solid currentColor;
-}
-
-.apropos-legende a:hover {
-  opacity: 0.7;
-}
-
-/* =========================================================
-   PHOTO POST-IT (HAUT GAUCHE)
-========================================================= */
-
-.apropos-photo {
-  position: absolute;
-  top: -60px;
-  left: -60px;
-
-  width: 200px;
-  max-width: 200px;
-  height: auto;
-
-  transform: none;
-
-  border: 4px solid #000;
-  background: #ffffff;
-  box-shadow: 14px 14px 0 #000;
-
-  z-index: 5;
-}
-
-/* =========================================================
-   POST-IT TEXTE (BAS DROITE)
+   POST-IT BLEU (EN BAS, SANS CHEVAUCHEMENT)
 ========================================================= */
 
 .apropos-postit-texte {
-  position: absolute;
-  bottom: -120px;
-  right: -120px;
-
+  clear: both;
+  margin: 60px auto 20px auto;
   width: 340px;
+  max-width: 100%;
   padding: 20px;
 
   font-family: "AdelpheFlorealBold", serif;
@@ -409,13 +255,9 @@ a:hover {
   color: #00a8ff;
   background: #ffffff;
 
-  border: 4px solid #00a8ff;              /* cadre bleu */
-  box-shadow: 16px 16px 0 #00a8ff;        /* ombre bleue */
-
-  transform: none;                       /* plus de rotation */
-  z-index: 30;
+  border: 4px solid #00a8ff;
+  box-shadow: 16px 16px 0 #00a8ff;
 }
-
 
 .apropos-postit-source {
   display: block;
@@ -423,39 +265,35 @@ a:hover {
   font-size: 11px;
   font-style: italic;
   opacity: 0.85;
-  color: #00a8ff;
 }
 
 /* =========================================================
-   RESPONSIVE MOBILE
+   MOBILE
 ========================================================= */
 
 @media (max-width: 700px) {
 
   .apropos-photo {
-    position: relative;
-    top: 0;
-    left: 0;
-    margin-bottom: 20px;
+    float: none;
     width: 100%;
-    box-shadow: 8px 8px 0 #000;
+    margin: 0 0 20px 0;
+    box-shadow: 8px 8px 0 #ff2fa3;
   }
 
   .apropos-postit-texte {
-    position: relative;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    margin-top: 32px;
     box-shadow: 8px 8px 0 #00a8ff;
-    transform: none;
   }
-
-}.apropos-texte {
-  position: relative;
-  z-index: 2;
-}
-.apropos-photo {
-  z-index: 1;
 }
 
+/* =========================================================
+   CLIGNOTEMENT LIENS
+========================================================= */
+
+a {
+  animation: arrow-pulse 3s steps(5) infinite;
+}
+
+a:hover {
+  animation: none;
+  color: hotpink;
+}
