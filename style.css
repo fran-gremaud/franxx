@@ -187,4 +187,33 @@ a:visited {
 .page .texte:first-child {
   margin-top: 40px;
 }
+/* ===== FOOTER SUR DEUX LIGNES ===== */
+
+.footer-inner.two-lines {
+  display: block;
+  text-align: center;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto 12px auto;
+}
+
+.footer-bottom {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.italic {
+  font-style: italic;
+}
+
+/* Sécurité : garder les liens visités identiques */
+.site-footer a:visited {
+  color: inherit;
+}
 
