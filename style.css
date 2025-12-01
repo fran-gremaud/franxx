@@ -40,7 +40,7 @@ body {
 
 .titre {
   font-size: 48px;
-  margin-bottom: 8px; /* ↓ réduit pour coller au sous-titre */
+  margin-bottom: 0px; /* ↓ réduit pour coller au sous-titre */
   color: #ff2fa3;
 }
 
@@ -134,7 +134,7 @@ body {
 
 .site-footer {
   color: #ffffff;
-  padding: 48px 40px 8px 40px;
+  padding: 48px 40px 0px 40px;
   font-size: 13px;
   opacity: 0.9;
 }
@@ -164,7 +164,7 @@ body {
 
 /* ✅ espace UNIQUEMENT entre ligne 1 et ligne 2 */
 .footer-bottom {
-  margin-top: 14px;
+  margin-top: 0px;
   margin-bottom: 0;
   opacity: 0.8;
   text-align: center;
