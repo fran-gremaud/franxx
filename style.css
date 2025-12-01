@@ -276,6 +276,12 @@ a:hover {
   text-decoration: none;
   border-bottom: 1px solid currentColor;
 }
+.apropos-content::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 
 /* =========================================================
    MOBILE
