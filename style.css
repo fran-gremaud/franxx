@@ -272,3 +272,11 @@ html {
   padding-bottom: 0 !important;
 }
 
+/* =========================================================
+   ESPACE CONTRÔLÉ ENTRE LIGNE 1 ET LIGNE 2 DU FOOTER
+========================================================= */
+
+.site-footer .footer-bottom {
+  margin-top: 14px !important;  /* espace entre les deux lignes */
+}
+
