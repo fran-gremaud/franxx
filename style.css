@@ -280,3 +280,11 @@ html {
   margin-top: 54px !important;  /* espace entre les deux lignes */
 }
 
+/* =========================================================
+   PETITE MARGE SOUS LE FOOTER
+========================================================= */
+
+.site-footer {
+  padding-bottom: 16px !important;  /* espace sous la 2e ligne */
+}
+
