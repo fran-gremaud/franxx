@@ -246,8 +246,7 @@ body {
 ========================================================= */
 
 .apropos-postit-texte {
-  margin: 6margin: -60px -120px 0 auto;
-  /* ✅ déborde à droite */
+  margin: -60px -120px -80px auto;   /* haut | droite | bas | gauche */
   width: 340px;
 
   padding: 20px;
