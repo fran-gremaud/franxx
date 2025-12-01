@@ -13,7 +13,7 @@ body {
   font-size: 20px;
   line-height: 1.6;
   margin: 0;
-  background-color: #ff2fa3; /* rose fluo */
+  background-color: #ff2fa3;
   color: #000;
 }
 
@@ -40,7 +40,7 @@ body {
 
 .titre {
   font-size: 48px;
-  margin-bottom: 40px;
+  margin-bottom: 8px; /* ↓ réduit pour coller au sous-titre */
   color: #ff2fa3;
 }
 
@@ -49,7 +49,7 @@ body {
   color: #ff2fa3;
 }
 
-/* Texte hors cadre (si besoin plus tard) */
+/* Texte hors cadre */
 .texte-hors-cadre {
   color: #ffffff;
   max-width: 680px;
@@ -75,21 +75,19 @@ body {
   cursor: pointer;
 }
 
-/* pulsation douce rose → blanc en 5 steps */
 @keyframes arrow-pulse {
   0%   { color: hotpink; }
   50%  { color: white; }
   100% { color: hotpink; }
 }
 
-/* au survol : on stoppe l’animation, reste rose */
 .intro-arrow:hover {
   animation: none;
   color: hotpink;
 }
 
 /* =========================================================
-   GLITCH ÉCRAN (TRANSITION INDEX → HOME)
+   GLITCH ÉCRAN
 ========================================================= */
 
 #glitch-screen {
@@ -121,7 +119,6 @@ body {
   animation: glitch-flicker 0.6s steps(2);
 }
 
-/* Animation du glitch de transition */
 @keyframes glitch-flicker {
   0% { opacity: 0; }
   15% { opacity: 1; }
@@ -132,11 +129,7 @@ body {
 }
 
 /* =========================================================
-   HEADER & FOOTER (POUR PLUS TARD)
-========================================================= */
-
-/* =========================================================
-   FOOTER — VERSION 2 LIGNES
+   FOOTER — VERSION 2 LIGNES (ESPACEMENT CORRIGÉ)
 ========================================================= */
 
 .site-footer {
@@ -155,41 +148,29 @@ body {
 .footer-top {
   display: grid;
   grid-template-columns: repeat(4, auto);
-  justify-content: space-between; /* ← espacement égal */
+  justify-content: space-between;
   align-items: center;
   max-width: 900px;
+  margin: 0 auto; /* pas de marge en bas ici */
 }
 
+.footer-left { justify-self: center; }
+.footer-center { justify-self: center; }
+.footer-right { justify-self: center; }
 
-
-.footer-left {
-  justify-self: start;
-}
-
-.footer-center {
-  justify-self: center;
-}
-
-.footer-right {
-  justify-self: end;
-}
-
-/* Italique pour call me maybe */
 .footer-mail {
   font-style: italic;
 }
 
-/* Ligne du bas */
+/* ✅ espace UNIQUEMENT entre ligne 1 et ligne 2 */
 .footer-bottom {
-  margin-top: 14px;   /* ← l’espace entre ligne 1 et ligne 2 est ICI */
+  margin-top: 14px;
   margin-bottom: 0;
   opacity: 0.8;
   text-align: center;
 }
 
-
-
-/* Liens propres (pas de violet après clic) */
+/* Liens footer propres */
 .site-footer a,
 .site-footer a:visited {
   color: inherit;
@@ -205,17 +186,18 @@ body {
    PAGE À PROPOS — TEXTE & PHOTO HABILLÉE
 ========================================================= */
 
-/* Sous-titre sous fran· */
+/* ✅ sous-titre collé au titre, saut APRÈS */
 .apropos-subtitle {
-  margin-top: -24px;
+  margin-top: 0;
   margin-bottom: 32px;
   font-size: 16px;
   font-style: italic;
+  line-height: 1.4;
   color: #ff2fa3;
   opacity: 0.85;
 }
 
-/* Photo flottante à gauche */
+/* Photo flottante */
 .apropos-photo {
   float: left;
   width: 240px;
@@ -223,14 +205,14 @@ body {
   border: 2px solid #000;
 }
 
-/* Texte principal plus petit, toujours rose */
+/* Texte lecture rose plus petit */
 .apropos-texte {
   font-size: 18px;
   line-height: 1.75;
   color: #ff2fa3;
 }
 
-/* Légende sous la photo */
+/* Légende photo */
 .apropos-legende {
   clear: both;
   margin-top: 8px;
@@ -249,7 +231,7 @@ body {
   opacity: 0.7;
 }
 
-/* Version mobile : on enlève l’habillage */
+/* Mobile */
 @media (max-width: 700px) {
   .apropos-photo {
     float: none;
@@ -257,7 +239,6 @@ body {
     margin: 0 0 16px 0;
   }
 }
-
 
 /* =========================================================
    CLIGNOTEMENT DOUX DE TOUS LES LIENS
@@ -267,10 +248,7 @@ a {
   animation: arrow-pulse 3s steps(5) infinite;
 }
 
-/* Au survol : on stoppe le clignotement, reste rose */
 a:hover {
   animation: none;
   color: hotpink;
 }
-
-
