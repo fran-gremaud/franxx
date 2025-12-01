@@ -277,7 +277,8 @@ html {
 ========================================================= */
 
 .site-footer .footer-bottom {
-  margin-top: 54px !important;  /* espace entre les deux lignes */
+  margin-top: 24
+   px !important;  /* espace entre les deux lignes */
 }
 
 /* =========================================================
