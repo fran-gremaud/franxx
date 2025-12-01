@@ -205,7 +205,7 @@ body {
 }
 
 .apropos-content {
-  overflow: hidden;
+  overflow: visble;
 }
 
 .apropos-photo {
