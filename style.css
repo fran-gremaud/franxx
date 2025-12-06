@@ -43,8 +43,9 @@ body {
   margin: 120px auto 40px auto;
   padding: 48px;
   background-color: #ffffff;
-  border: 6px solid #000;
+  border: 6px solid #000000;
   box-shadow: 12px 12px 0 #000;
+  overflow: visible;
 }
 
 .titre {
@@ -59,40 +60,91 @@ body {
   color: #ff2fa3;
 }
 
+.texte-hors-cadre {
+  color: #ffffff;
+  max-width: 680px;
+  margin: 40px auto 80px auto;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
 .emoji {
   font-size: 0.8em;
   margin-left: 0.005em;
 }
 
 /* =========================================================
-   LIENS (CLIGNOTEMENT)
+   SYMBOLE ">" D’ENTRÉE
 ========================================================= */
 
-a {
-  color: inherit;
+.intro-arrow {
   text-decoration: none;
-  border-bottom: 1px solid currentColor;
+  margin-left: 6px;
+  color: hotpink;
   animation: arrow-pulse 3s steps(5) infinite;
+  cursor: pointer;
 }
 
-a:hover {
+@keyframes arrow-pulse {
+  0% { color: hotpink; }
+  50% { color: white; }
+  100% { color: hotpink; }
+}
+
+.intro-arrow:hover {
   animation: none;
   color: hotpink;
 }
 
-@keyframes arrow-pulse {
-  0%   { color: hotpink; }
-  50%  { color: white; }
-  100% { color: hotpink; }
+/* =========================================================
+   GLITCH ÉCRAN
+========================================================= */
+
+#glitch-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 0.15s steps(2);
+}
+
+#glitch-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: screen;
+}
+
+#glitch-screen.active {
+  opacity: 1;
+  pointer-events: all;
+  animation: glitch-flicker 0.6s steps(2);
+}
+
+@keyframes glitch-flicker {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  30% { opacity: 0; }
+  45% { opacity: 1; }
+  60% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 /* =========================================================
-   FOOTER — 2 LIGNES
+   FOOTER
 ========================================================= */
 
 .site-footer {
   color: #ffffff;
-  padding: 48px 40px 24px 40px;
+  padding: 48px 40px 16px 40px;
   font-size: 13px;
   opacity: 0.9;
   clear: both;
@@ -101,17 +153,26 @@ a:hover {
 .footer-inner.two-lines {
   max-width: 900px;
   margin: 0 auto;
+  text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  text-align: center;
+  gap: 12px;
 }
 
 .footer-top {
   display: grid;
   grid-template-columns: repeat(4, auto);
   justify-content: center;
+  align-items: center;
   column-gap: 48px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+  justify-self: center;
 }
 
 .footer-mail {
@@ -121,6 +182,31 @@ a:hover {
 .footer-bottom {
   margin: 0;
   opacity: 0.8;
+  text-align: center;
+}
+
+.site-footer a,
+.site-footer a:visited {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.site-footer a:hover {
+  opacity: 0.7;
+}
+
+/* =========================================================
+   LIENS (CLIGNOTEMENT)
+========================================================= */
+
+a {
+  animation: arrow-pulse 3s steps(5) infinite;
+}
+
+a:hover {
+  animation: none;
+  color: hotpink;
 }
 
 /* =========================================================
@@ -128,7 +214,7 @@ a:hover {
 ========================================================= */
 
 .apropos-subtitle {
-  margin-top: 6px;
+  margin-top: 4px;
   margin-bottom: 28px;
   font-size: 16px;
   font-style: italic;
@@ -140,7 +226,7 @@ a:hover {
   overflow: visible;
 }
 
-/* PHOTO DÉBORDANTE À GAUCHE */
+/* PHOTO GAUCHE DÉBORDANTE */
 .apropos-photo {
   float: left;
   width: 200px;
@@ -157,7 +243,7 @@ a:hover {
   color: #ff2fa3;
 }
 
-/* LÉGENDE PHOTO */
+/* LÉGENDE */
 .apropos-legende {
   clear: both;
   margin-top: 12px;
@@ -166,16 +252,22 @@ a:hover {
   opacity: 0.8;
 }
 
+.apropos-legende a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
 /* =========================================================
-   POST-IT FLOTTANT FERMABLE (POP-UP)
+   POST-IT FLOTTANT — VERSION CORRIGÉE
 ========================================================= */
 
 #postit-pop {
   position: fixed;
-  right: -24px;     /* léger débord hors écran */
-  bottom: 22vh;    /* ≃ deux tiers bas */
+  right: 16px;
+  bottom: 20vh;
   width: 320px;
-  z-index: 1000;
+  z-index: 2000;
   font-family: "AdelpheFlorealBold", serif;
 }
 
@@ -191,7 +283,6 @@ a:hover {
   box-shadow: 10px 10px 0 #00a8ff;
 }
 
-/* Bouton croix */
 #close-postit {
   background: #ffffff;
   border: 2px solid #00a8ff;
@@ -204,20 +295,19 @@ a:hover {
   cursor: pointer;
 }
 
-/* Tremblement au survol de la croix */
+/* Tremblement */
 #close-postit:hover {
   animation: close-shake 0.15s steps(2) infinite;
 }
 
 @keyframes close-shake {
-  0%   { transform: translate(0,0); }
-  25%  { transform: translate(-2px,1px); }
-  50%  { transform: translate(2px,-1px); }
-  75%  { transform: translate(-1px,-1px); }
+  0% { transform: translate(0,0); }
+  25% { transform: translate(-2px,1px); }
+  50% { transform: translate(2px,-1px); }
+  75% { transform: translate(-1px,-1px); }
   100% { transform: translate(0,0); }
 }
 
-/* Corps du post-it */
 .postit-content {
   background: #ffffff;
   border: 4px solid #00a8ff;
@@ -228,13 +318,11 @@ a:hover {
   color: #00a8ff;
 }
 
-/* Source */
 .apropos-postit-source {
   font-size: 12px;
   opacity: 0.8;
 }
 
-/* Fermeture */
 #postit-pop.closed {
   display: none;
 }
@@ -249,7 +337,6 @@ a:hover {
     float: none;
     width: 100%;
     margin: 0 0 20px 0;
-    box-shadow: 8px 8px 0 currentColor;
   }
 
   #postit-pop {
