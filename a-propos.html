@@ -202,19 +202,15 @@
     }
   }
 
-  /* ✅ PLACEMENT ALÉATOIRE AVEC PARTIE TOUJOURS DANS LE CADRE */
-  function randomizeWithOverlap(el, page) {
-    const pageRect = page.getBoundingClientRect();
-    const w = el.offsetWidth;
-    const h = el.offsetHeight;
+  /* ✅ POSITION ALÉATOIRE GARANTIE DANS LE CADRE NOIR */
+  function randomizeInPage(el, page) {
+    const minVisible = 80;
 
-    const minVisible = 60;
+    const maxX = page.clientWidth  - minVisible;
+    const maxY = page.clientHeight - minVisible;
 
-    const minX = pageRect.left - (w - minVisible);
-    const maxX = pageRect.right - minVisible;
-
-    const minY = pageRect.top - (h - minVisible);
-    const maxY = pageRect.bottom - minVisible;
+    const minX = -(el.offsetWidth  - minVisible);
+    const minY = -(el.offsetHeight - minVisible);
 
     const x = minX + Math.random() * (maxX - minX);
     const y = minY + Math.random() * (maxY - minY);
@@ -227,8 +223,8 @@
   const postitText  = document.getElementById("postit-pop");
   const postitPhoto = document.getElementById("postit-photo");
 
-  randomizeWithOverlap(postitText, page);
-  randomizeWithOverlap(postitPhoto, page);
+  randomizeInPage(postitText, page);
+  randomizeInPage(postitPhoto, page);
 
   makeDraggable(postitText);
   makeDraggable(postitPhoto);
