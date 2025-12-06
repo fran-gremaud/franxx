@@ -18,83 +18,6 @@
       75% { transform: translate(-1px,-2px); }
       100% { transform: translate(0,0); }
     }
-
-    .postit-bar {
-      background:#00a8ff;
-      height:28px;
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      border:4px solid #00a8ff;
-      border-bottom:none;
-      box-shadow:10px 10px 0 #00a8ff;
-      cursor:grab;
-    }
-
-    #close-postit,
-    .close-photo {
-      background:#fff;
-      border:2px solid currentColor;
-      width:22px;
-      height:22px;
-      line-height:18px;
-      margin-right:4px;
-      font-size:16px;
-      cursor:pointer;
-    }
-
-    #close-postit { color:#00a8ff; }
-
-    .postit-content {
-      background:#fff;
-      border:4px solid #00a8ff;
-      box-shadow:10px 10px 0 #00a8ff;
-      padding:18px;
-      font-size:15px;
-      line-height:1.45;
-      color:#00a8ff;
-    }
-
-    .postit-source {
-      display:block;
-      margin-top:12px;
-      font-size:11px;
-      font-style:italic;
-      opacity:.85;
-    }
-
-    /* POST-IT PHOTO JAUNE */
-    #postit-photo {
-      position:absolute;
-      width:200px;
-      border:4px solid #EFFF0F;
-      background:#fff;
-      box-shadow:16px 16px 0 #EFFF0F;
-      cursor:grab;
-      z-index:15;
-    }
-
-    #postit-photo .postit-bar {
-      background:#EFFF0F;
-      border-color:#EFFF0F;
-      box-shadow:16px 16px 0 #EFFF0F;
-    }
-
-    #postit-photo .close-photo {
-      color:#EFFF0F;
-      border-color:#EFFF0F;
-    }
-
-    #postit-photo img {
-      width:100%;
-      display:block;
-    }
-
-    #postit-photo.dragging,
-    #postit-pop.dragging {
-      cursor:grabbing;
-      user-select:none;
-    }
   </style>
 </head>
 
@@ -110,7 +33,7 @@
 
     <div class="apropos-content">
 
-      <!-- POST-IT PHOTO -->
+      <!-- POST-IT PHOTO JAUNE -->
       <div id="postit-photo">
         <div class="postit-bar">
           <button class="close-photo">×</button>
@@ -119,9 +42,7 @@
       </div>
 
       <p class="post-binaire-texte apropos-texte">
-        Né·e entre deux pays, deux siècles — deux millénaires même — pile le jour de l’équinoxe de printemps — à plus ou moins quarante-huit heures, fran· a pris l’habitude de se tenir dans les marges, « parce qu’on y respire mieux », dit-iel. Auteur..ice, performeur·euse et bricoleur·euse d’utopies portatives, iel écrit des poèmes, du théâtre et des formes hybrides qui célèbrent la douceur, la révolte et les désordres nécessaires.
-        <br><br>
-        Diplômé·e en cinéma (Université Rennes 2), en arts visuels (ESAM Caen) et en création littéraire (Haute École des Arts de Berne), iel développe un travail accessible, ouvert, qui préfère les petites secousses aux grands systèmes théoriques. Entre poésie performée, récits fragmentaires et vidéos, fran· cherche des trajectoires pour apprendre à se mouvoir dans un monde qui tremble.
+        Né·e entre deux pays, deux siècles — deux millénaires même — pile le jour de l’équinoxe de printemps — à plus ou moins quarante-huit heures, fran· a pris l’habitude de se tenir dans les marges, « parce qu’on y respire mieux », dit-iel.
       </p>
 
       <p class="apropos-legende">
@@ -133,7 +54,7 @@
 
     </div>
 
-    <!-- POST-IT TEXTE BLEU -->
+    <!-- POST-IT BLEU TEXTE -->
     <div id="postit-pop">
       <div class="postit-bar">
         <button id="close-postit">×</button>
@@ -151,7 +72,6 @@
 
   </div>
 
-  <!-- FOOTER -->
   <div id="footer-placeholder"></div>
 
   <script>
@@ -202,7 +122,6 @@
     }
   }
 
-  /* ✅ POSITION ALÉATOIRE GARANTIE DANS LE CADRE NOIR */
   function randomizeInPage(el, page) {
     const minVisible = 80;
 
