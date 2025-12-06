@@ -145,35 +145,32 @@
   const postit = document.getElementById("postit-pop");
   if (!postit) return;
 
-  let isDragging = false;
+  let dragging = false;
   let offsetX = 0;
   let offsetY = 0;
 
   function startDrag(e) {
     const evt = e.touches ? e.touches[0] : e;
-
-    isDragging = true;
+    dragging = true;
     postit.classList.add("dragging");
 
     const rect = postit.getBoundingClientRect();
 
-    // ✅ on calcule l’offset exact entre la souris et le coin du post-it
     offsetX = evt.clientX - rect.left;
     offsetY = evt.clientY - rect.top;
 
-    // ✅ on fige la position en LEFT/TOP réels
+    // ✅ on fige UNE FOIS POUR TOUTES en left/top réels
     postit.style.left = rect.left + window.scrollX + "px";
     postit.style.top  = rect.top  + window.scrollY  + "px";
-    postit.style.right = "auto";
 
     document.addEventListener("mousemove", drag);
     document.addEventListener("mouseup", stopDrag);
-    document.addEventListener("touchmove", drag);
+    document.addEventListener("touchmove", drag, { passive: false });
     document.addEventListener("touchend", stopDrag);
   }
 
   function drag(e) {
-    if (!isDragging) return;
+    if (!dragging) return;
     const evt = e.touches ? e.touches[0] : e;
 
     const x = evt.clientX - offsetX + window.scrollX;
@@ -184,7 +181,7 @@
   }
 
   function stopDrag() {
-    isDragging = false;
+    dragging = false;
     postit.classList.remove("dragging");
 
     document.removeEventListener("mousemove", drag);
@@ -194,7 +191,7 @@
   }
 
   postit.addEventListener("mousedown", startDrag);
-  postit.addEventListener("touchstart", startDrag);
+  postit.addEventListener("touchstart", startDrag, { passive: false });
 })();
 </script>
   
