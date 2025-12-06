@@ -6,6 +6,24 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
+<script>
+const fullLove = document.getElementById("full-love");
+
+if (fullLove) {
+  const text = fullLove.textContent;
+  fullLove.innerHTML = "";
+
+  [...text].forEach(letter => {
+    const span = document.createElement("span");
+    span.textContent = letter === " " ? "\u00A0" : letter;
+    span.style.setProperty("--delay", `${Math.random() * 1.5}s`);
+    span.style.color = "hotpink";
+    fullLove.appendChild(span);
+  });
+}
+</script>
+
+  
 <body>
 
   <div class="page">
@@ -27,7 +45,9 @@
   </a> de Cédric Rossignol-Brunet et Eugénie Bidaut
       
       <br><br>
-      Un énooooooorme merci aux typographes, aux ateliers, aux collectifs qui rendent ces formes possibles et nos existences visible. <br><br>FULL LOVE ON FULL MOON. 
+      Un énooooooorme merci aux typographes, aux ateliers, aux collectifs qui rendent ces formes possibles et nos existences visible. <br><br>
+     
+     <span class="full-love">FULL LOVE ON FULL MOON.</span>
     </p>
   </div>
 
