@@ -6,7 +6,10 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
-    #postit-pop:hover { animation: postit-shake 0.25s steps(2) infinite; }
+    #postit-pop:hover, #postit-photo:hover {
+      animation: postit-shake 0.25s steps(2) infinite;
+    }
+
     @keyframes postit-shake {
       0% { transform: translate(0,0); }
       25% { transform: translate(-2px,1px); }
@@ -14,19 +17,64 @@
       75% { transform: translate(-1px,-2px); }
       100% { transform: translate(0,0); }
     }
+
     .postit-bar {
-      background:#00a8ff;height:28px;display:flex;align-items:center;justify-content:flex-end;
-      border:4px solid #00a8ff;border-bottom:none;box-shadow:10px 10px 0 #00a8ff;
+      background:#00a8ff;
+      height:28px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      border:4px solid #00a8ff;
+      border-bottom:none;
+      box-shadow:10px 10px 0 #00a8ff;
     }
+
     #close-postit {
-      background:#fff;border:2px solid #00a8ff;color:#00a8ff;
-      width:22px;height:22px;line-height:18px;margin-right:4px;font-size:16px;cursor:pointer;
+      background:#fff;
+      border:2px solid #00a8ff;
+      color:#00a8ff;
+      width:22px;
+      height:22px;
+      line-height:18px;
+      margin-right:4px;
+      font-size:16px;
+      cursor:pointer;
     }
+
     .postit-content {
-      background:#fff;border:4px solid #00a8ff;box-shadow:10px 10px 0 #00a8ff;
-      padding:18px;font-size:15px;line-height:1.45;color:#00a8ff;
+      background:#fff;
+      border:4px solid #00a8ff;
+      box-shadow:10px 10px 0 #00a8ff;
+      padding:18px;
+      font-size:15px;
+      line-height:1.45;
+      color:#00a8ff;
     }
-    .postit-source { display:block;margin-top:12px;font-size:11px;font-style:italic;opacity:.85; }
+
+    .postit-source {
+      display:block;
+      margin-top:12px;
+      font-size:11px;
+      font-style:italic;
+      opacity:.85;
+    }
+
+    /* Post-it photo jaune draggable */
+    #postit-photo {
+      position:absolute;
+      width:200px;
+      border:4px solid #EFFF0F;
+      background:#fff;
+      box-shadow:16px 16px 0 #EFFF0F;
+      cursor:grab;
+      z-index:15;
+    }
+
+    #postit-photo.dragging,
+    #postit-pop.dragging {
+      cursor:grabbing;
+      user-select:none;
+    }
   </style>
 </head>
 
@@ -42,23 +90,22 @@
 
     <div class="apropos-content">
 
-      <img src="me.jpg" alt="portrait de fran·" class="apropos-photo">
+      <!-- POST-IT PHOTO JAUNE DRAGGABLE -->
+      <div id="postit-photo">
+        <img src="me.jpg" alt="portrait de fran·" style="width:100%;display:block;">
+      </div>
 
       <p class="post-binaire-texte apropos-texte">
         Né·e entre deux pays, deux siècles — deux millénaires même — pile le jour de l’équinoxe de printemps — à plus ou moins quarante-huit heures, fran· a pris l’habitude de se tenir dans les marges, « parce qu’on y respire mieux », dit-iel. Auteur..ice, performeur·euse et bricoleur·euse d’utopies portatives, iel écrit des poèmes, du théâtre et des formes hybrides qui célèbrent la douceur, la révolte et les désordres nécessaires.
         <br><br>
         Diplômé·e en cinéma (Université Rennes 2), en arts visuels (ESAM Caen) et en création littéraire (Haute École des Arts de Berne), iel développe un travail accessible, ouvert, qui préfère les petites secousses aux grands systèmes théoriques. Entre poésie performée, récits fragmentaires et vidéos, fran· cherche des trajectoires pour apprendre à se mouvoir dans un monde qui tremble.
         <br><br>
-        Ses projets ont été soutenus par diverses institutions en France, en Suisse et à l’étranger : ministère de la Culture, fondation Antoine de Saint-Exupéry pour la Jeunesse, alliances françaises de Katmandou et de Tokyo, fondation franco-japonaise Sasakawa, Festival du Film de Montagne de Katmandou, et le programme Format Mondial. Quel que soit le médium, iel poursuit obstinément le même objectif : inventer des formes sensibles qui ouvrent des espaces respirables, des zones de rencontre, des mondes un peu plus vivables.
-      </p>
-
-      <p class="apropos-legende">
-        crédit photo :
-        <a href="https://www.instagram.com/pe_mry/" target="_blank">Pernette Emery</a>
+        Ses projets ont été soutenus par diverses institutions en France, en Suisse et à l’étranger.
       </p>
 
     </div>
 
+    <!-- POST-IT BLEU TEXTE -->
     <div id="postit-pop">
       <div class="postit-bar">
         <button id="close-postit">×</button>
@@ -76,7 +123,6 @@
 
   </div>
 
-  <!-- FOOTER RESTAURÉ -->
   <div id="footer-placeholder"></div>
 
   <script>
@@ -89,45 +135,64 @@
 
   <script>
 (function () {
-  const postit = document.getElementById("postit-pop");
-  if (!postit) return;
 
-  let dragging=false,startX=0,startY=0,startLeft=0,startTop=0;
+  function makeDraggable(el) {
+    let dragging=false,startX=0,startY=0,startLeft=0,startTop=0;
 
-  postit.addEventListener("mousedown",startDrag);
-  postit.addEventListener("touchstart",startDrag,{passive:false});
+    el.addEventListener("mousedown",startDrag);
+    el.addEventListener("touchstart",startDrag,{passive:false});
 
-  function startDrag(e){
-    const evt=e.touches?e.touches[0]:e;
-    dragging=true;
-    postit.classList.add("dragging");
-    startX=evt.clientX;
-    startY=evt.clientY;
-    startLeft=postit.offsetLeft;
-    startTop=postit.offsetTop;
-    document.addEventListener("mousemove",drag);
-    document.addEventListener("mouseup",stopDrag);
-    document.addEventListener("touchmove",drag,{passive:false});
-    document.addEventListener("touchend",stopDrag);
+    function startDrag(e){
+      const evt=e.touches?e.touches[0]:e;
+      dragging=true;
+      el.classList.add("dragging");
+      startX=evt.clientX;
+      startY=evt.clientY;
+      startLeft=el.offsetLeft;
+      startTop=el.offsetTop;
+      document.addEventListener("mousemove",drag);
+      document.addEventListener("mouseup",stopDrag);
+      document.addEventListener("touchmove",drag,{passive:false});
+      document.addEventListener("touchend",stopDrag);
+    }
+
+    function drag(e){
+      if(!dragging)return;
+      const evt=e.touches?e.touches[0]:e;
+      el.style.left=startLeft+(evt.clientX-startX)+"px";
+      el.style.top =startTop +(evt.clientY-startY )+"px";
+    }
+
+    function stopDrag(){
+      dragging=false;
+      el.classList.remove("dragging");
+      document.removeEventListener("mousemove",drag);
+      document.removeEventListener("mouseup",stopDrag);
+      document.removeEventListener("touchmove",drag);
+      document.removeEventListener("touchend",stopDrag);
+    }
   }
 
-  function drag(e){
-    if(!dragging)return;
-    const evt=e.touches?e.touches[0]:e;
-    postit.style.left=startLeft+(evt.clientX-startX)+"px";
-    postit.style.top =startTop +(evt.clientY-startY )+"px";
+  function randomizePosition(el) {
+    const maxX = window.innerWidth - el.offsetWidth - 40;
+    const maxY = window.innerHeight - el.offsetHeight - 40;
+    el.style.left = Math.random() * maxX + "px";
+    el.style.top  = Math.random() * maxY + "px";
   }
 
-  function stopDrag(){
-    dragging=false;
-    postit.classList.remove("dragging");
-    document.removeEventListener("mousemove",drag);
-    document.removeEventListener("mouseup",stopDrag);
-    document.removeEventListener("touchmove",drag);
-    document.removeEventListener("touchend",stopDrag);
-  }
+  const postitText = document.getElementById("postit-pop");
+  const postitPhoto = document.getElementById("postit-photo");
 
-  document.getElementById("close-postit").onclick=()=>{postit.style.display="none";}
+  randomizePosition(postitText);
+  randomizePosition(postitPhoto);
+
+  makeDraggable(postitText);
+  makeDraggable(postitPhoto);
+
+  document.getElementById("close-postit").onclick = () => {
+    postitText.style.display = "none";
+  };
+
 })();
 </script>
 
