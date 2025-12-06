@@ -368,8 +368,10 @@ a:hover {
   margin-top: 18px;
   line-height: 2.6em;
   font-weight: bold;
+  font-size: 1.4em;   /* ⬅️ ICI : taille du slogan */
   white-space: nowrap;
 }
+
 
 /* lettres individuelles */
 .full-love .letter {
