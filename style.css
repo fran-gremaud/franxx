@@ -13,6 +13,11 @@
   src: url("Adelphe-Trouble-FlorealBold.otf") format("opentype");
 }
 
+@font-face {
+  font-family: "AdelpheFructidorBold";
+  src: url("Adelphe-Trouble-FructidorBold.woff2") format("woff2");
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -75,129 +80,6 @@ body {
 }
 
 /* =========================================================
-   SYMBOLE ">" D’ENTRÉE
-========================================================= */
-
-.intro-arrow {
-  text-decoration: none;
-  margin-left: 6px;
-  color: hotpink;
-  animation: arrow-pulse 3s steps(5) infinite;
-  cursor: pointer;
-}
-
-@keyframes arrow-pulse {
-  0% { color: hotpink; }
-  50% { color: white; }
-  100% { color: hotpink; }
-}
-
-.intro-arrow:hover {
-  animation: none;
-  color: hotpink;
-}
-
-/* =========================================================
-   GLITCH ÉCRAN
-========================================================= */
-
-#glitch-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 9999;
-  transition: opacity 0.15s steps(2);
-}
-
-#glitch-screen img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  mix-blend-mode: screen;
-}
-
-#glitch-screen.active {
-  opacity: 1;
-  pointer-events: all;
-  animation: glitch-flicker 0.6s steps(2);
-}
-
-@keyframes glitch-flicker {
-  0% { opacity: 0; }
-  15% { opacity: 1; }
-  30% { opacity: 0; }
-  45% { opacity: 1; }
-  60% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.site-footer {
-  color: #ffffff;
-  padding: 48px 40px 16px 40px;
-  font-size: 13px;
-  opacity: 0.9;
-  clear: both;
-}
-
-.footer-inner.two-lines {
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.footer-top {
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-  justify-content: center;
-  align-items: center;
-  column-gap: 48px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.footer-left,
-.footer-center,
-.footer-right {
-  justify-self: center;
-}
-
-.footer-mail {
-  font-style: italic;
-}
-
-.footer-bottom {
-  margin: 0;
-  opacity: 0.8;
-  text-align: center;
-}
-
-.site-footer a,
-.site-footer a:visited {
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px solid currentColor;
-}
-
-.site-footer a:hover {
-  opacity: 0.7;
-}
-
-/* =========================================================
    LIENS (CLIGNOTEMENT)
 ========================================================= */
 
@@ -208,6 +90,12 @@ a {
 a:hover {
   animation: none;
   color: hotpink;
+}
+
+@keyframes arrow-pulse {
+  0% { color: hotpink; }
+  50% { color: white; }
+  100% { color: hotpink; }
 }
 
 /* =========================================================
@@ -225,15 +113,6 @@ a:hover {
 
 .apropos-content {
   overflow: visible;
-}
-
-.apropos-photo {
-  float: left;
-  width: 200px;
-  margin: -20px 32px 24px -120px;
-  border: 4px solid #EFFF0F;
-  background: #ffffff;
-  box-shadow: 16px 16px 0 #EFFF0F;
 }
 
 .apropos-texte {
@@ -257,16 +136,13 @@ a:hover {
 }
 
 /* =========================================================
-   POST-IT — STABLE + DRAG SANS DÉCALAGE
+   POST-IT BLEU (TEXTE)
 ========================================================= */
 
 #postit-pop {
   position: absolute;
-  left: 600px;
-  top: 160px;
   width: 330px;
   z-index: 20;
-  font-family: "AdelpheFructidorBold", serif;
   cursor: grab;
 }
 
@@ -274,44 +150,108 @@ a:hover {
   cursor: grabbing;
   user-select: none;
 }
-.postit-source { 
-  text-align: right;
 
-   @font-face {
-  font-family: "AdelpheFructidorBold";
-  src: url("Adelphe-Trouble-FructidorBold.woff2") format("woff2");
+.postit-bar {
+  background:#00a8ff;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  border:4px solid #00a8ff;
+  border-bottom:none;
+  box-shadow:10px 10px 0 #00a8ff;
+}
+
+#close-postit {
+  background:#fff;
+  border:2px solid #00a8ff;
+  color:#00a8ff;
+  width:22px;
+  height:22px;
+  line-height:18px;
+  margin-right:4px;
+  font-size:16px;
+  cursor:pointer;
 }
 
 .postit-content {
-  background: #ffffff;
-  border: 4px solid #00a8ff;
-  box-shadow: 10px 10px 0 #00a8ff;
-  padding: 18px;
+  background:#ffffff;
+  border:4px solid #00a8ff;
+  box-shadow:10px 10px 0 #00a8ff;
+  padding:18px;
 
   font-family: "AdelpheFructidorBold", serif;
   font-size: 15px;
   line-height: 1.45;
 
-  color: #00a8ff;        /* même couleur que le post-it bleu */
-  text-align: left;     /* aligné à gauche */
+  color: #00a8ff;
+  text-align: left;
 
-  font-feature-settings: "liga" 1, "dlig" 1;  /* ligatures activées */
+  font-feature-settings: "liga" 1, "dlig" 1;
 }
+
+.postit-source {
+  display:block;
+  margin-top:12px;
+  font-size:11px;
+  font-style:italic;
+  opacity:.85;
+  text-align:right;
+}
+
+/* =========================================================
+   POST-IT JAUNE (PHOTO)
+========================================================= */
+
+#postit-photo {
+  position:absolute;
+  width:200px;
+  border:4px solid #EFFF0F;
+  background:#fff;
+  box-shadow:16px 16px 0 #EFFF0F;
+  cursor:grab;
+  z-index:15;
+}
+
+#postit-photo.dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+#postit-photo .postit-bar {
+  background:#EFFF0F;
+  border-color:#EFFF0F;
+  box-shadow:16px 16px 0 #EFFF0F;
+}
+
+#postit-photo .close-photo {
+  background:#fff;
+  border:2px solid #EFFF0F;
+  color:#EFFF0F;
+  width:22px;
+  height:22px;
+  line-height:18px;
+  margin-right:4px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+#postit-photo img {
+  width:100%;
+  display:block;
+}
+
 /* =========================================================
    MOBILE
 ========================================================= */
 
 @media (max-width: 700px) {
 
-  .apropos-photo {
-    float: none;
-    width: 100%;
-    margin: 0 0 20px 0;
-  }
-
-  #postit-pop {
+  #postit-pop,
+  #postit-photo {
     position: static;
     width: 100%;
     margin: 24px 0;
   }
+
 }
