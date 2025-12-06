@@ -57,30 +57,32 @@
       });
   </script>
 
-  <!-- ✅ SCRIPT ONDE DROITE → GAUCHE -->
-  <script>
-  window.addEventListener("load", () => {
-    const fullLove = document.getElementById("full-love");
-    if (!fullLove) return;
+ <script>
+window.addEventListener("load", () => {
+  const fullLove = document.getElementById("full-love");
+  if (!fullLove) return;
 
-    const text = fullLove.textContent.trim();
-    fullLove.innerHTML = "";
+  const text = fullLove.textContent.trim();
+  fullLove.innerHTML = "";
 
-    const letters = [...text];
+  const letters = [...text];
+  const segmentSize = 4;   // ✅ taille des petits groupes (3–5 est bien)
+  const speed = 0.12;      // ✅ vitesse de propagation
 
-    letters.forEach((char, i) => {
-      const span = document.createElement("span");
-      span.className = "letter";
-      span.textContent = char === " " ? "\u00A0" : char;
+  letters.forEach((char, i) => {
+    const span = document.createElement("span");
+    span.className = "letter";
+    span.textContent = char === " " ? "\u00A0" : char;
 
-      // onde de droite vers la gauche
-      const delay = (letters.length - i) * 0.08;
-      span.style.setProperty("--delay", delay + "s");
+    // ✅ onde segmentée en paquets
+    const segmentIndex = Math.floor(i / segmentSize);
+    const delay = (letters.length - i) * speed + (segmentIndex % 3) * 0.4;
 
-      fullLove.appendChild(span);
-    });
+    span.style.setProperty("--delay", delay + "s");
+    fullLove.appendChild(span);
   });
-  </script>
+});
+</script>
 
 </body>
 </html>
