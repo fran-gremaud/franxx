@@ -46,7 +46,7 @@ body {
   border: 6px solid #000000;
   box-shadow: 12px 12px 0 #000;
   overflow: visible;
-  position: relative; /* ancrage du post-it */
+  position: relative;
 }
 
 .titre {
@@ -227,7 +227,6 @@ a:hover {
   overflow: visible;
 }
 
-/* PHOTO GAUCHE DÉBORDANTE */
 .apropos-photo {
   float: left;
   width: 200px;
@@ -237,14 +236,12 @@ a:hover {
   box-shadow: 16px 16px 0 #EFFF0F;
 }
 
-/* TEXTE PRINCIPAL */
 .apropos-texte {
   font-size: 16px;
   line-height: 1.5;
   color: #ff2fa3;
 }
 
-/* LÉGENDE */
 .apropos-legende {
   clear: both;
   margin-top: 12px;
@@ -260,12 +257,12 @@ a:hover {
 }
 
 /* =========================================================
-   POST-IT — VERSION STABLE + DRAG
+   POST-IT — STABLE + DRAG SANS DÉCALAGE
 ========================================================= */
 
 #postit-pop {
   position: absolute;
-  left: 600px;     /* position initiale stable */
+  left: 600px;
   top: 160px;
   width: 330px;
   z-index: 20;
