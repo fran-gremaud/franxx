@@ -30,7 +30,10 @@
       Un énooooooorme merci aux typographes, aux ateliers, aux collectifs qui rendent ces formes possibles et nos existences visible. 
       <br><br>
 
-      <span class="full-love" id="full-love">FULL LOVE ON FULL MOON.</span>
+      <!-- ✅ SLOGAN CENTRÉ -->
+      <span class="full-love" id="full-love" style="text-align:center;">
+        FULL LOVE ON FULL MOON.
+      </span>
     </p>
   </div>
 
@@ -54,7 +57,7 @@
       });
   </script>
 
-  <!-- ✅ SCRIPT GUARLANDE — ICI SEULEMENT -->
+  <!-- ✅ SCRIPT ONDE DROITE → GAUCHE -->
   <script>
   window.addEventListener("load", () => {
     const fullLove = document.getElementById("full-love");
@@ -63,11 +66,17 @@
     const text = fullLove.textContent.trim();
     fullLove.innerHTML = "";
 
-    [...text].forEach((char) => {
+    const letters = [...text];
+
+    letters.forEach((char, i) => {
       const span = document.createElement("span");
       span.className = "letter";
       span.textContent = char === " " ? "\u00A0" : char;
-      span.style.setProperty("--delay", (Math.random() * 1.8) + "s");
+
+      // onde de droite vers la gauche
+      const delay = (letters.length - i) * 0.08;
+      span.style.setProperty("--delay", delay + "s");
+
       fullLove.appendChild(span);
     });
   });
