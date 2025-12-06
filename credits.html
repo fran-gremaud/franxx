@@ -6,49 +6,31 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<script>
-const fullLove = document.getElementById("full-love");
-
-if (fullLove) {
-  const text = fullLove.textContent;
-  fullLove.innerHTML = "";
-
-  [...text].forEach(letter => {
-    const span = document.createElement("span");
-    span.textContent = letter === " " ? "\u00A0" : letter;
-    span.style.setProperty("--delay", `${Math.random() * 1.5}s`);
-    span.style.color = "hotpink";
-    fullLove.appendChild(span);
-  });
-}
-</script>
-
-  
 <body>
 
   <div class="page">
     <h2 class="post-binaire-texte titre">Crédits typographiques</h2>
 
-   <p class="post-binaire-texte texte">
-  Ce site utilise des polices utilisant des glyphes post-binaires disponibles sur 
-  <a href="https://typotheque.genderfluid.space" target="_blank">le site</a> 
-  de Bye Bye Binary.
-  <br><br>
-  Ici vous trouverez :<br>
-
-  <a href="https://typotheque.genderfluid.space/fr/fontes/enby-gertrude" target="_blank">
-    <em>* Enby Gertrude</em>
-  </a> de Valentin Chauveau et Léna Salabert-Triby<br>
-
-  <a href="https://typotheque.genderfluid.space/fr/fontes/adelphe-trouble" target="_blank">
-    <span class="font-fructidor">* Adelphe Trouble Fructidor Bold</span>
-  </a> de Cédric Rossignol-Brunet et Eugénie Bidaut
-      
+    <p class="post-binaire-texte texte">
+      Ce site utilise des polices utilisant des glyphes post-binaires disponibles sur 
+      <a href="https://typotheque.genderfluid.space" target="_blank">le site</a> 
+      de Bye Bye Binary.
       <br><br>
-      Un énooooooorme merci aux typographes, aux ateliers, aux collectifs qui rendent ces formes possibles et nos existences visible. <br><br>
-     
-     <span class="full-love" id="full-love">FULL LOVE ON FULL MOON.</span>
+      Ici vous trouverez :<br>
 
+      <a href="https://typotheque.genderfluid.space/fr/fontes/enby-gertrude" target="_blank">
+        <em>* Enby Gertrude</em>
+      </a> de Valentin Chauveau et Léna Salabert-Triby<br>
+
+      <a href="https://typotheque.genderfluid.space/fr/fontes/adelphe-trouble" target="_blank">
+        <span class="font-fructidor">* Adelphe Trouble Fructidor Bold</span>
+      </a> de Cédric Rossignol-Brunet et Eugénie Bidaut
+
+      <br><br>
+      Un énooooooorme merci aux typographes, aux ateliers, aux collectifs qui rendent ces formes possibles et nos existences visible. 
+      <br><br>
+
+      <span class="full-love" id="full-love">FULL LOVE ON FULL MOON.</span>
     </p>
   </div>
 
@@ -63,13 +45,32 @@ if (fullLove) {
   <!-- Script glitch -->
   <script src="glitch.js"></script>
 
-  <!-- Script de chargement du footer (TOUJOURS À LA FIN) -->
+  <!-- Script de chargement du footer -->
   <script>
     fetch("footer.html")
       .then(response => response.text())
       .then(data => {
         document.getElementById("footer-placeholder").innerHTML = data;
       });
+  </script>
+
+  <!-- ✅ SCRIPT GUARLANDE — ICI SEULEMENT -->
+  <script>
+  window.addEventListener("load", () => {
+    const fullLove = document.getElementById("full-love");
+    if (!fullLove) return;
+
+    const text = fullLove.textContent.trim();
+    fullLove.innerHTML = "";
+
+    [...text].forEach((char) => {
+      const span = document.createElement("span");
+      span.className = "letter";
+      span.textContent = char === " " ? "\u00A0" : char;
+      span.style.setProperty("--delay", (Math.random() * 1.8) + "s");
+      fullLove.appendChild(span);
+    });
+  });
   </script>
 
 </body>
