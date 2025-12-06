@@ -27,9 +27,10 @@
       border:4px solid #00a8ff;
       border-bottom:none;
       box-shadow:10px 10px 0 #00a8ff;
+      cursor:grab;
     }
 
-    #close-postit {
+    #close-postit, .close-photo {
       background:#fff;
       border:2px solid #00a8ff;
       color:#00a8ff;
@@ -59,7 +60,7 @@
       opacity:.85;
     }
 
-    /* Post-it photo jaune draggable */
+    /* Post-it photo jaune */
     #postit-photo {
       position:absolute;
       width:200px;
@@ -68,6 +69,17 @@
       box-shadow:16px 16px 0 #EFFF0F;
       cursor:grab;
       z-index:15;
+    }
+
+    #postit-photo .postit-bar {
+      background:#EFFF0F;
+      border-color:#EFFF0F;
+      box-shadow:16px 16px 0 #EFFF0F;
+    }
+
+    #postit-photo img {
+      width:100%;
+      display:block;
     }
 
     #postit-photo.dragging,
@@ -90,9 +102,12 @@
 
     <div class="apropos-content">
 
-      <!-- POST-IT PHOTO JAUNE DRAGGABLE -->
+      <!-- POST-IT PHOTO JAUNE AVEC BANDEAU -->
       <div id="postit-photo">
-        <img src="me.jpg" alt="portrait de fran·" style="width:100%;display:block;">
+        <div class="postit-bar">
+          <button class="close-photo">×</button>
+        </div>
+        <img src="me.jpg" alt="portrait de fran·">
       </div>
 
       <p class="post-binaire-texte apropos-texte">
@@ -101,6 +116,14 @@
         Diplômé·e en cinéma (Université Rennes 2), en arts visuels (ESAM Caen) et en création littéraire (Haute École des Arts de Berne), iel développe un travail accessible, ouvert, qui préfère les petites secousses aux grands systèmes théoriques. Entre poésie performée, récits fragmentaires et vidéos, fran· cherche des trajectoires pour apprendre à se mouvoir dans un monde qui tremble.
         <br><br>
         Ses projets ont été soutenus par diverses institutions en France, en Suisse et à l’étranger.
+      </p>
+
+      <!-- ✅ CRÉDIT PHOTO RESTAURÉ -->
+      <p class="apropos-legende">
+        crédit photo :
+        <a href="https://www.instagram.com/pe_mry/" target="_blank">
+          Pernette Emery
+        </a>
       </p>
 
     </div>
@@ -191,6 +214,10 @@
 
   document.getElementById("close-postit").onclick = () => {
     postitText.style.display = "none";
+  };
+
+  document.querySelector(".close-photo").onclick = () => {
+    postitPhoto.style.display = "none";
   };
 
 })();
