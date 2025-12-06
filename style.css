@@ -243,28 +243,50 @@ a:hover {
   color: #ff2fa3;
 }
 
-/* --- POST-IT BLEU À DROITE --- */
-.apropos-postit-texte {
-  float: right;
-  margin: 350px -135px 42px auto;
-  width: 340px;
-  padding: 20px;
+/* === POST-IT FLOTTANT FERMABLE === */
+
+#postit-pop {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 320px;
+  z-index: 1000;
   font-family: "AdelpheFlorealBold", serif;
+}
+
+/* Bandeau du haut (comme une fenêtre) */
+.postit-bar {
+  background: #00a8ff;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border: 4px solid #00a8ff;
+  border-bottom: none;
+  box-shadow: 10px 10px 0 #00a8ff;
+}
+
+#close-postit {
+  background: #ffffff;
+  border: 2px solid #00a8ff;
+  color: #00a8ff;
+  width: 22px;
+  height: 22px;
+  line-height: 18px;
+  margin-right: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Corps du post-it */
+.postit-content {
+  background: #ffffff;
+  border: 4px solid #00a8ff;
+  box-shadow: 10px 10px 0 #00a8ff;
+  padding: 18px;
   font-size: 15px;
   line-height: 1.45;
   color: #00a8ff;
-  background: #ffffff;
-  border: 4px solid #00a8ff;
-  box-shadow: 16px 16px 0 #00a8ff;
-}
-
-.apropos-postit-source {
-  display: block;
-  margin-top: 10px;
-  font-size: 11px;
-  font-style: italic;
-  opacity: 0.85;
-  text-align: right;
 }
 
 /* --- LÉGENDE APRÈS LES FLOTTANTS --- */
