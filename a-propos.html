@@ -5,19 +5,7 @@
   <title>fran· — à propos</title>
   <link rel="stylesheet" href="style.css">
 
-  <!-- STYLE DU POST-IT POPUP — VERSION CORRIGÉE -->
   <style>
-    /* === POST-IT FLOTTANT DANS LA PAGE === */
-
-    #postit-pop {
-      position: absolute;     /* ✅ plus fixed */
-      right: -80px;           /* ✅ déborde du cadre blanc mais reste dans l’écran */
-      top: 160px;
-      width: 330px;
-      z-index: 20;
-      font-family: "AdelpheFlorealBold", serif;
-    }
-
     #postit-pop:hover {
       animation: postit-shake 0.25s steps(2) infinite;
     }
@@ -30,7 +18,6 @@
       100% { transform: translate(0, 0); }
     }
 
-    /* bandeau du haut */
     .postit-bar {
       background: #00a8ff;
       height: 28px;
@@ -39,7 +26,7 @@
       justify-content: flex-end;
       border: 4px solid #00a8ff;
       border-bottom: none;
-      box-shadow: 12px 12px 0 #00a8ff;
+      box-shadow: 10px 10px 0 #00a8ff;
     }
 
     #close-postit {
@@ -54,11 +41,10 @@
       cursor: pointer;
     }
 
-    /* corps du post-it */
     .postit-content {
       background: #ffffff;
       border: 4px solid #00a8ff;
-      box-shadow: 12px 12px 0 #00a8ff;
+      box-shadow: 10px 10px 0 #00a8ff;
       padding: 18px;
       font-size: 15px;
       line-height: 1.45;
@@ -71,15 +57,6 @@
       font-size: 11px;
       font-style: italic;
       opacity: 0.85;
-    }
-
-    /* sécurité mobile */
-    @media (max-width: 700px) {
-      #postit-pop {
-        position: static;
-        width: 100%;
-        margin: 24px 0;
-      }
     }
   </style>
 </head>
@@ -96,13 +73,8 @@
 
     <div class="apropos-content">
 
-      <!-- PHOTO -->
-      <img 
-        src="me.jpg" 
-        alt="portrait de fran·" 
-        class="apropos-photo">
+      <img src="me.jpg" alt="portrait de fran·" class="apropos-photo">
 
-      <!-- TEXTE PRINCIPAL -->
       <p class="post-binaire-texte apropos-texte">
         Né·e entre deux pays, deux siècles — deux millénaires même — pile le jour de l’équinoxe de printemps — à plus ou moins quarante-huit heures, fran· a pris l’habitude de se tenir dans les marges, « parce qu’on y respire mieux », dit-iel. Auteur..ice, performeur·euse et bricoleur·euse d’utopies portatives, iel écrit des poèmes, du théâtre et des formes hybrides qui célèbrent la douceur, la révolte et les désordres nécessaires.
         <br><br>
@@ -113,14 +85,11 @@
 
       <p class="apropos-legende">
         crédit photo :
-        <a href="https://www.instagram.com/pe_mry/" target="_blank">
-          Pernette Emery
-        </a>
+        <a href="https://www.instagram.com/pe_mry/" target="_blank">Pernette Emery</a>
       </p>
 
     </div>
 
-    <!-- ✅ POST-IT MAINTENANT DANS .page -->
     <div id="postit-pop">
       <div class="postit-bar">
         <button id="close-postit">×</button>
@@ -136,18 +105,17 @@
       </div>
     </div>
 
-  </div> <!-- fin de .page -->
-
-  <div id="footer-placeholder"></div>
+  </div>
 
   <script>
 (function () {
   const postit = document.getElementById("postit-pop");
   if (!postit) return;
 
-  let dragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
+  let dragging = false, offsetX = 0, offsetY = 0;
+
+  postit.addEventListener("mousedown", startDrag);
+  postit.addEventListener("touchstart", startDrag, { passive: false });
 
   function startDrag(e) {
     const evt = e.touches ? e.touches[0] : e;
@@ -155,13 +123,8 @@
     postit.classList.add("dragging");
 
     const rect = postit.getBoundingClientRect();
-
     offsetX = evt.clientX - rect.left;
     offsetY = evt.clientY - rect.top;
-
-    // ✅ on fige UNE FOIS POUR TOUTES en left/top réels
-    postit.style.left = rect.left + window.scrollX + "px";
-    postit.style.top  = rect.top  + window.scrollY  + "px";
 
     document.addEventListener("mousemove", drag);
     document.addEventListener("mouseup", stopDrag);
@@ -173,11 +136,8 @@
     if (!dragging) return;
     const evt = e.touches ? e.touches[0] : e;
 
-    const x = evt.clientX - offsetX + window.scrollX;
-    const y = evt.clientY - offsetY + window.scrollY;
-
-    postit.style.left = x + "px";
-    postit.style.top  = y + "px";
+    postit.style.left = evt.clientX - offsetX + "px";
+    postit.style.top  = evt.clientY - offsetY + "px";
   }
 
   function stopDrag() {
@@ -190,10 +150,11 @@
     document.removeEventListener("touchend", stopDrag);
   }
 
-  postit.addEventListener("mousedown", startDrag);
-  postit.addEventListener("touchstart", startDrag, { passive: false });
+  document.getElementById("close-postit").onclick = () => {
+    postit.style.display = "none";
+  };
 })();
 </script>
-  
+
 </body>
 </html>
