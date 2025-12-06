@@ -34,7 +34,6 @@ body {
   font-style: normal;
 }
 
-
 /* =========================================================
    STRUCTURE GÉNÉRALE
 ========================================================= */
@@ -44,9 +43,8 @@ body {
   margin: 120px auto 40px auto;
   padding: 48px;
   background-color: #ffffff;
-  border: 6px solid #000000;
+  border: 6px solid #000;
   box-shadow: 12px 12px 0 #000;
-  overflow: visible;
 }
 
 .titre {
@@ -61,29 +59,25 @@ body {
   color: #ff2fa3;
 }
 
-.texte-hors-cadre {
-  color: #ffffff;
-  max-width: 680px;
-  margin: 40px auto 80px auto;
-  font-size: 18px;
-  line-height: 1.7;
-}
-
 .emoji {
   font-size: 0.8em;
   margin-left: 0.005em;
 }
 
 /* =========================================================
-   SYMBOLE ">" D’ENTRÉE
+   LIENS (CLIGNOTEMENT)
 ========================================================= */
 
-.intro-arrow {
+a {
+  color: inherit;
   text-decoration: none;
-  margin-left: 6px;
-  color: hotpink;
+  border-bottom: 1px solid currentColor;
   animation: arrow-pulse 3s steps(5) infinite;
-  cursor: pointer;
+}
+
+a:hover {
+  animation: none;
+  color: hotpink;
 }
 
 @keyframes arrow-pulse {
@@ -92,87 +86,32 @@ body {
   100% { color: hotpink; }
 }
 
-.intro-arrow:hover {
-  animation: none;
-  color: hotpink;
-}
-
 /* =========================================================
-   GLITCH ÉCRAN
-========================================================= */
-
-#glitch-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 9999;
-  transition: opacity 0.15s steps(2);
-}
-
-#glitch-screen img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  mix-blend-mode: screen;
-}
-
-#glitch-screen.active {
-  opacity: 1;
-  pointer-events: all;
-  animation: glitch-flicker 0.6s steps(2);
-}
-
-@keyframes glitch-flicker {
-  0% { opacity: 0; }
-  15% { opacity: 1; }
-  30% { opacity: 0; }
-  45% { opacity: 1; }
-  60% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-/* =========================================================
-   FOOTER
+   FOOTER — 2 LIGNES
 ========================================================= */
 
 .site-footer {
   color: #ffffff;
-  padding: 48px 40px 16px 40px;
+  padding: 48px 40px 24px 40px;
   font-size: 13px;
   opacity: 0.9;
+  clear: both;
 }
 
 .footer-inner.two-lines {
   max-width: 900px;
   margin: 0 auto;
-  text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+  text-align: center;
 }
 
 .footer-top {
   display: grid;
   grid-template-columns: repeat(4, auto);
   justify-content: center;
-  align-items: center;
   column-gap: 48px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.footer-left,
-.footer-center,
-.footer-right {
-  justify-self: center;
 }
 
 .footer-mail {
@@ -182,39 +121,14 @@ body {
 .footer-bottom {
   margin: 0;
   opacity: 0.8;
-  text-align: center;
-}
-
-.site-footer a,
-.site-footer a:visited {
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px solid currentColor;
-}
-
-.site-footer a:hover {
-  opacity: 0.7;
 }
 
 /* =========================================================
-   LIENS (CLIGNOTEMENT)
-========================================================= */
-
-a {
-  animation: arrow-pulse 3s steps(5) infinite;
-}
-
-a:hover {
-  animation: none;
-  color: hotpink;
-}
-
-/* =========================================================
-   PAGE À PROPOS — VERSION DÉFINITIVE
+   PAGE À PROPOS
 ========================================================= */
 
 .apropos-subtitle {
-  margin-top: 4px;
+  margin-top: 6px;
   margin-bottom: 28px;
   font-size: 16px;
   font-style: italic;
@@ -226,7 +140,7 @@ a:hover {
   overflow: visible;
 }
 
-/* --- PHOTO GAUCHE DÉBORDANTE --- */
+/* PHOTO DÉBORDANTE À GAUCHE */
 .apropos-photo {
   float: left;
   width: 200px;
@@ -236,25 +150,36 @@ a:hover {
   box-shadow: 16px 16px 0 #EFFF0F;
 }
 
-/* --- TEXTE PRINCIPAL --- */
+/* TEXTE PRINCIPAL */
 .apropos-texte {
   font-size: 16px;
   line-height: 1.5;
   color: #ff2fa3;
 }
 
-/* === POST-IT FLOTTANT FERMABLE === */
+/* LÉGENDE PHOTO */
+.apropos-legende {
+  clear: both;
+  margin-top: 12px;
+  font-size: 12px;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* =========================================================
+   POST-IT FLOTTANT FERMABLE (POP-UP)
+========================================================= */
 
 #postit-pop {
   position: fixed;
-  right: 00px;
-  bottom: 24px;
+  right: -24px;     /* léger débord hors écran */
+  bottom: 22vh;    /* ≃ deux tiers bas */
   width: 320px;
   z-index: 1000;
   font-family: "AdelpheFlorealBold", serif;
 }
 
-/* Bandeau du haut (comme une fenêtre) */
+/* Bandeau */
 .postit-bar {
   background: #00a8ff;
   height: 28px;
@@ -266,6 +191,7 @@ a:hover {
   box-shadow: 10px 10px 0 #00a8ff;
 }
 
+/* Bouton croix */
 #close-postit {
   background: #ffffff;
   border: 2px solid #00a8ff;
@@ -276,6 +202,19 @@ a:hover {
   margin-right: 4px;
   font-size: 16px;
   cursor: pointer;
+}
+
+/* Tremblement au survol de la croix */
+#close-postit:hover {
+  animation: close-shake 0.15s steps(2) infinite;
+}
+
+@keyframes close-shake {
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(-2px,1px); }
+  50%  { transform: translate(2px,-1px); }
+  75%  { transform: translate(-1px,-1px); }
+  100% { transform: translate(0,0); }
 }
 
 /* Corps du post-it */
@@ -289,31 +228,15 @@ a:hover {
   color: #00a8ff;
 }
 
-/* --- LÉGENDE APRÈS LES FLOTTANTS --- */
-.apropos-legende {
-  clear: both;
-  margin-top: 12px;
+/* Source */
+.apropos-postit-source {
   font-size: 12px;
-  font-style: italic;
   opacity: 0.8;
 }
 
-.apropos-legende a {
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px solid currentColor;
-}
-.apropos-content::after {
-  content: "";
-  display: block;
-  clear: both;
-}
-/* Le flotteur : reste DANS le flux pour l’enroulement */
-.apropos-postit-wrap {
-  float: right;
-  width: 340px;
-  margin: 150px 0 42px 32px;  /* c’est ici que tu le descends */
-  overflow: visible;         /* autorise le dépassement */
+/* Fermeture */
+#postit-pop.closed {
+  display: none;
 }
 
 /* =========================================================
@@ -322,30 +245,16 @@ a:hover {
 
 @media (max-width: 700px) {
 
-  .apropos-photo,
-  .apropos-postit-texte {
+  .apropos-photo {
     float: none;
     width: 100%;
     margin: 0 0 20px 0;
     box-shadow: 8px 8px 0 currentColor;
   }
-}
-.site-footer {
-  clear: both;
-}
-.apropos-postit-texte {
-  width: 340px;
-  padding: 20px;
 
-  font-family: "AdelpheFlorealBold", serif;
-  font-size: 15px;
-  line-height: 1.45;
-  color: #00a8ff;
-
-  background: #ffffff;
-  border: 4px solid #00a8ff;
-  box-shadow: 16px 16px 0 #00a8ff;
-
-  /* ✅ C’EST LÀ QU’ON FAIT DÉBORDER SANS CASSER L’ENROULEMENT */
-  transform: translateX(120px);
+  #postit-pop {
+    position: static;
+    width: 100%;
+    margin: 24px 0;
+  }
 }
