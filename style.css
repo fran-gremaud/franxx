@@ -274,7 +274,8 @@ a:hover {
   cursor: grabbing;
   user-select: none;
 }
-
+.postit-source { 
+  text-align: right;
 /* =========================================================
    MOBILE
 ========================================================= */
