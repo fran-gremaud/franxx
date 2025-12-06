@@ -57,7 +57,7 @@
       });
   </script>
 
- <script>
+<script>
 window.addEventListener("load", () => {
   const fullLove = document.getElementById("full-love");
   if (!fullLove) return;
@@ -66,23 +66,29 @@ window.addEventListener("load", () => {
   fullLove.innerHTML = "";
 
   const letters = [...text];
-  const segmentSize = 4;   // ✅ taille des petits groupes (3–5 est bien)
-  const speed = 0.12;      // ✅ vitesse de propagation
 
   letters.forEach((char, i) => {
     const span = document.createElement("span");
     span.className = "letter";
     span.textContent = char === " " ? "\u00A0" : char;
 
-    // ✅ onde segmentée en paquets
-    const segmentIndex = Math.floor(i / segmentSize);
-    const delay = (letters.length - i) * speed + (segmentIndex % 3) * 0.4;
+    // base d’onde douce
+    const baseDelay = i * 0.09;
+
+    // jitter organique (petit chaos)
+    const jitter = (Math.random() - 0.5) * 0.8;
+
+    // micro désynchronisation par groupes invisibles
+    const groupDrift = Math.floor(i / 3) * 0.15;
+
+    const delay = baseDelay + jitter + groupDrift;
 
     span.style.setProperty("--delay", delay + "s");
     fullLove.appendChild(span);
   });
 });
 </script>
+
 
 </body>
 </html>
