@@ -366,22 +366,23 @@ a:hover {
 .full-love {
   display: block;
   margin-top: 18px;
-  line-height: 2.4em;
+  line-height: 2.6em;
   font-weight: bold;
   white-space: nowrap;
 }
 
-/* chaque lettre */
-.full-love span {
+/* lettres individuelles */
+.full-love .letter {
   display: inline-block;
-  animation: christmas-flicker 1.6s infinite;
+  color: hotpink;
+  animation: christmas-flicker 1.8s infinite;
   animation-delay: var(--delay);
 }
 
 /* animation guirlande */
 @keyframes christmas-flicker {
-  0%   { opacity: 1; }
-  40%  { opacity: 0.25; }
-  60%  { opacity: 0.9; }
-  100% { opacity: 1; }
+  0%   { opacity: 1; transform: translateY(0); }
+  40%  { opacity: 0.25; transform: translateY(-1px); }
+  60%  { opacity: 0.9; transform: translateY(1px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
