@@ -359,4 +359,7 @@ a:hover {
   mix-blend-mode: overlay;
   pointer-events: none;
 }
+.align-right {
+  text-align: right;
+}
 
