@@ -141,38 +141,30 @@
   <div id="footer-placeholder"></div>
 
   <script>
-    fetch("footer.html")
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById("footer-placeholder").innerHTML = html;
-      });
-  </script>
-
-  <!-- JS FERMETURE POST-IT -->
-  <script>
-    document.getElementById("close-postit").addEventListener("click", function () {
-      document.getElementById("postit-pop").style.display = "none";
-    });
-  </script>
-<script>
 (function () {
   const postit = document.getElementById("postit-pop");
   if (!postit) return;
 
   let isDragging = false;
-  let startX, startY, startLeft, startTop;
+  let offsetX = 0;
+  let offsetY = 0;
 
   function startDrag(e) {
+    const evt = e.touches ? e.touches[0] : e;
+
     isDragging = true;
     postit.classList.add("dragging");
 
-    const evt = e.touches ? e.touches[0] : e;
-    startX = evt.clientX;
-    startY = evt.clientY;
-
     const rect = postit.getBoundingClientRect();
-    startLeft = rect.left + window.scrollX;
-    startTop  = rect.top  + window.scrollY;
+
+    // ✅ on calcule l’offset exact entre la souris et le coin du post-it
+    offsetX = evt.clientX - rect.left;
+    offsetY = evt.clientY - rect.top;
+
+    // ✅ on fige la position en LEFT/TOP réels
+    postit.style.left = rect.left + window.scrollX + "px";
+    postit.style.top  = rect.top  + window.scrollY  + "px";
+    postit.style.right = "auto";
 
     document.addEventListener("mousemove", drag);
     document.addEventListener("mouseup", stopDrag);
@@ -182,14 +174,13 @@
 
   function drag(e) {
     if (!isDragging) return;
-
     const evt = e.touches ? e.touches[0] : e;
-    const dx = evt.clientX - startX;
-    const dy = evt.clientY - startY;
 
-    postit.style.left = startLeft + dx + "px";
-    postit.style.top  = startTop  + dy + "px";
-    postit.style.right = "auto"; // désactive l’ancrage droit
+    const x = evt.clientX - offsetX + window.scrollX;
+    const y = evt.clientY - offsetY + window.scrollY;
+
+    postit.style.left = x + "px";
+    postit.style.top  = y + "px";
   }
 
   function stopDrag() {
@@ -206,6 +197,6 @@
   postit.addEventListener("touchstart", startDrag);
 })();
 </script>
-
+  
 </body>
 </html>
