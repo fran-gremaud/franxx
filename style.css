@@ -247,7 +247,7 @@ a:hover {
 
 #postit-pop {
   position: fixed;
-  right: 24px;
+  right: 00px;
   bottom: 24px;
   width: 320px;
   z-index: 1000;
