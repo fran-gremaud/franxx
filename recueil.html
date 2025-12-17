@@ -77,7 +77,8 @@
 
     .postit-poem {
       position: absolute;
-      width: 360px;
+      width: 360px;          /* base, mais on va override via JS */
+      max-width: 620px;      /* garde un plafond pour éviter l'écran entier */
       z-index: 10;
       cursor: grab;
       left: 0;
@@ -171,7 +172,8 @@
     @media (max-width: 700px) {
       .postit-poem {
         position: static;
-        width: 100%;
+        width: 100% !important;
+        max-width: none;
         margin: 18px 0;
       }
     }
@@ -703,7 +705,6 @@ tout notre respect`
 
       function startDrag(e) {
         if (e.target && e.target.classList && e.target.classList.contains("close-poem")) return;
-
         bringToFront(el);
 
         const evt = e.touches ? e.touches[0] : e;
@@ -746,6 +747,18 @@ tout notre respect`
         .replaceAll(">", "&gt;");
     }
 
+    // ✅ nouvelle logique : largeur selon longueur du poème
+    function pickWidthForPoem(poem) {
+      const text = (poem.title || "") + "\n" + (poem.body || "");
+      const len = text.length;
+
+      // seuils simples (ajustables)
+      if (len < 500) return 360;      // court
+      if (len < 1100) return 420;     // moyen
+      if (len < 2000) return 500;     // long
+      return 580;                     // très long
+    }
+
     function buildPostit(poem, idx) {
       const wrap = document.createElement("div");
       wrap.className = "postit-poem post-binaire-texte";
@@ -772,6 +785,10 @@ tout notre respect`
         wrap.style.display = "none";
       });
 
+      // largeur variable (desktop uniquement : sur mobile c'est 100% via CSS)
+      const w = pickWidthForPoem(poem);
+      wrap.style.width = w + "px";
+
       page.appendChild(wrap);
       bringToFront(wrap);
 
@@ -787,7 +804,6 @@ tout notre respect`
       return wrap;
     }
 
-    // Créer les post-its (pour l’instant 10/15)
     poems.forEach((p, i) => buildPostit(p, i));
 
     // Fermer la règle du jeu
