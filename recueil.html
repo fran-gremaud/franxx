@@ -8,6 +8,16 @@
 
   <style>
     /* =========================================================
+       FONT LOCALE (spécifique à cette page)
+    ========================================================= */
+
+    @font-face {
+      font-family: "AdelpheFructidorRegular";
+      src: url("Adelphe-FructidorRegular.woff2") format("woff2");
+      font-display: swap;
+    }
+
+    /* =========================================================
        RECUEIL — STYLES SPÉCIFIQUES
     ========================================================= */
 
@@ -77,8 +87,8 @@
 
     .postit-poem {
       position: absolute;
-      width: 360px;          /* base, mais on va override via JS */
-      max-width: 620px;      /* garde un plafond pour éviter l'écran entier */
+      width: 360px;          /* base, override via JS */
+      max-width: 620px;      /* plafond */
       z-index: 10;
       cursor: grab;
       left: 0;
@@ -92,7 +102,7 @@
       user-select: none;
     }
 
-    /* ✨ Tremblement au survol (comme à propos) */
+    /* Tremblement au survol */
     .postit-poem:hover {
       animation: postit-shake 0.25s steps(2) infinite;
     }
@@ -148,25 +158,31 @@
       padding: 0;
     }
 
+    /* ✅ Contenu avec scroll interne + nouvelle typo */
     .postit-poem .postit-content {
       background: #ffffff;
       border: 4px solid var(--accent);
       box-shadow: 10px 10px 0 var(--shadow);
       padding: 18px;
 
-      font-family: "AdelpheFructidorBold", serif;
-      font-size: 15px;
-      line-height: 1.45;
+      font-family: "AdelpheFructidorRegular", serif;
+      font-size: 16px;
+      line-height: 1.5;
 
       color: var(--accent);
       text-align: left;
 
       font-feature-settings: "liga" 1, "dlig" 1;
       white-space: pre-wrap;
+
+      /* scroll interne */
+      max-height: 55vh;
+      overflow: auto;
+      overscroll-behavior: contain;
     }
 
     /* ---------------------------------------------------------
-       MOBILE : pile statique
+       MOBILE : pile statique + un peu plus de hauteur
     --------------------------------------------------------- */
 
     @media (max-width: 700px) {
@@ -175,6 +191,10 @@
         width: 100% !important;
         max-width: none;
         margin: 18px 0;
+      }
+
+      .postit-poem .postit-content {
+        max-height: 65vh;
       }
     }
   </style>
@@ -747,16 +767,14 @@ tout notre respect`
         .replaceAll(">", "&gt;");
     }
 
-    // ✅ nouvelle logique : largeur selon longueur du poème
     function pickWidthForPoem(poem) {
       const text = (poem.title || "") + "\n" + (poem.body || "");
       const len = text.length;
 
-      // seuils simples (ajustables)
-      if (len < 500) return 360;      // court
-      if (len < 1100) return 420;     // moyen
-      if (len < 2000) return 500;     // long
-      return 580;                     // très long
+      if (len < 500) return 360;
+      if (len < 1100) return 420;
+      if (len < 2000) return 500;
+      return 580;
     }
 
     function buildPostit(poem, idx) {
@@ -767,7 +785,6 @@ tout notre respect`
       wrap.style.setProperty("--accent", c);
       wrap.style.setProperty("--shadow", c);
 
-      // titres : si vide, on laisse le bandeau vide
       const titleHtml = poem.title ? escapeHtml(poem.title) : "";
 
       wrap.innerHTML = `
@@ -785,9 +802,7 @@ tout notre respect`
         wrap.style.display = "none";
       });
 
-      // largeur variable (desktop uniquement : sur mobile c'est 100% via CSS)
-      const w = pickWidthForPoem(poem);
-      wrap.style.width = w + "px";
+      wrap.style.width = pickWidthForPoem(poem) + "px";
 
       page.appendChild(wrap);
       bringToFront(wrap);
@@ -806,7 +821,6 @@ tout notre respect`
 
     poems.forEach((p, i) => buildPostit(p, i));
 
-    // Fermer la règle du jeu
     const rulesBase = document.getElementById("rules-base");
     document.getElementById("close-rules").addEventListener("click", () => {
       rulesBase.style.display = "none";
