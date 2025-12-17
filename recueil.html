@@ -24,6 +24,54 @@
     }
 
     /* ---------------------------------------------------------
+       RÈGLE DU JEU (STYLE “BASE DE PAGE”, SANS VIBRATION)
+    --------------------------------------------------------- */
+
+    .rules-base {
+      position: relative;
+      background: #ffffff;
+      border: 6px solid #000000;
+      box-shadow: 12px 12px 0 #000;
+      padding: 18px 18px 16px 18px;
+      margin: 18px 0 28px 0;
+      overflow: hidden;
+    }
+
+    .rules-base-title {
+      margin: 0 0 10px 0;
+      font-size: 20px;
+      line-height: 1.2;
+      color: #ff2fa3;
+    }
+
+    .rules-base-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #ff2fa3;
+    }
+
+    .rules-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #fff;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      width: 28px;
+      height: 28px;
+      line-height: 22px;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0;
+      color: #ff2fa3;
+    }
+
+    .rules-close:hover {
+      opacity: 0.85;
+    }
+
+    /* ---------------------------------------------------------
        POST-ITS POÈMES
     --------------------------------------------------------- */
 
@@ -77,12 +125,14 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      min-height: 1em;
     }
 
     .postit-poem .postit-actions {
       display: flex;
       gap: 6px;
       align-items: center;
+      flex: 0 0 auto;
     }
 
     .postit-poem .close-poem {
@@ -115,92 +165,14 @@
     }
 
     /* ---------------------------------------------------------
-       FENÊTRE RÈGLE DU JEU
-    --------------------------------------------------------- */
-
-    #rules-modal {
-      position: absolute;
-      left: 32px;
-      top: 32px;
-      width: 380px;
-      z-index: 999;
-      --accent: #EFFF0F;
-      --shadow: #EFFF0F;
-    }
-
-    #rules-modal .postit-bar {
-      background: var(--accent);
-      border-color: var(--accent);
-      box-shadow: 10px 10px 0 var(--shadow);
-    }
-
-    #rules-modal .rules-content {
-      background: #ffffff;
-      border: 4px solid var(--accent);
-      box-shadow: 10px 10px 0 var(--shadow);
-      padding: 16px;
-
-      font-family: PostBinaire, sans-serif;
-      font-size: 14px;
-      line-height: 1.5;
-      color: #ff2fa3;
-    }
-
-    /* ---------------------------------------------------------
-       DOCK
-    --------------------------------------------------------- */
-
-    #postit-dock {
-      position: absolute;
-      left: 24px;
-      right: 24px;
-      bottom: 24px;
-      z-index: 800;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      pointer-events: none;
-    }
-
-    #postit-dock .dock-item {
-      pointer-events: auto;
-      background: #fff;
-      border: 3px solid #000;
-      box-shadow: 6px 6px 0 #000;
-      padding: 6px 10px;
-      font-family: PostBinaire, sans-serif;
-      font-size: 12px;
-      color: #ff2fa3;
-      cursor: pointer;
-      white-space: nowrap;
-      max-width: 220px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    #postit-dock .dock-hint {
-      font-size: 12px;
-      font-style: italic;
-      color: #ff2fa3;
-      opacity: 0.8;
-    }
-
-    /* ---------------------------------------------------------
-       MOBILE
+       MOBILE : pile statique
     --------------------------------------------------------- */
 
     @media (max-width: 700px) {
-      .postit-poem,
-      #rules-modal {
+      .postit-poem {
         position: static;
         width: 100%;
         margin: 18px 0;
-      }
-
-      #postit-dock {
-        position: static;
-        margin-top: 18px;
-        pointer-events: auto;
       }
     }
   </style>
@@ -213,40 +185,38 @@
     <div class="recueil-header">
       <h1 class="post-binaire-texte titre">recueil</h1>
       <p class="post-binaire-texte recueil-subtitle">
-        15 textes — post-its déplaçables
+        textes sur post-its — déplacer / cliquer pour ramener devant
       </p>
     </div>
 
-    <!-- RÈGLE DU JEU -->
-    <div id="rules-modal" class="post-binaire-texte">
-      <div class="postit-bar">
-        <span class="postit-title">règle du jeu</span>
-        <div class="postit-actions">
-          <button class="close-poem" id="close-rules">×</button>
-        </div>
-      </div>
-      <div class="rules-content">
+    <!-- RÈGLE DU JEU : bloc “base”, sans vibration -->
+    <div id="rules-base" class="rules-base post-binaire-texte">
+      <button class="rules-close" id="close-rules" aria-label="fermer">×</button>
+      <h2 class="rules-base-title post-binaire-texte">règle du jeu</h2>
+      <p class="rules-base-text post-binaire-texte">
         — chaque post-it contient un texte<br>
         — tu peux les déplacer<br>
-        — cliquer dessus les ramène au premier plan<br>
-        — “×” les ferme (dock en bas pour les rouvrir)
-      </div>
+        — cliquer sur un post-it le ramène au premier plan<br>
+        — “×” le ferme<br><br>
+        (on mettra des règles plus fines ensuite si tu veux : apparition, tirage aléatoire, etc.)
+      </p>
     </div>
 
-    <div id="postit-dock" class="post-binaire-texte">
-      <span class="dock-hint">post-its fermés → clique pour rouvrir</span>
-    </div>
-
+    <!-- Les post-its sont injectés par JS -->
   </div>
 
+  <!-- Footer partagé -->
   <div id="footer-placeholder"></div>
 
+  <!-- Écran de transition glitch -->
   <div id="glitch-screen">
     <img src="glitch.png" alt="">
   </div>
 
+  <!-- Script glitch -->
   <script src="glitch.js"></script>
 
+  <!-- Chargement du footer -->
   <script>
     fetch("footer.html")
       .then(r => r.text())
@@ -255,15 +225,21 @@
       });
   </script>
 
+  <!-- RECUEIL — LOGIQUE POST-ITS -->
   <script>
   (function () {
 
     const page = document.querySelector(".page");
-    const dock = document.getElementById("postit-dock");
     let topZ = 50;
 
+    // Palette SANS jaune (lisibilité)
+    const accents = ["#00a8ff", "#ff2fa3", "#000000"];
+
+    // Textes 1 → 10 (complets, tels que collés)
     const poems = [
-      { title: "", body: `quatre heures du mat
+      {
+        title: "",
+        body: `quatre heures du mat
 je dors pas et c’est pas parce que j’ai trop bu 
 c’est une nouvelle manie de mon corps
 le refus 
@@ -286,121 +262,539 @@ tremblent d’indignation à chaque fois qu’une injustice est commise dans le 
 moi jte jure 
 je ne tremble plus
 à ce stade
-c’est carrément une crise d’épilepsie` },
+c’est carrément une crise d’épilepsie`
+      },
+      {
+        title: "",
+        body: `lui : « mais alors ce livre, vous allez le faire ? que je vous donne une bourse ou non ? vous trouverez de toute façon un moyen de le faire, je me trompe ? »
 
-      { title: "", body: `lui : « mais alors ce livre, vous allez le faire ? »
-moi : « oui je le ferai. »
+moi : « oui je le ferai. non, vous ne vous trompez pas. »
+
 lui : « alors : ça ne sert à rien que je vous aide. »
+
+silence
+
+lui : « vous, vous faite de la poésie-guérilla, l’argent ne vous servirait à rien. »
+
 
 claquement de porte sur mon pif 
 bye
 
-— des fois je ne devrais pas être honnête` },
 
-      { title: `What power art thou,
+— des fois je ne devrais pas être honnête
+je devrais assumer de tricher
+leur dire que j’ai trop besoin d’eux des fois
+je devrais lécher un ou deux culs mais 
+
+
+déso
+je suis hyper sélectif..ve quand il s’agit de boule —
+
+alors 
+je suis rentré..e chez moi 
+j’ai rempli le frigo de colère
+de mots de colère
+de poésie de colère 
+de livres entiers sous acide colérique parce que c’était tout ce qui me restait
+et j’ai continué à faire une guerre qu’on me prête mais que je n’ai jamais voulue 
+j’ai continué la guérilla avec des mots quand je voulais seulement parler d’amour
+d’autres possibles 
+de l’autre monde 
+celui qui est derrière le monde 
+derrière les ombres 
+derrière l’idée qu’il se fait de lui-même
+
+
+c’est con`
+      },
+      {
+        title: `What power art thou,
 Who from below
-Hast made me rise? 🝫`, body: `What power art thou,
+Hast made me rise? 🝫`,
+        body: `What power art thou,
 Who from below
 Hast made me rise?
 
-dehors il y a le gel qui prend...` },
 
-      { title: "", body: `parfois je me demande si le monde m’appelle vraiment
-ou si c’est seulement mon imagination` },
 
-      { title: `affleurement léger du réel dans le processus de déréalisation inhérent au monde du grand capital, à u. k. l g.`, body: `ce matin
-je regarde le ciel
+dehors il y a le gel qui prend et qui masque tout 
+jusqu’à la fenêtre du train 
+jusqu’aux rails qu’on nous avait vendus comme le futur 			brillant 
+
+je ne sais plus trop où regarder 
+où trouver la lumière d’une étoile
+d’une phrase d’un petit espoir 
+j’aimerais dormir 
+dormir fumer dormir 
+faire entrer un peu de
+fumer un peu de fumée 
+chaude 
+
+jtj
+jtj jpp
+laisse-moi dormir steuplé
+j’ai plus la force là 
+plus rien 
+dormir
+steuplé
+laisse-moi
+
+juste
+
+
+domir
+un peu 
+
+
+
+longtemps —
+
+dehors il y a le gel qui prend et qui masque tout 
+jusqu’à la fenêtre du train 
+jusqu’aux rails qu’on nous avait DEHORS IL Y A LES BOMBES QUI TOMBENT
+
+
+
+pas dans notre jardin c'est sûr mais c'est tout comme
+parce que tant qu'une bombe tombera ce sera dans notre flicaille de jardin dans notre flicaille de jardin à nous tous..tes qui sommes dans le même bateau loin de ceux qui nous considèrent comme des animaux mais qui n’ont jamais rien produit qui sorte le monde du monde
+ on n'est pas si séparé..es que ça non jte jure quand i..els perdent un bébé c'est le nôtre qui est perdu rien que le nôtre tous les nôtres alors
+il nous reste les mots bien sûr 
+les mots que je voudrais bombes pour une fois non
+même pas jte jure  
+moi
+
+je voudrais seulement		ouvrir 
+je voudrais seulement ouvrir une brèche de lumière et de chaleur et me dire que mes armes sont d’une nouvelle espèce 
+d’une espèce qui ne fait pas sortir les tripes mais les larmes
+celles de joies
+celles des émotions trop énormes qui font déborder les lacs dans les yeux péter tous les barrages pour que les truites arc-en-ciel puissent remonter aux racines de leur ciel 
+j’aimerais que mes armes à moi elles fassent gicler le bonheur mais 
+de toute façon 
+je peux plus bouger 
+je peux même plus 
+même plus 
+
+respirer jte jure
+ 
+j’aimerais me lever 
+de nouveau
+mais jpp
+
+jtj jpp
+dehors il y a le gel qui prend et	      toi
+ 
+toi qui te tiens au seuil 
+au milieu de la montagne 
+première oasis sur la première étape du chemin 
+là
+au milieu
+tu as fait prendre un feu de camp 
+et de tous les côtés 
+de tous les chemins frigorifié..es 
+des centaines des milliers 
+des multitudes se rejoignent 
+— qui sont cell..eux qui montent du désert
+en colonne de fumée ?
+
+i..els grondent que je ne suis pas seul..e
+que je suis des centaines des milliers 
+multitude
+
+i..els grondent
+« lâche pas 
+lâche pas bordel
+on lâchera pas
+sans un..e seul..e de nous-même on est foutu..es 
+on a besoin de nous
+
+d'une armée de solitaires prêt..es à prendre le monde dans leurs bras sans violence 
+avec désir
+avec désir d'être ensemble sans gueule de bois sans mal de bide
+on te veut vivant..e
+on a besoin de te sentir vivre là
+tout contre nous tous..tes 
+ensemble
+
+on te lâchera pas  »`
+      },
+      {
+        title: "",
+        body: `parfois je me demande si le monde m’appelle vraiment ou si c’est seulement mon imagination qui fait des siennes
+
+
+genre : 
+est-ce que j’ai vraiment des pouvoirs magiques ?
+
+
+genre : 
+est-ce qu’on s’est vraiment rencontré..es de l’autre côté de la galaxie il y a trois éons et demi ? 
+
+
+genre :  
+est-ce que je suis vraiment jésus ?
+
+
+
+— claquement de langue interrogateur`
+      },
+      {
+        title: `affleurement léger du réel dans le processus de 
+déréalisation inhérent au monde du grand capital, à u. k. l g.`,
+        body: `ce matin
+je regarde le ciel 
 long
-bas
-gris` },
+bas 
+gris que rien ne perce depuis des semaines
 
-      { title: "", body: `aujourd’hui 
-j’ai ouvert quatre livres
-MERDE` },
+le pays défile par la fenêtre du train 
+et moi je me sens 
+complètement
+absolument
+imperméable
 
-      { title: `phénomène initial — reboot, à l. b.`, body: `on se tenait là
-toi et moi
-on the edge` },
+je déréalise y a rien qui strike le monde est un flipper et j’ai pas de pièce de cinq francs pour le faire fonctionner le truc reste sans couleur 
+sans son 
+sans rien qui se passe d’intéressant pas de rebonds d’élastiques colorés pas de rampes de dingos de multiball de possibilités de combos impossibles 
 
-      { title: "", body: `des fois je me dis
-— je regarde un rayon de soleil` },
+rien
 
-      { title: "", body: `il faut que je rachète 
-des chaussettes blanches` },
+de 
 
-      { title: "", body: `ah oui
+rien 
+y a rien qui strike
+
+le compteur des points reste vide 
+zéro sur des millions de possibles je déréalise 
+je résonne dans le vide je suis extra-terrestre extra-plan-physique-planétaire extra-exhausted		aussi
+surtout
+
+
+
+je déréalise
+là-bas 
+de l’autre côté 
+je vois les sommets si proches sur lesquels je ne poserai jamais les pieds et 
+je me perds dans ce qu’il reste de neige dans ce qu’il reste de mystère dans ce qu’il reste d’histoires et 
+je me dis que
+si j’écrivais un livre de science-fiction 
+il y aurait
+
+la mer et tout un tas d’étendues d’eau des rivières torrents cascades qui se jettent dedans
+des montagnes fleuries coiffées de neiges éternelles qui seraient des îles sur l’eau ou qui flotteraient dans le ciel 
+des cabanes 
+des moulins 
+des bassins d’eau chaude des auberges thermales et la vie qui poindrait de partout 
+
+sauvage
+indomptable
+souveraine
+pas de clôtures pas de pelouses pas de villas
+jamais de ciel bas sauf quand il pleut à verse les jours de feux de cheminée et
+
+dans cet entrelacs de pierre et d’eau et d’âmes 
+des lignes 
+et des trains entre nous 
+comme dans chihiro les rails moitié sur l’eau moitié dans les étoiles moitié sur des falaises 
+sous des arches de pierre 
+dans des forêts sans fin 
+sous les arbres en fleur le long de rivières et des courants
+au milieu des bancs de truites arc-en-ciel des hardes de sangliers des volées d’hirondelles et de la solitude des aigles et des esprits oui 
+je sais bien que ça fait trop de moitiés mais qu’est-ce qu’on s’en fout se serait utopie
+se serait rires
+se serait tendresses et intimités partagées 
+ce monde-là 
+il saurait me parler tranquillement dans les vibrations de tous mes os et 
+
+moi je saurais résonner ne pas être sourd..e je saurais faire partie 
+réaliser
+
+
+
+et quand le soleil se coucherait
+on s’endormirait près de l’eau sur des stéatites chaudes 
+sous la lumière des cinq lunes parmi lesquelles certaines sont restées sans nom pour se souvenir 
+que nommer c’est déjà réduire et qu’on peut aimer sans tout comprendre
+on entendrait les hérissons faire l’amour dans les buissons et les moineaux élever leurs petit..es 
+
+ouais 
+
+dans ce monde-là y aurait des enfants partout
+qui viendraient courir jouer chanter s’assoir à côté 
+et sans doute qu’on saurait les aimer 
+même sans connaître leurs noms
+
+je me redresse sur mon siège
+le cul engourdi le cœur un peu léger je réalise 
+que sur ces sommets
+on a dormi sur une pierre chaude
+pas plus loin que l’année passée`
+      },
+      {
+        title: "",
+        body: `aujourd’hui 
+j’ai ouvert quatre livres de quatre jeunes auteur..ices différent..es 
+tout en haut de la page
+en capitales
+MERDE
+
+— il semble que notre génération ait quelque chose à dire`
+      },
+      {
+        title: `phénomène initial — reboot, à l. b.`,
+        body: `on se tenait là 
+toi et moi 
+tous..tes les deux 
+on the edge
+
+il aura suffi d’un geste pour que tout à coup
+un écart apparaisse		un écart de quelques dixièmes de degrés dans le tissu de la réalité c’était
+
+sur une route de montagne
+perdu..es dans la contemplation de l’incendie qui brillait là-haut orange
+dans les derniers rayons orange du soleil couchant 
+orange 
+sur le bleu l’indigo le violet crépuscule de montagne
+je crois que c’était un feu de joie 
+mais 
+tout autant un grand incendie dans mon cœur dans mon cœur 
+le chemin 
+qui va de mes yeux à ta bouche c’était
+
+une soirée verres de bière et cocktails 
+perdu..es dans nos mots 
+entre nos mots 
+dans la lumière électrique d’une modernité qui
+quelques secondes avant n’était pas complètement la nôtre mais dont nous n’avions plus rien à faire puisque nous avions retrouvé
+notre temps et
+notre pays 
+tes mots 
+mes mots
+ceux qui allaient bientôt devenir les nôtres
+
+il ne manquait qu’un dérapage
+un déraillement de quelques dixièmes de degrés dans le tissu de la réalité dans mon cœur
+dans mon cœur le chemin qui va de tes yeux à ma bouche c’était
+
+fin de nuit 
+assis..es sur les tatamis 
+au chaud dans un pays de bois et d’eau et de froid 
+perdu..e dans tes yeux 
+verts
+perdu..e sur le chemin qui va de mes yeux à ta bouche 
+tu m’as embrassé..e		c’est toi qui m’as embrassé..e moi je n’aurais pas su 
+étincelle entre deux silex 
+incendie
+dans tes yeux 
+verts
+qui communiquent
+directement avec mon cœur
+sans passer par mon cerveau
+
+les seuls mots qui me viennent en tête 
+alors
+
+月の下
+君の唇
+僕の国
+
+— déso mais
+un haiku se traduit pas —`
+      },
+      {
+        title: "",
+        body: `des fois je me dis 
+— je regarde un rayon de soleil 
+et je me dis 
+— je repense au moment de ma vie
+où je ne faisais rien 
+— rien du tout 
+je me dis que peut-être 
+— peut-être que 
+je me suis trompé..e en route 
+
+peut-être que je devrais retourner là-bas
+là où je ne m’occupais pas du monde 
+pas de la politique 
+pas de la détresse 
+et que même la mienne n’avait pas voix
+
+je me souviens qu'alors
+je ne rêvais que d’une chose :
+retourner sur les barricades 
+retourner me battre pour le sens
+mais je n’avais d’énergie 
+que pour laisser passer le temps
+— que pour laisser les rayons du soleil me caresser la joue 
+sous mon duvet synthétique
+
+
+des fois j’aimerais 
+oublier le monde 
+la politique 
+le genre 
+les classes la guerre la détresse des autres les dépressions mes angoisses 
+j’aimerais ne penser qu’à moi qui rame sur un tout petit bateau insubmersible au milieu des vagues du monde
+et puis je me dis que
+non
+de toute façon 
+l’ennui me rattraperait et avec lui 
+le désir de monter sur les barricades
+
+alors autant rester dessus
+
+— et simplement descendre les soirs de fatigue
+retrouver des bras aimants 
+des sourires complices  
+et les faire monter dessus avec moi le lendemain —`
+      },
+      {
+        title: "",
+        body: `il faut que je rachète 
+des chaussettes blanches
+des chaussettes roses
+des chaussettes à paillettes
+qui ne soient pas fabriquées par des esclaves 
+qui ne polluent pas les océans aux microplastiques
+alors je marche pieds-nus
+	
+
+				         — si seulement`
+      },
+      {
+        title: "",
+        body: `ah oui 
 
 je vous dois une explication :
-je ne dis plus putain
-je dis flicaille` }
+je ne dis plus 
+putain
+je dis
+flicaille
+parce que les putes méritent 
+tout notre respect`
+      }
     ];
 
-    const accents = ["#00a8ff", "#EFFF0F", "#ff2fa3", "#000"];
-
     function bringToFront(el) {
-      topZ++;
+      topZ += 1;
       el.style.zIndex = topZ;
     }
 
-    function randomPos(el) {
-      const x = Math.random() * (page.clientWidth - 120);
-      const y = Math.random() * (page.clientHeight - 120);
+    function randomizeInPage(el, container) {
+      const minVisible = 80;
+
+      const maxX = container.clientWidth  - minVisible;
+      const maxY = container.clientHeight - minVisible;
+
+      const minX = -(el.offsetWidth  - minVisible);
+      const minY = -(el.offsetHeight - minVisible);
+
+      const x = minX + Math.random() * (maxX - minX);
+      const y = minY + Math.random() * (maxY - minY);
+
       el.style.left = x + "px";
       el.style.top  = y + "px";
     }
 
     function makeDraggable(el) {
-      let d = false, sx, sy, sl, st;
+      let dragging = false, startX = 0, startY = 0, startLeft = 0, startTop = 0;
 
-      el.addEventListener("mousedown", e => {
-        if (e.target.classList.contains("close-poem")) return;
+      el.addEventListener("mousedown", startDrag);
+      el.addEventListener("touchstart", startDrag, { passive: false });
+
+      function startDrag(e) {
+        if (e.target && e.target.classList && e.target.classList.contains("close-poem")) return;
+
         bringToFront(el);
-        d = true;
-        sx = e.clientX;
-        sy = e.clientY;
-        sl = el.offsetLeft;
-        st = el.offsetTop;
-      });
 
-      document.addEventListener("mousemove", e => {
-        if (!d) return;
-        el.style.left = sl + (e.clientX - sx) + "px";
-        el.style.top  = st + (e.clientY - sy) + "px";
-      });
+        const evt = e.touches ? e.touches[0] : e;
+        dragging = true;
+        el.classList.add("dragging");
 
-      document.addEventListener("mouseup", () => d = false);
+        startX = evt.clientX;
+        startY = evt.clientY;
+        startLeft = el.offsetLeft;
+        startTop = el.offsetTop;
+
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("mouseup", stopDrag);
+        document.addEventListener("touchmove", drag, { passive: false });
+        document.addEventListener("touchend", stopDrag);
+      }
+
+      function drag(e) {
+        if (!dragging) return;
+        e.preventDefault();
+        const evt = e.touches ? e.touches[0] : e;
+        el.style.left = startLeft + (evt.clientX - startX) + "px";
+        el.style.top  = startTop  + (evt.clientY - startY) + "px";
+      }
+
+      function stopDrag() {
+        dragging = false;
+        el.classList.remove("dragging");
+        document.removeEventListener("mousemove", drag);
+        document.removeEventListener("mouseup", stopDrag);
+        document.removeEventListener("touchmove", drag);
+        document.removeEventListener("touchend", stopDrag);
+      }
     }
 
-    poems.forEach((p, i) => {
-      const el = document.createElement("div");
-      el.className = "postit-poem post-binaire-texte";
-      el.style.setProperty("--accent", accents[i % accents.length]);
-      el.style.setProperty("--shadow", accents[i % accents.length]);
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
 
-      el.innerHTML = `
+    function buildPostit(poem, idx) {
+      const wrap = document.createElement("div");
+      wrap.className = "postit-poem post-binaire-texte";
+
+      const c = accents[idx % accents.length];
+      wrap.style.setProperty("--accent", c);
+      wrap.style.setProperty("--shadow", c);
+
+      // titres : si vide, on laisse le bandeau vide
+      const titleHtml = poem.title ? escapeHtml(poem.title) : "";
+
+      wrap.innerHTML = `
         <div class="postit-bar">
-          <span class="postit-title">${p.title}</span>
-          <button class="close-poem">×</button>
+          <span class="postit-title">${titleHtml}</span>
+          <div class="postit-actions">
+            <button class="close-poem" aria-label="fermer">×</button>
+          </div>
         </div>
-        <div class="postit-content">${p.body}</div>
+        <div class="postit-content">${escapeHtml(poem.body)}</div>
       `;
 
-      page.appendChild(el);
-      randomPos(el);
-      bringToFront(el);
-      makeDraggable(el);
-
-      el.querySelector(".close-poem").onclick = e => {
+      wrap.querySelector(".close-poem").addEventListener("click", (e) => {
         e.stopPropagation();
-        el.style.display = "none";
-      };
+        wrap.style.display = "none";
+      });
 
-      el.onclick = () => bringToFront(el);
+      page.appendChild(wrap);
+      bringToFront(wrap);
+
+      requestAnimationFrame(() => {
+        if (!window.matchMedia("(max-width: 700px)").matches) {
+          randomizeInPage(wrap, page);
+        }
+      });
+
+      wrap.addEventListener("click", () => bringToFront(wrap));
+      makeDraggable(wrap);
+
+      return wrap;
+    }
+
+    // Créer les post-its (pour l’instant 10/15)
+    poems.forEach((p, i) => buildPostit(p, i));
+
+    // Fermer la règle du jeu
+    const rulesBase = document.getElementById("rules-base");
+    document.getElementById("close-rules").addEventListener("click", () => {
+      rulesBase.style.display = "none";
     });
-
-    document.getElementById("close-rules").onclick = () => {
-      document.getElementById("rules-modal").style.display = "none";
-    };
 
   })();
   </script>
