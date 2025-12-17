@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>fran· — recueil</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* =========================================================
+       RECUEIL — STYLES SPÉCIFIQUES
+    ========================================================= */
+
+    .recueil-header {
+      margin-bottom: 18px;
+    }
+
+    .recueil-subtitle {
+      margin: 6px 0 0 0;
+      font-size: 16px;
+      font-style: italic;
+      color: #ff2fa3;
+      opacity: 0.85;
+    }
+
+    /* Base post-it (poèmes) via variables */
+    .postit-poem {
+      position: absolute;
+      width: 360px;
+      z-index: 10;
+      cursor: grab;
+      left: 0;
+      top: 0;
+      --accent: #00a8ff;
+      --shadow: #00a8ff;
+    }
+
+    .postit-poem.dragging {
+      cursor: grabbing;
+      user-select: none;
+    }
+
+    .postit-poem .postit-bar {
+      background: var(--accent);
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 4px solid var(--accent);
+      border-bottom: none;
+      box-shadow: 10px 10px 0 var(--shadow);
+      padding: 0 6px;
+      gap: 8px;
+    }
+
+    .postit-poem .postit-title {
+      font-family: PostBinaire, sans-serif;
+      font-size: 12px;
+      color: #fff;
+      opacity: 0.95;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .postit-poem .postit-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    .postit-poem .close-poem {
+      background: #fff;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      width: 22px;
+      height: 22px;
+      line-height: 18px;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .postit-poem .postit-content {
+      background: #ffffff;
+      border: 4px solid var(--accent);
+      box-shadow: 10px 10px 0 var(--shadow);
+      padding: 18px;
+
+      font-family: "AdelpheFructidorBold", serif;
+      font-size: 15px;
+      line-height: 1.45;
+
+      color: var(--accent);
+      text-align: left;
+
+      font-feature-settings: "liga" 1, "dlig" 1;
+      white-space: pre-wrap;
+    }
+
+    /* Fenêtre “règle du jeu” */
+    #rules-modal {
+      position: absolute;
+      left: 32px;
+      top: 32px;
+      width: 380px;
+      z-index: 999;
+      --accent: #EFFF0F;
+      --shadow: #EFFF0F;
+      cursor: default;
+    }
+
+    #rules-modal .postit-bar {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 10px 10px 0 var(--shadow);
+    }
+
+    #rules-modal .rules-content {
+      background: #ffffff;
+      border: 4px solid var(--accent);
+      box-shadow: 10px 10px 0 var(--shadow);
+      padding: 16px;
+
+      font-family: PostBinaire, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #ff2fa3;
+    }
+
+    #rules-modal .rules-content strong {
+      font-weight: 700;
+    }
+
+    /* Dock pour ré-ouvrir les post-its fermés */
+    #postit-dock {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      z-index: 800;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-start;
+      pointer-events: none; /* on réactive sur les boutons */
+    }
+
+    #postit-dock .dock-item {
+      pointer-events: auto;
+      background: #fff;
+      border: 3px solid #000;
+      box-shadow: 6px 6px 0 #000;
+      padding: 6px 10px;
+      font-family: PostBinaire, sans-serif;
+      font-size: 12px;
+      color: #ff2fa3;
+      cursor: pointer;
+      white-space: nowrap;
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #postit-dock .dock-hint {
+      pointer-events: none;
+      font-size: 12px;
+      font-style: italic;
+      color: #ff2fa3;
+      opacity: 0.8;
+      margin-left: 6px;
+    }
+
+    /* Mobile */
+    @media (max-width: 700px) {
+      .postit-poem {
+        position: static;
+        width: 100%;
+        margin: 18px 0;
+      }
+
+      #rules-modal {
+        position: static;
+        width: 100%;
+        margin: 18px 0;
+      }
+
+      #postit-dock {
+        position: static;
+        margin-top: 18px;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        pointer-events: auto;
+      }
+
+      #postit-dock .dock-hint {
+        display: block;
+        width: 100%;
+        margin: 6px 0 0 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <div class="recueil-header">
+      <h1 class="post-binaire-texte titre">recueil</h1>
+      <p class="post-binaire-texte recueil-subtitle">
+        15 textes — post-its déplaçables
+      </p>
+    </div>
+
+    <!-- Fenêtre “règle du jeu” (fermeture possible) -->
+    <div id="rules-modal" class="post-binaire-texte">
+      <div class="postit-bar">
+        <span class="postit-title">règle du jeu</span>
+        <div class="postit-actions">
+          <button class="close-poem" id="close-rules" aria-label="fermer">×</button>
+        </div>
+      </div>
+      <div class="rules-content">
+        <strong>comment ça marche :</strong><br><br>
+        — chaque post-it contient un texte<br>
+        — tu peux les déplacer<br>
+        — cliquer sur un post-it le ramène au premier plan<br>
+        — “×” le ferme (tu peux le rouvrir via le dock en bas)<br><br>
+        (si tu veux un autre comportement ensuite : on ajuste ✶)
+      </div>
+    </div>
+
+    <!-- Dock (boutons pour ré-ouvrir les post-its fermés) -->
+    <div id="postit-dock" class="post-binaire-texte">
+      <span class="dock-hint">post-its fermés → clique pour rouvrir</span>
+    </div>
+
+    <!-- Les post-its seront injectés ici par JS -->
+  </div>
+
+  <!-- Footer partagé -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Écran de transition glitch -->
+  <div id="glitch-screen">
+    <img src="glitch.png" alt="">
+  </div>
+
+  <!-- Script glitch -->
+  <script src="glitch.js"></script>
+
+  <!-- Chargement du footer -->
+  <script>
+    fetch("footer.html")
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById("footer-placeholder").innerHTML = html;
+      });
+  </script>
+
+  <!-- RECUEIL — LOGIQUE POST-ITS -->
+  <script>
+  (function () {
+    const page = document.querySelector(".page");
+    const dock = document.getElementById("postit-dock");
+
+    // ✅ Remplace chaque "TEXTE..." par tes poèmes (garde les \n si tu veux des retours à la ligne)
+    const poems = [
+      { id: "p01", title: "texte 01", body: "[colle ici le texte 01]" },
+      { id: "p02", title: "texte 02", body: "[colle ici le texte 02]" },
+      { id: "p03", title: "texte 03", body: "[colle ici le texte 03]" },
+      { id: "p04", title: "texte 04", body: "[colle ici le texte 04]" },
+      { id: "p05", title: "texte 05", body: "[colle ici le texte 05]" },
+      { id: "p06", title: "texte 06", body: "[colle ici le texte 06]" },
+      { id: "p07", title: "texte 07", body: "[colle ici le texte 07]" },
+      { id: "p08", title: "texte 08", body: "[colle ici le texte 08]" },
+      { id: "p09", title: "texte 09", body: "[colle ici le texte 09]" },
+      { id: "p10", title: "texte 10", body: "[colle ici le texte 10]" },
+      { id: "p11", title: "texte 11", body: "[colle ici le texte 11]" },
+      { id: "p12", title: "texte 12", body: "[colle ici le texte 12]" },
+      { id: "p13", title: "texte 13", body: "[colle ici le texte 13]" },
+      { id: "p14", title: "texte 14", body: "[colle ici le texte 14]" },
+      { id: "p15", title: "texte 15", body: "[colle ici le texte 15]" }
+    ];
+
+    // Palette douce (accent / ombre) — tu peux changer
+    const accents = [
+      { a: "#00a8ff", s: "#00a8ff" },
+      { a: "#EFFF0F", s: "#EFFF0F" },
+      { a: "#ff2fa3", s: "#ff2fa3" },
+      { a: "#000000", s: "#000000" }
+    ];
+
+    let topZ = 50;
+
+    function randomizeInPage(el, container) {
+      const minVisible = 80;
+
+      const maxX = container.clientWidth  - minVisible;
+      const maxY = container.clientHeight - minVisible;
+
+      const minX = -(el.offsetWidth  - minVisible);
+      const minY = -(el.offsetHeight - minVisible);
+
+      const x = minX + Math.random() * (maxX - minX);
+      const y = minY + Math.random() * (maxY - minY);
+
+      el.style.left = x + "px";
+      el.style.top  = y + "px";
+    }
+
+    function bringToFront(el) {
+      topZ += 1;
+      el.style.zIndex = topZ;
+    }
+
+    function makeDraggable(el) {
+      let dragging = false, startX = 0, startY = 0, startLeft = 0, startTop = 0;
+
+      el.addEventListener("mousedown", startDrag);
+      el.addEventListener("touchstart", startDrag, { passive: false });
+
+      // ramener au premier plan au clic
+      el.addEventListener("mousedown", () => bringToFront(el));
+      el.addEventListener("touchstart", () => bringToFront(el), { passive: true });
+
+      function startDrag(e) {
+        // ne pas drag si clic sur bouton close
+        if (e.target && e.target.classList && e.target.classList.contains("close-poem")) return;
+
+        const evt = e.touches ? e.touches[0] : e;
+        dragging = true;
+        el.classList.add("dragging");
+        startX = evt.clientX;
+        startY = evt.clientY;
+        startLeft = el.offsetLeft;
+        startTop = el.offsetTop;
+
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("mouseup", stopDrag);
+        document.addEventListener("touchmove", drag, { passive: false });
+        document.addEventListener("touchend", stopDrag);
+      }
+
+      function drag(e) {
+        if (!dragging) return;
+        e.preventDefault();
+        const evt = e.touches ? e.touches[0] : e;
+        el.style.left = startLeft + (evt.clientX - startX) + "px";
+        el.style.top  = startTop  + (evt.clientY - startY) + "px";
+      }
+
+      function stopDrag() {
+        dragging = false;
+        el.classList.remove("dragging");
+        document.removeEventListener("mousemove", drag);
+        document.removeEventListener("mouseup", stopDrag);
+        document.removeEventListener("touchmove", drag);
+        document.removeEventListener("touchend", stopDrag);
+      }
+    }
+
+    function createDockButton(noteEl, label) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "dock-item";
+      btn.textContent = "rouvrir — " + label;
+
+      btn.addEventListener("click", () => {
+        noteEl.style.display = "";
+        bringToFront(noteEl);
+        // re-randomise un peu à la réouverture (optionnel)
+        if (window.matchMedia("(max-width: 700px)").matches === false) {
+          randomizeInPage(noteEl, page);
+        }
+        btn.remove();
+      });
+
+      dock.appendChild(btn);
+    }
+
+    function buildPostit(poem, idx) {
+      const wrap = document.createElement("div");
+      wrap.className = "postit-poem post-binaire-texte";
+      wrap.dataset.id = poem.id;
+
+      // couleur (rotation)
+      const c = accents[idx % accents.length];
+      wrap.style.setProperty("--accent", c.a);
+      wrap.style.setProperty("--shadow", c.s);
+
+      // petite variation de taille (léger)
+      const widths = [340, 360, 380];
+      wrap.style.width = widths[idx % widths.length] + "px";
+
+      wrap.innerHTML = `
+        <div class="postit-bar">
+          <span class="postit-title">${poem.title}</span>
+          <div class="postit-actions">
+            <button class="close-poem" aria-label="fermer">×</button>
+          </div>
+        </div>
+        <div class="postit-content">${escapeHtml(poem.body)}</div>
+      `;
+
+      // bouton fermer
+      wrap.querySelector(".close-poem").addEventListener("click", (e) => {
+        e.stopPropagation();
+        wrap.style.display = "none";
+        createDockButton(wrap, poem.title);
+      });
+
+      // random position + z
+      page.appendChild(wrap);
+      bringToFront(wrap);
+
+      // attendre que le DOM calcule la taille
+      requestAnimationFrame(() => {
+        if (window.matchMedia("(max-width: 700px)").matches === false) {
+          randomizeInPage(wrap, page);
+        }
+      });
+
+      makeDraggable(wrap);
+
+      // ramener devant au clic n'importe où
+      wrap.addEventListener("click", () => bringToFront(wrap));
+
+      return wrap;
+    }
+
+    function escapeHtml(str) {
+      // garde tes retours à la ligne (via white-space: pre-wrap)
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
+    // Construire les 15 post-its
+    poems.forEach((p, i) => buildPostit(p, i));
+
+    // Gestion fenêtre règle du jeu
+    const rules = document.getElementById("rules-modal");
+    const closeRules = document.getElementById("close-rules");
+    closeRules.addEventListener("click", () => {
+      rules.style.display = "none";
+
+      // petit bouton dock pour la rouvrir
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "dock-item";
+      btn.textContent = "rouvrir — règle du jeu";
+      btn.addEventListener("click", () => {
+        rules.style.display = "";
+        bringToFront(rules);
+        btn.remove();
+      });
+      dock.appendChild(btn);
+    });
+
+    // La fenêtre règle du jeu passe devant au clic
+    rules.addEventListener("click", () => bringToFront(rules));
+    bringToFront(rules);
+
+  })();
+  </script>
+
+</body>
+</html>
