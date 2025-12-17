@@ -9,7 +9,6 @@
   <style>
     /* =========================================================
        RECUEIL — STYLES SPÉCIFIQUES
-       (on ne touche pas à style.css pour l'instant)
     ========================================================= */
 
     .recueil-header {
@@ -24,7 +23,10 @@
       opacity: 0.85;
     }
 
-    /* Post-it (poèmes) — basé sur tes post-its existants */
+    /* ---------------------------------------------------------
+       POST-ITS POÈMES
+    --------------------------------------------------------- */
+
     .postit-poem {
       position: absolute;
       width: 360px;
@@ -39,6 +41,19 @@
     .postit-poem.dragging {
       cursor: grabbing;
       user-select: none;
+    }
+
+    /* ✨ Tremblement au survol (comme à propos) */
+    .postit-poem:hover {
+      animation: postit-shake 0.25s steps(2) infinite;
+    }
+
+    @keyframes postit-shake {
+      0%   { transform: translate(0,0); }
+      25%  { transform: translate(-2px,1px); }
+      50%  { transform: translate(2px,-1px); }
+      75%  { transform: translate(-1px,-2px); }
+      100% { transform: translate(0,0); }
     }
 
     .postit-poem .postit-bar {
@@ -68,7 +83,6 @@
       display: flex;
       gap: 6px;
       align-items: center;
-      flex: 0 0 auto;
     }
 
     .postit-poem .close-poem {
@@ -100,7 +114,10 @@
       white-space: pre-wrap;
     }
 
-    /* Fenêtre “règle du jeu” */
+    /* ---------------------------------------------------------
+       FENÊTRE RÈGLE DU JEU
+    --------------------------------------------------------- */
+
     #rules-modal {
       position: absolute;
       left: 32px;
@@ -109,7 +126,6 @@
       z-index: 999;
       --accent: #EFFF0F;
       --shadow: #EFFF0F;
-      cursor: default;
     }
 
     #rules-modal .postit-bar {
@@ -130,11 +146,10 @@
       color: #ff2fa3;
     }
 
-    #rules-modal .rules-content strong {
-      font-weight: 700;
-    }
+    /* ---------------------------------------------------------
+       DOCK
+    --------------------------------------------------------- */
 
-    /* Dock pour ré-ouvrir les post-its fermés */
     #postit-dock {
       position: absolute;
       left: 24px;
@@ -144,8 +159,6 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      align-items: center;
-      justify-content: flex-start;
       pointer-events: none;
     }
 
@@ -166,22 +179,18 @@
     }
 
     #postit-dock .dock-hint {
-      pointer-events: none;
       font-size: 12px;
       font-style: italic;
       color: #ff2fa3;
       opacity: 0.8;
-      margin-left: 6px;
     }
 
-    /* Mobile : on passe en pile statique */
-    @media (max-width: 700px) {
-      .postit-poem {
-        position: static;
-        width: 100%;
-        margin: 18px 0;
-      }
+    /* ---------------------------------------------------------
+       MOBILE
+    --------------------------------------------------------- */
 
+    @media (max-width: 700px) {
+      .postit-poem,
       #rules-modal {
         position: static;
         width: 100%;
@@ -191,16 +200,7 @@
       #postit-dock {
         position: static;
         margin-top: 18px;
-        left: auto;
-        right: auto;
-        bottom: auto;
         pointer-events: auto;
-      }
-
-      #postit-dock .dock-hint {
-        display: block;
-        width: 100%;
-        margin: 6px 0 0 0;
       }
     }
   </style>
@@ -217,44 +217,36 @@
       </p>
     </div>
 
-    <!-- Fenêtre “règle du jeu” -->
+    <!-- RÈGLE DU JEU -->
     <div id="rules-modal" class="post-binaire-texte">
       <div class="postit-bar">
         <span class="postit-title">règle du jeu</span>
         <div class="postit-actions">
-          <button class="close-poem" id="close-rules" aria-label="fermer">×</button>
+          <button class="close-poem" id="close-rules">×</button>
         </div>
       </div>
       <div class="rules-content">
-        <strong>comment ça marche :</strong><br><br>
         — chaque post-it contient un texte<br>
         — tu peux les déplacer<br>
-        — cliquer sur un post-it le ramène au premier plan<br>
-        — “×” le ferme (tu peux le rouvrir via le dock en bas)<br><br>
-        (et si tu veux qu’ils se comportent autrement : on ajuste ✶)
+        — cliquer dessus les ramène au premier plan<br>
+        — “×” les ferme (dock en bas pour les rouvrir)
       </div>
     </div>
 
-    <!-- Dock -->
     <div id="postit-dock" class="post-binaire-texte">
       <span class="dock-hint">post-its fermés → clique pour rouvrir</span>
     </div>
 
-    <!-- Les post-its sont injectés par JS -->
   </div>
 
-  <!-- Footer partagé -->
   <div id="footer-placeholder"></div>
 
-  <!-- Écran de transition glitch -->
   <div id="glitch-screen">
     <img src="glitch.png" alt="">
   </div>
 
-  <!-- Script glitch -->
   <script src="glitch.js"></script>
 
-  <!-- Chargement du footer -->
   <script>
     fetch("footer.html")
       .then(r => r.text())
@@ -263,205 +255,152 @@
       });
   </script>
 
-  <!-- RECUEIL — LOGIQUE POST-ITS -->
   <script>
   (function () {
+
     const page = document.querySelector(".page");
     const dock = document.getElementById("postit-dock");
-
-    // ✅ Remplace chaque "..." par tes poèmes
-    const poems = [
-      { id: "p01", title: "texte 01", body: "[colle ici le texte 01]" },
-      { id: "p02", title: "texte 02", body: "[colle ici le texte 02]" },
-      { id: "p03", title: "texte 03", body: "[colle ici le texte 03]" },
-      { id: "p04", title: "texte 04", body: "[colle ici le texte 04]" },
-      { id: "p05", title: "texte 05", body: "[colle ici le texte 05]" },
-      { id: "p06", title: "texte 06", body: "[colle ici le texte 06]" },
-      { id: "p07", title: "texte 07", body: "[colle ici le texte 07]" },
-      { id: "p08", title: "texte 08", body: "[colle ici le texte 08]" },
-      { id: "p09", title: "texte 09", body: "[colle ici le texte 09]" },
-      { id: "p10", title: "texte 10", body: "[colle ici le texte 10]" },
-      { id: "p11", title: "texte 11", body: "[colle ici le texte 11]" },
-      { id: "p12", title: "texte 12", body: "[colle ici le texte 12]" },
-      { id: "p13", title: "texte 13", body: "[colle ici le texte 13]" },
-      { id: "p14", title: "texte 14", body: "[colle ici le texte 14]" },
-      { id: "p15", title: "texte 15", body: "[colle ici le texte 15]" }
-    ];
-
-    // Palette simple (accents) — tu peux en ajouter
-    const accents = [
-      { a: "#00a8ff", s: "#00a8ff" },
-      { a: "#EFFF0F", s: "#EFFF0F" },
-      { a: "#ff2fa3", s: "#ff2fa3" },
-      { a: "#000000", s: "#000000" }
-    ];
-
     let topZ = 50;
 
-    function randomizeInPage(el, container) {
-      const minVisible = 80;
+    const poems = [
+      { title: "", body: `quatre heures du mat
+je dors pas et c’est pas parce que j’ai trop bu 
+c’est une nouvelle manie de mon corps
+le refus 
 
-      const maxX = container.clientWidth  - minVisible;
-      const maxY = container.clientHeight - minVisible;
+j’essaie d’écrire un poème 
+il contiendrait le nom de
+tous les pays colonisés 
+dans le monde mais
 
-      const minX = -(el.offsetWidth  - minVisible);
-      const minY = -(el.offsetHeight - minVisible);
+flicaille
+y en a trop 
+je sais plus quoi faire
+j’ai peur d’en oublier
 
-      const x = minX + Math.random() * (maxX - minX);
-      const y = minY + Math.random() * (maxY - minY);
+je me rappelle de marker 
+qui se demande où sont cell..eux qui 
+avec le che 
+tremblent d’indignation à chaque fois qu’une injustice est commise dans le monde
 
+moi jte jure 
+je ne tremble plus
+à ce stade
+c’est carrément une crise d’épilepsie` },
+
+      { title: "", body: `lui : « mais alors ce livre, vous allez le faire ? »
+moi : « oui je le ferai. »
+lui : « alors : ça ne sert à rien que je vous aide. »
+
+claquement de porte sur mon pif 
+bye
+
+— des fois je ne devrais pas être honnête` },
+
+      { title: `What power art thou,
+Who from below
+Hast made me rise? 🝫`, body: `What power art thou,
+Who from below
+Hast made me rise?
+
+dehors il y a le gel qui prend...` },
+
+      { title: "", body: `parfois je me demande si le monde m’appelle vraiment
+ou si c’est seulement mon imagination` },
+
+      { title: `affleurement léger du réel dans le processus de déréalisation inhérent au monde du grand capital, à u. k. l g.`, body: `ce matin
+je regarde le ciel
+long
+bas
+gris` },
+
+      { title: "", body: `aujourd’hui 
+j’ai ouvert quatre livres
+MERDE` },
+
+      { title: `phénomène initial — reboot, à l. b.`, body: `on se tenait là
+toi et moi
+on the edge` },
+
+      { title: "", body: `des fois je me dis
+— je regarde un rayon de soleil` },
+
+      { title: "", body: `il faut que je rachète 
+des chaussettes blanches` },
+
+      { title: "", body: `ah oui
+
+je vous dois une explication :
+je ne dis plus putain
+je dis flicaille` }
+    ];
+
+    const accents = ["#00a8ff", "#EFFF0F", "#ff2fa3", "#000"];
+
+    function bringToFront(el) {
+      topZ++;
+      el.style.zIndex = topZ;
+    }
+
+    function randomPos(el) {
+      const x = Math.random() * (page.clientWidth - 120);
+      const y = Math.random() * (page.clientHeight - 120);
       el.style.left = x + "px";
       el.style.top  = y + "px";
     }
 
-    function bringToFront(el) {
-      topZ += 1;
-      el.style.zIndex = topZ;
-    }
-
     function makeDraggable(el) {
-      let dragging = false, startX = 0, startY = 0, startLeft = 0, startTop = 0;
+      let d = false, sx, sy, sl, st;
 
-      el.addEventListener("mousedown", startDrag);
-      el.addEventListener("touchstart", startDrag, { passive: false });
-
-      function startDrag(e) {
-        // pas de drag si clic sur "×"
-        if (e.target && e.target.classList && e.target.classList.contains("close-poem")) return;
-
+      el.addEventListener("mousedown", e => {
+        if (e.target.classList.contains("close-poem")) return;
         bringToFront(el);
-
-        const evt = e.touches ? e.touches[0] : e;
-        dragging = true;
-        el.classList.add("dragging");
-        startX = evt.clientX;
-        startY = evt.clientY;
-        startLeft = el.offsetLeft;
-        startTop = el.offsetTop;
-
-        document.addEventListener("mousemove", drag);
-        document.addEventListener("mouseup", stopDrag);
-        document.addEventListener("touchmove", drag, { passive: false });
-        document.addEventListener("touchend", stopDrag);
-      }
-
-      function drag(e) {
-        if (!dragging) return;
-        e.preventDefault();
-        const evt = e.touches ? e.touches[0] : e;
-        el.style.left = startLeft + (evt.clientX - startX) + "px";
-        el.style.top  = startTop  + (evt.clientY - startY) + "px";
-      }
-
-      function stopDrag() {
-        dragging = false;
-        el.classList.remove("dragging");
-        document.removeEventListener("mousemove", drag);
-        document.removeEventListener("mouseup", stopDrag);
-        document.removeEventListener("touchmove", drag);
-        document.removeEventListener("touchend", stopDrag);
-      }
-    }
-
-    function createDockButton(noteEl, label) {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "dock-item";
-      btn.textContent = "rouvrir — " + label;
-
-      btn.addEventListener("click", () => {
-        noteEl.style.display = "";
-        bringToFront(noteEl);
-
-        if (!window.matchMedia("(max-width: 700px)").matches) {
-          randomizeInPage(noteEl, page);
-        }
-
-        btn.remove();
+        d = true;
+        sx = e.clientX;
+        sy = e.clientY;
+        sl = el.offsetLeft;
+        st = el.offsetTop;
       });
 
-      dock.appendChild(btn);
+      document.addEventListener("mousemove", e => {
+        if (!d) return;
+        el.style.left = sl + (e.clientX - sx) + "px";
+        el.style.top  = st + (e.clientY - sy) + "px";
+      });
+
+      document.addEventListener("mouseup", () => d = false);
     }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
-    }
+    poems.forEach((p, i) => {
+      const el = document.createElement("div");
+      el.className = "postit-poem post-binaire-texte";
+      el.style.setProperty("--accent", accents[i % accents.length]);
+      el.style.setProperty("--shadow", accents[i % accents.length]);
 
-    function buildPostit(poem, idx) {
-      const wrap = document.createElement("div");
-      wrap.className = "postit-poem post-binaire-texte";
-      wrap.dataset.id = poem.id;
-
-      const c = accents[idx % accents.length];
-      wrap.style.setProperty("--accent", c.a);
-      wrap.style.setProperty("--shadow", c.s);
-
-      const widths = [340, 360, 380];
-      wrap.style.width = widths[idx % widths.length] + "px";
-
-      wrap.innerHTML = `
+      el.innerHTML = `
         <div class="postit-bar">
-          <span class="postit-title">${poem.title}</span>
-          <div class="postit-actions">
-            <button class="close-poem" aria-label="fermer">×</button>
-          </div>
+          <span class="postit-title">${p.title}</span>
+          <button class="close-poem">×</button>
         </div>
-        <div class="postit-content">${escapeHtml(poem.body)}</div>
+        <div class="postit-content">${p.body}</div>
       `;
 
-      // fermer
-      wrap.querySelector(".close-poem").addEventListener("click", (e) => {
+      page.appendChild(el);
+      randomPos(el);
+      bringToFront(el);
+      makeDraggable(el);
+
+      el.querySelector(".close-poem").onclick = e => {
         e.stopPropagation();
-        wrap.style.display = "none";
-        createDockButton(wrap, poem.title);
-      });
+        el.style.display = "none";
+      };
 
-      // insertion + position aléatoire
-      page.appendChild(wrap);
-      bringToFront(wrap);
-
-      requestAnimationFrame(() => {
-        if (!window.matchMedia("(max-width: 700px)").matches) {
-          randomizeInPage(wrap, page);
-        }
-      });
-
-      // clic = devant
-      wrap.addEventListener("click", () => bringToFront(wrap));
-
-      makeDraggable(wrap);
-      return wrap;
-    }
-
-    // build des 15
-    poems.forEach((p, i) => buildPostit(p, i));
-
-    // Fenêtre règle du jeu : fermer + bouton pour rouvrir
-    const rules = document.getElementById("rules-modal");
-    const closeRules = document.getElementById("close-rules");
-
-    closeRules.addEventListener("click", () => {
-      rules.style.display = "none";
-
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "dock-item";
-      btn.textContent = "rouvrir — règle du jeu";
-
-      btn.addEventListener("click", () => {
-        rules.style.display = "";
-        bringToFront(rules);
-        btn.remove();
-      });
-
-      dock.appendChild(btn);
+      el.onclick = () => bringToFront(el);
     });
 
-    rules.addEventListener("click", () => bringToFront(rules));
-    bringToFront(rules);
+    document.getElementById("close-rules").onclick = () => {
+      document.getElementById("rules-modal").style.display = "none";
+    };
 
   })();
   </script>
