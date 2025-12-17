@@ -9,6 +9,7 @@
   <style>
     /* =========================================================
        RECUEIL — STYLES SPÉCIFIQUES
+       (on ne touche pas à style.css pour l'instant)
     ========================================================= */
 
     .recueil-header {
@@ -23,7 +24,7 @@
       opacity: 0.85;
     }
 
-    /* Base post-it (poèmes) via variables */
+    /* Post-it (poèmes) — basé sur tes post-its existants */
     .postit-poem {
       position: absolute;
       width: 360px;
@@ -145,7 +146,7 @@
       gap: 8px;
       align-items: center;
       justify-content: flex-start;
-      pointer-events: none; /* on réactive sur les boutons */
+      pointer-events: none;
     }
 
     #postit-dock .dock-item {
@@ -173,7 +174,7 @@
       margin-left: 6px;
     }
 
-    /* Mobile */
+    /* Mobile : on passe en pile statique */
     @media (max-width: 700px) {
       .postit-poem {
         position: static;
@@ -216,7 +217,7 @@
       </p>
     </div>
 
-    <!-- Fenêtre “règle du jeu” (fermeture possible) -->
+    <!-- Fenêtre “règle du jeu” -->
     <div id="rules-modal" class="post-binaire-texte">
       <div class="postit-bar">
         <span class="postit-title">règle du jeu</span>
@@ -230,16 +231,16 @@
         — tu peux les déplacer<br>
         — cliquer sur un post-it le ramène au premier plan<br>
         — “×” le ferme (tu peux le rouvrir via le dock en bas)<br><br>
-        (si tu veux un autre comportement ensuite : on ajuste ✶)
+        (et si tu veux qu’ils se comportent autrement : on ajuste ✶)
       </div>
     </div>
 
-    <!-- Dock (boutons pour ré-ouvrir les post-its fermés) -->
+    <!-- Dock -->
     <div id="postit-dock" class="post-binaire-texte">
       <span class="dock-hint">post-its fermés → clique pour rouvrir</span>
     </div>
 
-    <!-- Les post-its seront injectés ici par JS -->
+    <!-- Les post-its sont injectés par JS -->
   </div>
 
   <!-- Footer partagé -->
@@ -268,7 +269,7 @@
     const page = document.querySelector(".page");
     const dock = document.getElementById("postit-dock");
 
-    // ✅ Remplace chaque "TEXTE..." par tes poèmes (garde les \n si tu veux des retours à la ligne)
+    // ✅ Remplace chaque "..." par tes poèmes
     const poems = [
       { id: "p01", title: "texte 01", body: "[colle ici le texte 01]" },
       { id: "p02", title: "texte 02", body: "[colle ici le texte 02]" },
@@ -287,7 +288,7 @@
       { id: "p15", title: "texte 15", body: "[colle ici le texte 15]" }
     ];
 
-    // Palette douce (accent / ombre) — tu peux changer
+    // Palette simple (accents) — tu peux en ajouter
     const accents = [
       { a: "#00a8ff", s: "#00a8ff" },
       { a: "#EFFF0F", s: "#EFFF0F" },
@@ -324,13 +325,11 @@
       el.addEventListener("mousedown", startDrag);
       el.addEventListener("touchstart", startDrag, { passive: false });
 
-      // ramener au premier plan au clic
-      el.addEventListener("mousedown", () => bringToFront(el));
-      el.addEventListener("touchstart", () => bringToFront(el), { passive: true });
-
       function startDrag(e) {
-        // ne pas drag si clic sur bouton close
+        // pas de drag si clic sur "×"
         if (e.target && e.target.classList && e.target.classList.contains("close-poem")) return;
+
+        bringToFront(el);
 
         const evt = e.touches ? e.touches[0] : e;
         dragging = true;
@@ -373,14 +372,22 @@
       btn.addEventListener("click", () => {
         noteEl.style.display = "";
         bringToFront(noteEl);
-        // re-randomise un peu à la réouverture (optionnel)
-        if (window.matchMedia("(max-width: 700px)").matches === false) {
+
+        if (!window.matchMedia("(max-width: 700px)").matches) {
           randomizeInPage(noteEl, page);
         }
+
         btn.remove();
       });
 
       dock.appendChild(btn);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
     }
 
     function buildPostit(poem, idx) {
@@ -388,12 +395,10 @@
       wrap.className = "postit-poem post-binaire-texte";
       wrap.dataset.id = poem.id;
 
-      // couleur (rotation)
       const c = accents[idx % accents.length];
       wrap.style.setProperty("--accent", c.a);
       wrap.style.setProperty("--shadow", c.s);
 
-      // petite variation de taille (léger)
       const widths = [340, 360, 380];
       wrap.style.width = widths[idx % widths.length] + "px";
 
@@ -407,63 +412,54 @@
         <div class="postit-content">${escapeHtml(poem.body)}</div>
       `;
 
-      // bouton fermer
+      // fermer
       wrap.querySelector(".close-poem").addEventListener("click", (e) => {
         e.stopPropagation();
         wrap.style.display = "none";
         createDockButton(wrap, poem.title);
       });
 
-      // random position + z
+      // insertion + position aléatoire
       page.appendChild(wrap);
       bringToFront(wrap);
 
-      // attendre que le DOM calcule la taille
       requestAnimationFrame(() => {
-        if (window.matchMedia("(max-width: 700px)").matches === false) {
+        if (!window.matchMedia("(max-width: 700px)").matches) {
           randomizeInPage(wrap, page);
         }
       });
 
-      makeDraggable(wrap);
-
-      // ramener devant au clic n'importe où
+      // clic = devant
       wrap.addEventListener("click", () => bringToFront(wrap));
 
+      makeDraggable(wrap);
       return wrap;
     }
 
-    function escapeHtml(str) {
-      // garde tes retours à la ligne (via white-space: pre-wrap)
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
-    }
-
-    // Construire les 15 post-its
+    // build des 15
     poems.forEach((p, i) => buildPostit(p, i));
 
-    // Gestion fenêtre règle du jeu
+    // Fenêtre règle du jeu : fermer + bouton pour rouvrir
     const rules = document.getElementById("rules-modal");
     const closeRules = document.getElementById("close-rules");
+
     closeRules.addEventListener("click", () => {
       rules.style.display = "none";
 
-      // petit bouton dock pour la rouvrir
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "dock-item";
       btn.textContent = "rouvrir — règle du jeu";
+
       btn.addEventListener("click", () => {
         rules.style.display = "";
         bringToFront(rules);
         btn.remove();
       });
+
       dock.appendChild(btn);
     });
 
-    // La fenêtre règle du jeu passe devant au clic
     rules.addEventListener("click", () => bringToFront(rules));
     bringToFront(rules);
 
@@ -472,3 +468,4 @@
 
 </body>
 </html>
+
