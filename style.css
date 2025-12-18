@@ -422,24 +422,36 @@ a:hover {
 }
 
 /* =========================================================
-   INDENT WRAP (safe) : seulement sur les lignes "br"
+   INDENT WRAP (safe + exceptions)
 ========================================================= */
 
 .poem-line{
   display: block;
   margin: 0;
-  padding-left: 1.2em;     /* ✅ valeur visible, comme tu voulais */
-  text-indent: -1.2em;     /* 1ère ligne revient à gauche, les wraps restent indentés */
+  padding-left: 1.2em;
+  text-indent: -1.2em;
 }
 
 .poem-gap{
-  height: 1em;             /* espace pour les doubles sauts de ligne */
+  height: 1em;
 }
 
-/* exceptions : lignes spéciales */
-.poem-line .bombs-line{
+/* lignes spéciales : pas d'indent */
+.poem-line.no-indent{
   padding-left: 0;
   text-indent: 0;
+}
+
+/* MERDE pleine largeur */
+.full-width-line{
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
 }
 /* ligne pleine largeur, indépendante du flux */
 .full-width-line{
