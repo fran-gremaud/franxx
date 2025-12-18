@@ -754,6 +754,81 @@ pas plus loin que l’année passée`
 
   })();
   </script>
+<script>
+(function(){
+
+  function applyWrapIndent(el){
+    if(!el || !el.innerHTML) return;
+
+    const original = el.innerHTML;
+    const blocks = original.split(/<br\s*\/?>/i);
+
+    el.innerHTML = "";
+
+    blocks.forEach((block, idx) => {
+
+      if(block.trim() === ""){
+        el.appendChild(document.createElement("br"));
+        return;
+      }
+
+      const temp = document.createElement("span");
+      temp.innerHTML = block;
+      el.appendChild(temp);
+
+      const range = document.createRange();
+      range.selectNodeContents(temp);
+      const rects = range.getClientRects();
+
+      // une seule ligne → pas de wrap
+      if(rects.length <= 1){
+        const s = document.createElement("span");
+        s.className = "wrap-line";
+        s.innerHTML = block;
+        el.replaceChild(s, temp);
+      } else {
+        // wrap détecté → on reconstruit ligne par ligne
+        const words = temp.textContent.split(/(\s+)/);
+        const lines = [];
+
+        const meas = document.createElement("span");
+        meas.style.position = "absolute";
+        meas.style.visibility = "hidden";
+        meas.style.whiteSpace = "normal";
+        meas.style.width = el.clientWidth + "px";
+        meas.style.font = getComputedStyle(el).font;
+        meas.style.lineHeight = getComputedStyle(el).lineHeight;
+        document.body.appendChild(meas);
+
+        let current = "";
+
+        words.forEach(w => {
+          meas.textContent = current + w;
+          const h1 = meas.getBoundingClientRect().height;
+
+          meas.textContent = current;
+          const h0 = meas.getBoundingClientRect().height;
+
+          if(h1 > h0 && current.trim() !== ""){
+            lines.push(current.trimEnd());
+            current = w.trimStart();
+          } else {
+            current += w;
+          }
+        });
+
+        if(current.trim() !== "") lines.push(current.trimEnd());
+        document.body.removeChild(meas);
+
+        const frag = document.createDocumentFragment();
+        lines.forEach((ln, i) => {
+          const s = document.createElement("span");
+          s.className = "wrap-line" + (i > 0 ? " continue" : "");
+          s.textContent = ln;
+          frag.appendChild(s);
+        });
+
+        el.replaceChild(frag, t
 
 </body>
 </html>
