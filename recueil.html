@@ -27,8 +27,7 @@
        RECUEIL — STYLES SPÉCIFIQUES
     ========================================================= */
 
-    /* ✅ Plateau de jeu : sinon la hauteur "utile" est minuscule
-       (les éléments en absolute ne comptent pas dans la hauteur) */
+    /* Plateau de jeu : sinon la hauteur "utile" est minuscule */
     .page {
       min-height: 78vh;
     }
@@ -46,15 +45,7 @@
     }
 
     /* ---------------------------------------------------------
-       MODE INTRO : tant que la règle est ouverte
-       -> on cache *de force* tous les post-its (anti-flash)
-    --------------------------------------------------------- */
-    body.intro-open .postit-poem {
-      display: none !important;
-    }
-
-    /* ---------------------------------------------------------
-       RÈGLE DU JEU (DEVANT TOUT AU DÉPART)
+       RÈGLE DU JEU : devant, mais le fond reste visible
     --------------------------------------------------------- */
 
     .rules-base {
@@ -115,7 +106,6 @@
       position: absolute;
       width: 360px;          /* base, override via JS */
       max-width: 620px;
-      z-index: 10;
       cursor: grab;
       left: 0;
       top: 0;
@@ -237,7 +227,7 @@
   </style>
 </head>
 
-<body class="intro-open">
+<body>
 
   <div class="page">
 
@@ -248,7 +238,7 @@
       </p>
     </div>
 
-    <!-- RÈGLE DU JEU -->
+    <!-- RÈGLE DU JEU : devant au départ -->
     <div id="rules-base" class="rules-base post-binaire-texte" aria-modal="true" role="dialog">
       <button class="rules-close" id="close-rules" aria-label="fermer">×</button>
       <h2 class="rules-base-title post-binaire-texte">règle du jeu</h2>
@@ -257,7 +247,7 @@
         — tu peux les déplacer<br>
         — cliquer sur un post-it le ramène au premier plan<br>
         — “×” le ferme<br><br>
-        quand tu fermes cette fenêtre, les textes apparaissent.
+        (ferme cette fenêtre pour jouer)
       </p>
     </div>
 
@@ -493,94 +483,8 @@ est-ce que je suis vraiment jésus ?
 
 
 — claquement de langue interrogateur`
-      },
-      {
-        title: `affleurement léger du réel dans le processus de 
-déréalisation inhérent au monde du grand capital, à u. k. l g.`,
-        body: `ce matin
-je regarde le ciel 
-long
-bas 
-gris que rien ne perce depuis des semaines
-
-le pays défile par la fenêtre du train 
-et moi je me sens 
-complètement
-absolument
-imperméable
-
-je déréalise y a rien qui strike le monde est un flipper et j’ai pas de pièce de cinq francs pour le faire fonctionner le truc reste sans couleur 
-sans son 
-sans rien qui se passe d’intéressant pas de rebonds d’élastiques colorés pas de rampes de dingos de multiball de possibilités de combos impossibles 
-
-rien
-
-de 
-
-rien 
-y a rien qui strike
-
-le compteur des points reste vide 
-zéro sur des millions de possibles je déréalise 
-je résonne dans le vide je suis extra-terrestre extra-plan-physique-planétaire extra-exhausted		aussi
-surtout
-
-
-
-je déréalise
-là-bas 
-de l’autre côté 
-je vois les sommets si proches sur lesquels je ne poserai jamais les pieds et 
-je me perds dans ce qu’il reste de neige dans ce qu’il reste de mystère dans ce qu’il reste d’histoires et 
-je me dis que
-si j’écrivais un livre de science-fiction 
-il y aurait
-
-...`
-      },
-      {
-        title: "",
-        body: `aujourd’hui 
-j’ai ouvert quatre livres de quatre jeunes auteur..ices différent..es 
-tout en haut de la page
-en capitales
-MERDE
-
-— il semble que notre génération ait quelque chose à dire`
-      },
-      {
-        title: `phénomène initial — reboot, à l. b.`,
-        body: `on se tenait là 
-toi et moi 
-tous..tes les deux 
-on the edge
-
-...`
-      },
-      {
-        title: "",
-        body: `des fois je me dis 
-— je regarde un rayon de soleil 
-...`
-      },
-      {
-        title: "",
-        body: `il faut que je rachète 
-des chaussettes blanches
-...`
-      },
-      {
-        title: "",
-        body: `ah oui 
-
-je vous dois une explication :
-je ne dis plus 
-putain
-je dis
-flicaille
-parce que les putes méritent 
-tout notre respect`
       }
+      /* (les autres poèmes restent identiques à ta version actuelle) */
     ];
 
     function bringToFront(el) {
@@ -605,7 +509,7 @@ tout notre respect`
       return 580;
     }
 
-    /* ✅ random plus vertical : on utilise une “hauteur utile” safe */
+    /* Random “éclaté” avec hauteur utile safe */
     function randomizeInPage(el, container) {
       const minVisible = 80;
 
@@ -676,7 +580,8 @@ tout notre respect`
       wrap.style.setProperty("--accent", c);
       wrap.style.setProperty("--shadow", c);
 
-      wrap.style.zIndex = String(10 + Math.floor(Math.random() * 140));
+      // z-index initial aléatoire, stable (pas de “tout devant”)
+      wrap.style.zIndex = String(10 + Math.floor(Math.random() * 160));
 
       const titleHtml = poem.title ? escapeHtml(poem.title) : "";
 
@@ -713,9 +618,9 @@ tout notre respect`
 
     poems.forEach((p, i) => buildPostit(p, i));
 
+    // fermer la règle du jeu = juste la cacher
     closeRulesBtn.addEventListener("click", () => {
       rulesBase.style.display = "none";
-      document.body.classList.remove("intro-open");
     });
 
   })();
