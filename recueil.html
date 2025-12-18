@@ -39,25 +39,12 @@
        RECUEIL — STYLES SPÉCIFIQUES
     ========================================================= */
 
-    /* Plateau de jeu : sinon la hauteur "utile" est minuscule */
     .page {
       min-height: 78vh;
     }
 
-    .recueil-header {
-      margin-bottom: 18px;
-    }
-
-    .recueil-subtitle {
-      margin: 6px 0 0 0;
-      font-size: 16px;
-      font-style: italic;
-      color: #ff2fa3;
-      opacity: 0.85;
-    }
-
     /* ---------------------------------------------------------
-       RÈGLE DU JEU : devant, mais le fond reste visible
+       RÈGLE DU JEU
     --------------------------------------------------------- */
 
     .rules-base {
@@ -65,42 +52,44 @@
       left: 28px;
       right: 28px;
       top: 28px;
-      z-index: 9999;
+      z-index: 9000; /* volontairement sous la 4e de couv */
 
       background: #ffffff;
       border: 6px solid #000000;
       box-shadow: 12px 12px 0 #000;
-      padding: 18px 18px 16px 18px;
-      margin: 0;
-
-      overflow: hidden;
+      padding: 22px 22px 18px 22px;
     }
 
-    /* ✅ Nouveau “titre” de règle : Escabeau + rose + grand */
+    /* ✅ TITRE DU RECUEIL — ENCORE PLUS GROS */
     .rules-title {
-      margin: 0 0 12px 0;
-      font-family: "EscabeauRegular", PostBinaire, sans-serif;
-      font-size: 30px;
-      line-height: 1.15;
+      margin: 0 0 18px 0;
+      font-family: "EscabeauRegular", sans-serif;
+      font-size: 46px;
+      line-height: 1.05;
       color: #ff2fa3;
     }
 
+    .rules-title sup {
+      font-size: 0.45em;
+      vertical-align: super;
+      margin-left: 2px;
+    }
+
     .rules-title a {
-      animation: none; /* on évite le blink sur une note de bas de page */
+      animation: none;
       color: inherit;
       text-decoration: none;
       border-bottom: 1px solid currentColor;
     }
 
     .rules-text {
-      margin: 0 0 12px 0;
+      margin: 0 0 14px 0;
       font-family: "AdelpheFructidorRegular", serif;
       font-size: 16px;
       line-height: 1.55;
       color: #ff2fa3;
     }
 
-    /* ✅ Note de bas de page */
     .rules-footnote {
       margin: 0;
       padding-top: 10px;
@@ -110,13 +99,6 @@
       font-size: 14px;
       line-height: 1.45;
       color: #ff2fa3;
-    }
-
-    .rules-footnote a {
-      animation: none;
-      color: inherit;
-      text-decoration: none;
-      border-bottom: 1px solid currentColor;
     }
 
     .rules-close {
@@ -135,17 +117,13 @@
       color: #ff2fa3;
     }
 
-    .rules-close:hover {
-      opacity: 0.85;
-    }
-
     /* ---------------------------------------------------------
-       POST-ITS POÈMES
+       POST-ITS GÉNÉRAUX
     --------------------------------------------------------- */
 
     .postit-poem {
       position: absolute;
-      width: 360px;          /* base, override via JS */
+      width: 360px;
       max-width: 620px;
       cursor: grab;
       left: 0;
@@ -154,12 +132,6 @@
       --shadow: #00a8ff;
     }
 
-    .postit-poem.dragging {
-      cursor: grabbing;
-      user-select: none;
-    }
-
-    /* Tremblement au survol */
     .postit-poem:hover {
       animation: postit-shake 0.25s steps(2) infinite;
     }
@@ -172,42 +144,19 @@
       100% { transform: translate(0,0); }
     }
 
-    .postit-poem .postit-bar {
+    .postit-bar {
       background: var(--accent);
-      min-height: 34px;
+      height: 34px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       border: 4px solid var(--accent);
       border-bottom: none;
       box-shadow: 10px 10px 0 var(--shadow);
-      padding: 6px 8px;
-      gap: 10px;
+      padding: 0 6px;
     }
 
-    .postit-poem .postit-title {
-      font-family: "PubliFluorNormale", PostBinaire, sans-serif;
-      font-size: 16px;
-      line-height: 1.1;
-      color: #fff;
-      opacity: 0.98;
-
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      overflow: hidden;
-
-      word-break: break-word;
-    }
-
-    .postit-poem .postit-actions {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      flex: 0 0 auto;
-    }
-
-    .postit-poem .close-poem {
+    .close-poem {
       background: #fff;
       border: 2px solid var(--accent);
       color: var(--accent);
@@ -216,11 +165,9 @@
       line-height: 18px;
       font-size: 16px;
       cursor: pointer;
-      padding: 0;
-      flex: 0 0 auto;
     }
 
-    .postit-poem .postit-content {
+    .postit-content {
       background: #ffffff;
       border: 4px solid var(--accent);
       box-shadow: 10px 10px 0 var(--shadow);
@@ -231,66 +178,44 @@
       line-height: 1.5;
 
       color: var(--accent);
-      text-align: left;
-
-      font-feature-settings: "liga" 1, "dlig" 1;
       white-space: pre-wrap;
 
       max-height: 55vh;
       overflow: auto;
-      overscroll-behavior: contain;
     }
 
     /* ---------------------------------------------------------
-       POST-IT SPÉCIAL : QUATRIÈME DE COUV (DINdong)
+       POST-IT QUATRIÈME DE COUVERTURE
     --------------------------------------------------------- */
 
     .postit-cover {
-      --accent: #ff2fa3; /* on peut le laisser rose, lisible */
+      --accent: #ff2fa3;
       --shadow: #ff2fa3;
-      width: 520px;     /* un peu plus large par défaut */
+      width: 520px;
       max-width: 640px;
-    }
-
-    .postit-cover .postit-title {
-      font-family: "PubliFluorNormale", PostBinaire, sans-serif;
-      font-size: 18px;
+      z-index: 10000; /* 🔥 AU-DESSUS DE LA RÈGLE */
     }
 
     .postit-cover .postit-content {
       font-family: "DINdong", serif;
       font-size: 18px;
       line-height: 1.35;
-      color: var(--accent);
-      max-height: 48vh;
+      color: #ff2fa3;
     }
 
     /* ---------------------------------------------------------
-       MOBILE : pile statique
+       MOBILE
     --------------------------------------------------------- */
     @media (max-width: 700px) {
       .rules-base {
         position: static;
-        margin: 0 0 18px 0;
-      }
-
-      .page {
-        min-height: auto;
+        margin-bottom: 18px;
       }
 
       .postit-poem {
         position: static;
         width: 100% !important;
-        max-width: none;
         margin: 18px 0;
-      }
-
-      .postit-cover {
-        width: 100% !important;
-      }
-
-      .postit-poem .postit-content {
-        max-height: 65vh;
       }
     }
   </style>
@@ -300,19 +225,12 @@
 
   <div class="page">
 
-    <div class="recueil-header">
-      <h1 class="post-binaire-texte titre">recueil</h1>
-      <p class="post-binaire-texte recueil-subtitle">
-        textes sur post-its — déplacer / cliquer pour ramener devant
-      </p>
-    </div>
-
-    <!-- RÈGLE DU JEU : devant au départ -->
-    <div id="rules-base" class="rules-base post-binaire-texte" aria-modal="true" role="dialog">
-      <button class="rules-close" id="close-rules" aria-label="fermer">×</button>
+    <!-- RÈGLE DU JEU -->
+    <div id="rules-base" class="rules-base">
+      <button class="rules-close" id="close-rules">×</button>
 
       <h2 class="rules-title">
-        Recueil auquel il faudrait trouver un nom<sup><a href="#note-1" id="ref-1">1</a></sup>
+        Recueil auquel il faudrait trouver un nom<sup><a href="#note-1">1</a></sup>
       </h2>
 
       <p class="rules-text">
@@ -320,30 +238,11 @@
       </p>
 
       <p class="rules-footnote" id="note-1">
-        <a href="#ref-1">1</a> — mais peut-être que donner un nom c'est déjà fermer l'horizon
+        1 — mais peut-être que donner un nom c'est déjà fermer l'horizon
       </p>
     </div>
 
-    <!-- Les post-its sont injectés par JS -->
   </div>
-
-  <!-- Footer partagé -->
-  <div id="footer-placeholder"></div>
-
-  <!-- Écran de transition glitch -->
-  <div id="glitch-screen">
-    <img src="glitch.png" alt="">
-  </div>
-
-  <script src="glitch.js"></script>
-
-  <script>
-    fetch("footer.html")
-      .then(r => r.text())
-      .then(html => {
-        document.getElementById("footer-placeholder").innerHTML = html;
-      });
-  </script>
 
   <script>
   (function () {
@@ -352,212 +251,58 @@
     const rulesBase = document.getElementById("rules-base");
     const closeRulesBtn = document.getElementById("close-rules");
 
-    let topZ = 200;
+    let topZ = 100;
 
-    const accents = ["#00a8ff", "#ff2fa3", "#000000"];
-
-    // --- contenu 4e de couverture (post-it spécial) ---
     const coverText = `« j’ai commencé à écrire pour essayer de trouver le chemin des temples cachés sur mes îles intérieures et dont j’ignore encore, un jour sur deux, la voie d’accès. le soleil peut aider, la lune aussi mais le monde tangible — celui que beaucoup appelle "le vrai" — est une vraie plaie : il bourdonne trop fort et ne fait pas beaucoup de miel. »`;
 
-    // --- poèmes (tu complèteras/recolleras plus tard, on garde court ici) ---
-    const poems = [
-      {
-        title: "",
-        body: `parfois je me demande si le monde m’appelle vraiment ou si c’est seulement mon imagination qui fait des siennes
-
-genre : 
-est-ce que j’ai vraiment des pouvoirs magiques ?
-
-genre : 
-est-ce qu’on s’est vraiment rencontré..es de l’autre côté de la galaxie il y a trois éons et demi ? 
-
-genre :  
-est-ce que je suis vraiment jésus ?
-
-— claquement de langue interrogateur`
-      }
-      /* (les autres post-its/poèmes restent identiques à ta version actuelle) */
-    ];
-
     function bringToFront(el) {
-      topZ += 1;
+      topZ++;
       el.style.zIndex = topZ;
     }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
-    }
-
-    function pickWidthForPoem(poem) {
-      const text = (poem.title || "") + "\n" + (poem.body || "");
-      const len = text.length;
-
-      if (len < 500) return 360;
-      if (len < 1100) return 420;
-      if (len < 2000) return 500;
-      return 580;
-    }
-
-    // random “éclaté” avec hauteur utile safe
-    function randomizeInPage(el, container) {
-      const minVisible = 80;
-
-      const safeW = Math.max(container.clientWidth, 680);
-      const safeH = Math.max(container.clientHeight, Math.floor(window.innerHeight * 0.78));
-
-      const maxX = safeW - minVisible;
-      const maxY = safeH - minVisible;
-
-      const minX = -(el.offsetWidth - minVisible);
-      const minY = -(el.offsetHeight - minVisible);
-
-      const x = minX + Math.random() * (maxX - minX);
-      const y = minY + Math.random() * (maxY - minY);
-
+    function randomize(el) {
+      const x = Math.random() * (window.innerWidth - 200);
+      const y = Math.random() * (window.innerHeight - 200);
       el.style.left = x + "px";
       el.style.top  = y + "px";
     }
 
     function makeDraggable(el) {
-      let dragging = false, startX = 0, startY = 0, startLeft = 0, startTop = 0;
-
-      el.addEventListener("mousedown", startDrag);
-      el.addEventListener("touchstart", startDrag, { passive: false });
-
-      function startDrag(e) {
-        if (e.target && e.target.classList && e.target.classList.contains("close-poem")) return;
+      let d=false,sx,sy,sl,st;
+      el.onmousedown = e => {
         bringToFront(el);
-
-        const evt = e.touches ? e.touches[0] : e;
-        dragging = true;
-        el.classList.add("dragging");
-
-        startX = evt.clientX;
-        startY = evt.clientY;
-        startLeft = el.offsetLeft;
-        startTop = el.offsetTop;
-
-        document.addEventListener("mousemove", drag);
-        document.addEventListener("mouseup", stopDrag);
-        document.addEventListener("touchmove", drag, { passive: false });
-        document.addEventListener("touchend", stopDrag);
-      }
-
-      function drag(e) {
-        if (!dragging) return;
-        e.preventDefault();
-        const evt = e.touches ? e.touches[0] : e;
-        el.style.left = startLeft + (evt.clientX - startX) + "px";
-        el.style.top  = startTop  + (evt.clientY - startY) + "px";
-      }
-
-      function stopDrag() {
-        dragging = false;
-        el.classList.remove("dragging");
-        document.removeEventListener("mousemove", drag);
-        document.removeEventListener("mouseup", stopDrag);
-        document.removeEventListener("touchmove", drag);
-        document.removeEventListener("touchend", stopDrag);
-      }
+        d=true; sx=e.clientX; sy=e.clientY;
+        sl=el.offsetLeft; st=el.offsetTop;
+      };
+      document.onmousemove = e => {
+        if(!d) return;
+        el.style.left = sl + (e.clientX-sx) + "px";
+        el.style.top  = st + (e.clientY-sy) + "px";
+      };
+      document.onmouseup = () => d=false;
     }
 
-    function buildPostit(poem, idx) {
-      const wrap = document.createElement("div");
-      wrap.className = "postit-poem post-binaire-texte";
+    /* ✅ POST-IT 4e DE COUV — sans titre, devant tout */
+    const cover = document.createElement("div");
+    cover.className = "postit-poem postit-cover";
+    cover.innerHTML = `
+      <div class="postit-bar">
+        <button class="close-poem">×</button>
+      </div>
+      <div class="postit-content">${coverText}</div>
+    `;
+    page.appendChild(cover);
+    randomize(cover);
+    makeDraggable(cover);
 
-      const c = accents[idx % accents.length];
-      wrap.style.setProperty("--accent", c);
-      wrap.style.setProperty("--shadow", c);
+    cover.querySelector(".close-poem").onclick = e => {
+      e.stopPropagation();
+      cover.style.display = "none";
+    };
 
-      // z-index initial aléatoire
-      wrap.style.zIndex = String(10 + Math.floor(Math.random() * 160));
-
-      const titleHtml = poem.title ? escapeHtml(poem.title) : "";
-
-      wrap.innerHTML = `
-        <div class="postit-bar">
-          <span class="postit-title">${titleHtml}</span>
-          <div class="postit-actions">
-            <button class="close-poem" aria-label="fermer">×</button>
-          </div>
-        </div>
-        <div class="postit-content">${escapeHtml(poem.body)}</div>
-      `;
-
-      wrap.querySelector(".close-poem").addEventListener("click", (e) => {
-        e.stopPropagation();
-        wrap.style.display = "none";
-      });
-
-      wrap.style.width = pickWidthForPoem(poem) + "px";
-
-      page.appendChild(wrap);
-
-      requestAnimationFrame(() => {
-        if (!window.matchMedia("(max-width: 700px)").matches) {
-          randomizeInPage(wrap, page);
-        }
-      });
-
-      wrap.addEventListener("click", () => bringToFront(wrap));
-      makeDraggable(wrap);
-
-      return wrap;
-    }
-
-    // ✅ post-it spécial “4e de couv” : au premier plan + position random
-    function buildCoverPostit() {
-      const wrap = document.createElement("div");
-      wrap.className = "postit-poem postit-cover post-binaire-texte";
-
-      wrap.style.setProperty("--accent", "#ff2fa3");
-      wrap.style.setProperty("--shadow", "#ff2fa3");
-
-      // d’abord un z-index “normal”
-      wrap.style.zIndex = String(10 + Math.floor(Math.random() * 160));
-
-      wrap.innerHTML = `
-        <div class="postit-bar">
-          <span class="postit-title">quatrième de couverture</span>
-          <div class="postit-actions">
-            <button class="close-poem" aria-label="fermer">×</button>
-          </div>
-        </div>
-        <div class="postit-content">${escapeHtml(coverText)}</div>
-      `;
-
-      wrap.querySelector(".close-poem").addEventListener("click", (e) => {
-        e.stopPropagation();
-        wrap.style.display = "none";
-      });
-
-      page.appendChild(wrap);
-
-      requestAnimationFrame(() => {
-        if (!window.matchMedia("(max-width: 700px)").matches) {
-          randomizeInPage(wrap, page);
-        }
-        // ✅ puis on le met au-dessus de tout (sans bouger sa position)
-        bringToFront(wrap);
-      });
-
-      wrap.addEventListener("click", () => bringToFront(wrap));
-      makeDraggable(wrap);
-
-      return wrap;
-    }
-
-    // --- init : post-its déjà présents derrière la règle ---
-    buildCoverPostit();
-    poems.forEach((p, i) => buildPostit(p, i));
-
-    // fermer la règle du jeu = juste la cacher
-    closeRulesBtn.addEventListener("click", () => {
+    closeRulesBtn.onclick = () => {
       rulesBase.style.display = "none";
-    });
+    };
 
   })();
   </script>
