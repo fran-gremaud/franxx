@@ -142,7 +142,6 @@
       user-select: none;
     }
 
-    /* tremblement au hover */
     .postit:hover {
       animation: postit-shake 0.25s steps(2) infinite;
     }
@@ -176,7 +175,6 @@
       color: #fff;
       opacity: 0.98;
 
-      /* 2 lignes max */
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
@@ -214,9 +212,8 @@
       line-height: 1.5;
       color: var(--accent);
 
-      white-space: pre-wrap;
-
-      max-height: 60vh;     /* scroll interne */
+      /* scroll interne */
+      max-height: 60vh;
       overflow: auto;
       overscroll-behavior: contain;
     }
@@ -229,18 +226,18 @@
       width: 560px;
       max-width: 680px;
 
-      z-index: 99999; /* AU-DESSUS DE TOUT */
+      z-index: 99999;
 
       --accent: #ff2fa3;
       --shadow: #ff2fa3;
     }
 
     .postit-cover .postit-title {
-      display: none; /* pas de titre */
+      display: none;
     }
 
     .postit-cover .postit-bar {
-      justify-content: flex-end; /* juste le bouton */
+      justify-content: flex-end;
     }
 
     .postit-cover .postit-content {
@@ -299,7 +296,7 @@
       </p>
     </div>
 
-    <!-- POST-ITS injectés par JS (15 poèmes + 4e de couv) -->
+    <!-- POST-ITS injectés par JS -->
 
   </div>
 
@@ -311,10 +308,8 @@
     <img src="glitch.png" alt="">
   </div>
 
-  <!-- Script glitch -->
   <script src="glitch.js"></script>
 
-  <!-- Chargement footer -->
   <script>
     fetch("footer.html")
       .then(r => r.text())
@@ -330,11 +325,9 @@
     const rules = document.getElementById("rules-base");
     const closeRules = document.getElementById("close-rules");
 
-    // Palette (rose / noir / bleu)
     const palette = ["#ff2fa3", "#000000", "#00a8ff"];
 
-    // Gestion du z-index (clic = ramener devant)
-    let topZ = 500; // au-dessus des z init des poèmes, mais sous la 4e de couv (99999)
+    let topZ = 500; // sous la 4e de couv (99999)
 
     function bringToFront(el) {
       topZ += 1;
@@ -348,7 +341,6 @@
         .replaceAll(">", "&gt;");
     }
 
-    // Largeurs selon taille
     function pickWidthForText(title, body) {
       const text = (title || "") + "\n" + (body || "");
       const len = text.length;
@@ -359,7 +351,6 @@
       return 620;
     }
 
-    // Random “éclaté” (anti bande horizontale)
     function randomizeInPage(el, container) {
       const minVisible = 80;
 
@@ -386,7 +377,6 @@
       el.addEventListener("touchstart", startDrag, { passive: false });
 
       function startDrag(e) {
-        // ne pas drag quand on clique sur le bouton close
         if (e.target && e.target.classList && e.target.classList.contains("close-postit")) return;
 
         bringToFront(el);
@@ -424,6 +414,7 @@
       }
     }
 
+    // IMPORTANT : body est injecté en HTML (pour <br>)
     function buildPostit({ title, body }, accent, extraClass = "") {
       const wrap = document.createElement("div");
       wrap.className = `postit post-binaire-texte ${extraClass}`.trim();
@@ -431,7 +422,6 @@
       wrap.style.setProperty("--accent", accent);
       wrap.style.setProperty("--shadow", accent);
 
-      // z-index initial aléatoire (poèmes derrière la règle si elle est ouverte)
       wrap.style.zIndex = String(50 + Math.floor(Math.random() * 350));
 
       const titleHtml = title ? escapeHtml(title) : "";
@@ -443,29 +433,27 @@
             <button class="close-postit" aria-label="fermer">×</button>
           </div>
         </div>
-        <div class="postit-content">${escapeHtml(body || "")}</div>
+        <div class="postit-content"></div>
       `;
 
-      // si pas de titre → on laisse vide, pas de placeholder
       if (!title) {
         wrap.querySelector(".postit-title").textContent = "";
       }
 
-      // largeur selon taille texte
       wrap.style.width = pickWidthForText(title, body) + "px";
 
-      // close
+      // injecte le body comme HTML (pour <br>)
+      wrap.querySelector(".postit-content").innerHTML = body || "";
+
       wrap.querySelector(".close-postit").addEventListener("click", (e) => {
         e.stopPropagation();
         wrap.style.display = "none";
       });
 
-      // clic = devant
       wrap.addEventListener("click", () => bringToFront(wrap));
 
       page.appendChild(wrap);
 
-      // placement random après insertion
       requestAnimationFrame(() => {
         if (!window.matchMedia("(max-width: 700px)").matches) {
           randomizeInPage(wrap, page);
@@ -476,10 +464,7 @@
       return wrap;
     }
 
-    // ---------------------------------------------------------
-    // 4E DE COUV (devant la règle)
-    // ---------------------------------------------------------
-
+    // 4E DE COUV
     const coverText = `« j’ai commencé à écrire pour essayer de trouver le chemin des temples cachés sur mes îles intérieures et dont j’ignore encore, un jour sur deux, la voie d’accès. le soleil peut aider, la lune aussi mais le monde tangible — celui que beaucoup appelle "le vrai" — est une vraie plaie : il bourdonne trop fort et ne fait pas beaucoup de miel. »`;
 
     const cover = buildPostit(
@@ -487,16 +472,13 @@
       "#ff2fa3",
       "postit-cover"
     );
-
-    // forcer le fait qu’elle soit AU-DESSUS de la règle (et de tout)
     cover.style.zIndex = "99999";
 
-    // ---------------------------------------------------------
-    // 15 POST-ITS POÈMES (placeholders, à remplir ensuite)
-    // ---------------------------------------------------------
-
+    // 15 POÈMES (1 rempli)
     const poems = [
-      { title: "", body: "quatre heures du mat<br>
+      {
+        title: "",
+        body: `quatre heures du mat<br>
 je dors pas et c’est pas parce que j’ai trop bu<br>
 c’est une nouvelle manie de mon corps<br>
 le refus<br><br>
@@ -519,8 +501,8 @@ tremblent d’indignation à chaque fois qu’une injustice est commise dans le 
 moi jte jure<br>
 je ne tremble plus<br>
 à ce stade<br>
-c’est carrément une crise d’épilepsie
-" },
+c’est carrément une crise d’épilepsie`
+      },
       { title: "", body: "" },
       { title: "", body: "" },
       { title: "", body: "" },
@@ -542,7 +524,6 @@ c’est carrément une crise d’épilepsie
       buildPostit(p, accent);
     });
 
-    // fermer règle = juste la cacher
     closeRules.addEventListener("click", () => {
       rules.style.display = "none";
     });
