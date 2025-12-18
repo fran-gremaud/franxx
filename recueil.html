@@ -765,6 +765,52 @@ pas plus loin que l’année passée`
 
   })();
   </script>
+<script>
+(function () {
+
+  function linesFromBr(html){
+    // split qui conserve les <br>
+    return html.split(/<br\s*\/?>/gi);
+  }
+
+  function applyIndentToContent(contentEl){
+    // pas sur la 4e de couv
+    if (contentEl.closest(".postit-cover")) return;
+
+    const raw = contentEl.innerHTML;
+    if(!raw || raw.trim() === "") return;
+
+    // on remplace le contenu par une liste de lignes-blocs
+    const parts = linesFromBr(raw);
+
+    contentEl.innerHTML = "";
+
+    parts.forEach((chunk) => {
+      // chunk vide = saut de ligne (ou double saut)
+      if (chunk.trim() === "") {
+        const gap = document.createElement("div");
+        gap.className = "poem-line poem-gap";
+        contentEl.appendChild(gap);
+        return;
+      }
+
+      const line = document.createElement("div");
+      line.className = "poem-line";
+      line.innerHTML = chunk; // ✅ garde <em>, <span>, etc.
+      contentEl.appendChild(line);
+    });
+  }
+
+  function applyIndentEverywhere(){
+    document.querySelectorAll(".postit-content").forEach(applyIndentToContent);
+  }
+
+  // important : lancer APRÈS création des post-its
+  // si ton script est déjà en bas de page, ça suffit :
+  applyIndentEverywhere();
+
+})();
+</script>
 
 </body>
 </html>
