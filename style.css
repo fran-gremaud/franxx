@@ -399,3 +399,11 @@ a:hover {
   letter-spacing: 0.01em;
 }
 
+.postit-content .aside-question{
+  display: block;
+  text-align: right;
+  font-style: italic;
+  margin-top: 0.5em;
+}
+
+
