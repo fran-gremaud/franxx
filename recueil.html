@@ -10,7 +10,6 @@
     /* =========================================================
        FONTS
     ========================================================= */
-
     @font-face {
       font-family: "AdelpheFructidorRegular";
       src: url("Adelphe-FructidorRegular.woff2") format("woff2");
@@ -38,7 +37,6 @@
     /* =========================================================
        BASE / PLATEAU
     ========================================================= */
-
     .page {
       min-height: 85vh;
       position: relative;
@@ -46,9 +44,8 @@
     }
 
     /* =========================================================
-       RÈGLE DU JEU (sous la 4e de couv)
+       RÈGLE DU JEU
     ========================================================= */
-
     .rules-base {
       position: absolute;
       left: 28px;
@@ -122,7 +119,6 @@
     /* =========================================================
        POST-ITS (poèmes)
     ========================================================= */
-
     .postit {
       position: absolute;
       left: 0;
@@ -219,7 +215,6 @@
     /* =========================================================
        SPÉCIAUX
     ========================================================= */
-
     .postit-content .bombs-line{
       display: block;
       text-align: right;
@@ -244,15 +239,12 @@
     }
 
     /* =========================================================
-       POST-IT 4E DE COUV (devant tout, sans titre)
+       POST-IT 4E DE COUV (pinned top)
     ========================================================= */
-
     .postit-cover {
       width: 560px;
       max-width: 680px;
-
       z-index: 99999;
-
       --accent: #ff2fa3;
       --shadow: #ff2fa3;
     }
@@ -268,9 +260,41 @@
     }
 
     /* =========================================================
+       INDENT WRAP (safe + exceptions)
+    ========================================================= */
+    .poem-line{
+      display: block;
+      margin: 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+
+    .poem-gap{ height: 1em; }
+
+    .poem-line.no-indent{
+      padding-left: 0;
+      text-indent: 0;
+    }
+
+    /* =========================================================
+       FULL-WIDTH WORD (auto-fit)
+    ========================================================= */
+    .full-width-line{
+      display: block;
+      width: 100%;
+      text-align: center;
+      white-space: nowrap;
+
+      font-weight: 700;
+      line-height: 0.95;
+
+      padding-left: 0;
+      text-indent: 0;
+    }
+
+    /* =========================================================
        MOBILE
     ========================================================= */
-
     @media (max-width: 700px) {
       .rules-base,
       .postit {
@@ -291,6 +315,7 @@
 
   <div class="page">
 
+    <!-- RÈGLE DU JEU -->
     <div id="rules-base" class="rules-base">
       <button class="rules-close" id="close-rules" aria-label="fermer">×</button>
 
@@ -308,7 +333,6 @@
     </div>
 
     <!-- post-its injectés par JS -->
-
   </div>
 
   <!-- FOOTER -->
@@ -329,6 +353,7 @@
       });
   </script>
 
+  <!-- 1) injection post-its -->
   <script>
   (function () {
 
@@ -337,7 +362,6 @@
     const closeRules = document.getElementById("close-rules");
 
     const palette = ["#ff2fa3", "#000000", "#00a8ff"];
-
     let topZ = 500;
 
     function bringToFront(el) {
@@ -352,7 +376,6 @@
     function pickWidthForText(title, body) {
       const text = (title || "") + "\n" + (body || "");
       const len = text.length;
-
       if (len < 400)  return 360;
       if (len < 900)  return 420;
       if (len < 1600) return 520;
@@ -442,7 +465,6 @@
 
       wrap.querySelector(".postit-title").innerHTML = title || "";
       wrap.querySelector(".postit-content").innerHTML = body || "";
-
       wrap.style.width = pickWidthForText(title, body) + "px";
 
       wrap.querySelector(".close-postit").addEventListener("click", (e) => {
@@ -467,16 +489,14 @@
     // 4E DE COUV (pinned top)
     const coverText = `« j’ai commencé à écrire pour essayer de trouver le chemin des temples cachés sur mes îles intérieures et dont j’ignore encore, un jour sur deux, la voie d’accès. le soleil peut aider, la lune aussi mais le monde tangible — celui que beaucoup appelle "le vrai" — est une vraie plaie : il bourdonne trop fort et ne fait pas beaucoup de miel. »`;
 
-    const cover = buildPostit(
-      { title: "", body: coverText },
-      "#ff2fa3",
-      "postit-cover"
-    );
+    const cover = buildPostit({ title: "", body: coverText }, "#ff2fa3", "postit-cover");
     cover.dataset.pin = "top";
     cover.style.zIndex = "99999";
 
-    // POÈMES (1 à 5 remplis, 6 à 15 placeholders)
+    // POÈMES (1 → 6 complets, 7 → 15 placeholders)
     const poems = [
+
+      /* 1 */
       {
         title: "",
         body: `quatre heures du mat<br>
@@ -504,6 +524,8 @@ je ne tremble plus<br>
 à ce stade<br>
 c’est carrément une crise d’épilepsie`
       },
+
+      /* 2 */
       {
         title: "",
         body: `lui : « mais alors ce livre, vous allez le faire ? que je vous donne une bourse ou non ? vous trouverez de <em>toute façon</em> un moyen de le faire, je me trompe ? »<br><br>
@@ -543,9 +565,15 @@ derrière l’idée qu’il se fait de lui-même<br><br><br>
 
 c’est con`
       },
+
+      /* 3 */
       {
         title: `What power art thou,<br>Who from below<br>Hast made me rise? 🝫`,
-        body: `dehors il y a le gel qui prend et qui masque tout<br>
+        body: `What power art thou,<br>
+Who from below<br>
+Hast made me rise?<br><br><br>
+
+dehors il y a le gel qui prend et qui masque tout<br>
 jusqu’à la fenêtre du train<br>
 jusqu’aux rails qu’on nous avait vendus comme le futur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;brillant<br><br>
 
@@ -554,7 +582,7 @@ où trouver la lumière d’une étoile<br>
 d’une phrase d’un petit espoir<br>
 j’aimerais dormir<br>
 dormir fumer dormir<br>
-faire entrer un peu de
+faire entrer un peu de<br>
 fumer un peu de fumée<br>
 chaude<br><br>
 
@@ -639,8 +667,10 @@ on a besoin de te sentir vivre là<br>
 tout contre nous tous..tes<br>
 ensemble<br><br>
 
-on te lâchera pas »`
+on te lâchera pas  »`
       },
+
+      /* 4 */
       {
         title: "",
         body: `parfois je me demande<br>
@@ -659,8 +689,10 @@ est-ce que je suis vraiment jésus ?<br><br>
 
 <span class="aside-question">—&nbsp;claquement de langue interrogateur</span>`
       },
+
+      /* 5 */
       {
-        title: `affleurement léger du réel dans le processus de<br>déréalisation inhérent au monde du grand capital`,
+        title: `affleurement léger du réel dans le processus de<br>déréalisation inhérent au monde du grand capital, à u. k. l g.`,
         body: `<span class="dedicace">à u. k. l g.</span><br><br>
 
 ce matin<br>
@@ -672,7 +704,7 @@ gris que rien ne perce depuis des semaines<br><br>
 le pays défile par la fenêtre du train<br>
 et moi je me sens<br>
 complètement<br>
-absolument
+absolument<br>
 imperméable<br><br>
 
 je déréalise y a rien qui <em>strike</em> le monde est un flipper et j’ai pas de pièce de cinq francs pour le faire fonctionner le truc reste sans couleur<br>
@@ -749,7 +781,10 @@ on a dormi sur une pierre chaude<br>
 pas plus loin que l’année passée`
       },
 
-      { title: "", body: `aujourd’hui<br>
+      /* 6 */
+      {
+        title: "",
+        body: `aujourd’hui<br>
 j’ai ouvert quatre livres de quatre jeunes auteur..ices différent..es<br>
 tout en haut de la page<br>
 en capitales :<br><br>
@@ -757,9 +792,18 @@ en capitales :<br><br>
 <span class="full-width-line">MERDE</span><br><br>
 
 — il semble que notre génération ait quelque chose à dire`
- }, { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" },
-      { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" },
-      { title: "", body: "" }, { title: "", body: "" }
+      },
+
+      /* 7 → 15 */
+      { title: "", body: "" },
+      { title: "", body: "" },
+      { title: "", body: "" },
+      { title: "", body: "" },
+      { title: "", body: "" },
+      { title: "", body: "" },
+      { title: "", body: "" },
+      { title: "", body: "" },
+      { title: "", body: "" }
     ];
 
     poems.forEach((p, i) => {
@@ -773,92 +817,75 @@ en capitales :<br><br>
 
   })();
   </script>
-<script>
-(function () {
 
-  function applyIndentToContent(contentEl){
-    // jamais sur la 4e de couv
-    if (contentEl.closest(".postit-cover")) return;
+  <!-- 2) indent + fit MERDE -->
+  <script>
+  (function () {
 
-    const raw = contentEl.innerHTML;
-    if (!raw || raw.trim() === "") return;
+    function applyIndentToContent(contentEl){
+      // jamais sur la 4e de couv
+      if (contentEl.closest(".postit-cover")) return;
 
-    // split sur <br>
-    const parts = raw.split(/<br\s*\/?>/gi);
+      const raw = contentEl.innerHTML;
+      if (!raw || raw.trim() === "") return;
 
-    // reconstruction ULTRA rapide (1 seul innerHTML)
-    let out = "";
+      const parts = raw.split(/<br\s*\/?>/gi);
 
-    for (let i = 0; i < parts.length; i++) {
-      const chunk = parts[i];
+      let out = "";
+      for (let i = 0; i < parts.length; i++) {
+        const chunk = parts[i];
 
-      // ligne vide -> espace (double saut)
-      if (chunk.trim() === "") {
-        out += `<div class="poem-line poem-gap"></div>`;
-        continue;
+        if (chunk.trim() === "") {
+          out += `<div class="poem-line poem-gap"></div>`;
+          continue;
+        }
+
+        const noIndent =
+          chunk.includes("full-width-line") ||
+          chunk.includes("bombs-line") ||
+          chunk.includes("aside-question") ||
+          chunk.includes("dedicace");
+
+        out += `<div class="poem-line${noIndent ? " no-indent" : ""}">${chunk}</div>`;
       }
 
-      // exceptions : lignes qui ne doivent pas être indentées
-      const noIndent =
-        chunk.includes("full-width-line") ||
-        chunk.includes("bombs-line") ||
-        chunk.includes("aside-question") ||
-        chunk.includes("dedicace");
-
-      out += `<div class="poem-line${noIndent ? " no-indent" : ""}">${chunk}</div>`;
+      contentEl.innerHTML = out;
     }
 
-    contentEl.innerHTML = out;
-  }
-
-  function applyIndentEverywhere(){
-    document.querySelectorAll(".postit-content").forEach(applyIndentToContent);
-  }
-
-  // lance une fois, après injection des post-its
-  applyIndentEverywhere();
-
- <script>
-(function () {
-
-  function fitTextToWidth(el){
-    const parent = el.parentElement;
-    if (!parent) return;
-
-    // reset
-    el.style.fontSize = "1px";
-
-    const maxWidth = parent.clientWidth;
-    let size = 1;
-
-    // on augmente jusqu'à dépasser
-    while (el.scrollWidth <= maxWidth && size < 300) {
-      size += 1;
-      el.style.fontSize = size + "px";
+    function applyIndentEverywhere(){
+      document.querySelectorAll(".postit-content").forEach(applyIndentToContent);
     }
 
-    // on revient d’un cran pour être safe
-    el.style.fontSize = (size - 1) + "px";
-  }
+    function fitTextToWidth(el){
+      const parent = el.parentElement;
+      if (!parent) return;
 
-  function fitAll(){
-    document.querySelectorAll(".full-width-line").forEach(fitTextToWidth);
-  }
+      // reset minuscule, puis on monte
+      el.style.fontSize = "1px";
 
-  // au chargement
-  window.addEventListener("load", fitAll);
+      // un poil de marge pour éviter scrollbar / arrondis
+      const maxWidth = parent.clientWidth - 2;
 
-  // si la fenêtre change (responsive)
-  window.addEventListener("resize", fitAll);
+      let size = 1;
+      while (el.scrollWidth <= maxWidth && size < 300) {
+        size += 1;
+        el.style.fontSize = size + "px";
+      }
+      el.style.fontSize = (size - 1) + "px";
+    }
 
-})();
-</script>
+    function fitAll(){
+      document.querySelectorAll(".full-width-line").forEach(fitTextToWidth);
+    }
 
+    // ordre important
+    applyIndentEverywhere();
+    fitAll();
 
+    window.addEventListener("resize", fitAll);
 
-})();
-</script>
-
+  })();
+  </script>
 
 </body>
 </html>
