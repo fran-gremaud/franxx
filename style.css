@@ -388,3 +388,14 @@ a:hover {
   60%  { opacity: 0.9; transform: translateY(1px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+
+/* ligne spéciale */
+.postit-content .bombs-line{
+  display:block;
+  text-align:right;
+  font-size: 1.45em;
+  line-height: 0.9;
+  margin-top: -0.55em; /* “mord” un peu sur la ligne du dessus */
+  letter-spacing: 0.01em;
+}
+
