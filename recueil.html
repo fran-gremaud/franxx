@@ -8,12 +8,18 @@
 
   <style>
     /* =========================================================
-       FONT LOCALE (spécifique à cette page)
+       FONTS LOCALES (spécifique à cette page)
     ========================================================= */
 
     @font-face {
       font-family: "AdelpheFructidorRegular";
       src: url("Adelphe-FructidorRegular.woff2") format("woff2");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "PubliFluorNormale";
+      src: url("PubliFluorNormale.otf") format("opentype");
       font-display: swap;
     }
 
@@ -34,16 +40,23 @@
     }
 
     /* ---------------------------------------------------------
-       RÈGLE DU JEU (STYLE “BASE DE PAGE”, SANS VIBRATION)
+       RÈGLE DU JEU (DEVANT TOUT AU DÉPART)
+       style “base” + position overlay
     --------------------------------------------------------- */
 
     .rules-base {
-      position: relative;
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      top: 28px;
+      z-index: 5000;
+
       background: #ffffff;
       border: 6px solid #000000;
       box-shadow: 12px 12px 0 #000;
       padding: 18px 18px 16px 18px;
-      margin: 18px 0 28px 0;
+      margin: 0;
+
       overflow: hidden;
     }
 
@@ -117,26 +130,33 @@
 
     .postit-poem .postit-bar {
       background: var(--accent);
-      height: 28px;
+      min-height: 34px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       border: 4px solid var(--accent);
       border-bottom: none;
       box-shadow: 10px 10px 0 var(--shadow);
-      padding: 0 6px;
-      gap: 8px;
+      padding: 6px 8px;
+      gap: 10px;
     }
 
+    /* ✅ Titres plus gros + police PubliFluorNormale */
     .postit-poem .postit-title {
-      font-family: PostBinaire, sans-serif;
-      font-size: 12px;
+      font-family: "PubliFluorNormale", PostBinaire, sans-serif;
+      font-size: 16px;
+      line-height: 1.1;
       color: #fff;
-      opacity: 0.95;
-      white-space: nowrap;
+      opacity: 0.98;
+
+      /* 2 lignes max (sinon chaos) */
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
       overflow: hidden;
-      text-overflow: ellipsis;
-      min-height: 1em;
+
+      /* au cas où */
+      word-break: break-word;
     }
 
     .postit-poem .postit-actions {
@@ -156,9 +176,10 @@
       font-size: 16px;
       cursor: pointer;
       padding: 0;
+      flex: 0 0 auto;
     }
 
-    /* ✅ Contenu avec scroll interne + nouvelle typo */
+    /* ✅ Contenu avec scroll interne + typo Adelphe regular */
     .postit-poem .postit-content {
       background: #ffffff;
       border: 4px solid var(--accent);
@@ -175,17 +196,24 @@
       font-feature-settings: "liga" 1, "dlig" 1;
       white-space: pre-wrap;
 
-      /* scroll interne */
       max-height: 55vh;
       overflow: auto;
       overscroll-behavior: contain;
     }
 
     /* ---------------------------------------------------------
-       MOBILE : pile statique + un peu plus de hauteur
+       MOBILE : pile statique
     --------------------------------------------------------- */
 
     @media (max-width: 700px) {
+      .rules-base {
+        position: static;
+        left: auto;
+        right: auto;
+        top: auto;
+        margin: 0 0 18px 0;
+      }
+
       .postit-poem {
         position: static;
         width: 100% !important;
@@ -211,8 +239,8 @@
       </p>
     </div>
 
-    <!-- RÈGLE DU JEU : bloc “base”, sans vibration -->
-    <div id="rules-base" class="rules-base post-binaire-texte">
+    <!-- RÈGLE DU JEU : devant tout au départ -->
+    <div id="rules-base" class="rules-base post-binaire-texte" aria-modal="true" role="dialog">
       <button class="rules-close" id="close-rules" aria-label="fermer">×</button>
       <h2 class="rules-base-title post-binaire-texte">règle du jeu</h2>
       <p class="rules-base-text post-binaire-texte">
@@ -220,7 +248,7 @@
         — tu peux les déplacer<br>
         — cliquer sur un post-it le ramène au premier plan<br>
         — “×” le ferme<br><br>
-        (on mettra des règles plus fines ensuite si tu veux : apparition, tirage aléatoire, etc.)
+        quand tu fermes cette fenêtre, les textes apparaissent.
       </p>
     </div>
 
@@ -252,6 +280,9 @@
   (function () {
 
     const page = document.querySelector(".page");
+    const rulesBase = document.getElementById("rules-base");
+    const closeRulesBtn = document.getElementById("close-rules");
+
     let topZ = 50;
 
     // Palette SANS jaune (lisibilité)
@@ -777,6 +808,9 @@ tout notre respect`
       return 580;
     }
 
+    // On stocke les éléments créés pour pouvoir les afficher après fermeture de la règle
+    const createdPostits = [];
+
     function buildPostit(poem, idx) {
       const wrap = document.createElement("div");
       wrap.className = "postit-poem post-binaire-texte";
@@ -804,6 +838,9 @@ tout notre respect`
 
       wrap.style.width = pickWidthForPoem(poem) + "px";
 
+      // ✅ au départ : caché (la règle est “l’écran d’intro”)
+      wrap.style.display = "none";
+
       page.appendChild(wrap);
       bringToFront(wrap);
 
@@ -816,15 +853,27 @@ tout notre respect`
       wrap.addEventListener("click", () => bringToFront(wrap));
       makeDraggable(wrap);
 
+      createdPostits.push(wrap);
       return wrap;
     }
 
     poems.forEach((p, i) => buildPostit(p, i));
 
-    const rulesBase = document.getElementById("rules-base");
-    document.getElementById("close-rules").addEventListener("click", () => {
+    function revealPostits() {
+      // cacher la règle
       rulesBase.style.display = "none";
-    });
+
+      // afficher les post-its
+      createdPostits.forEach((el) => {
+        el.style.display = "";
+        bringToFront(el);
+      });
+    }
+
+    closeRulesBtn.addEventListener("click", revealPostits);
+
+    // la règle doit être devant tout
+    bringToFront(rulesBase);
 
   })();
   </script>
