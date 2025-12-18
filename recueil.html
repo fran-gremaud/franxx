@@ -8,18 +8,12 @@
 
   <style>
     /* =========================================================
-       FONTS LOCALES (spécifique à cette page)
+       FONTS
     ========================================================= */
 
     @font-face {
       font-family: "AdelpheFructidorRegular";
       src: url("Adelphe-FructidorRegular.woff2") format("woff2");
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: "PubliFluorNormale";
-      src: url("PubliFluorNormale.otf") format("opentype");
       font-display: swap;
     }
 
@@ -36,103 +30,110 @@
     }
 
     /* =========================================================
-       RECUEIL — STYLES SPÉCIFIQUES
+       BASE
     ========================================================= */
 
     .page {
-      min-height: 78vh;
+      min-height: 85vh;
+      position: relative;
     }
 
-    /* ---------------------------------------------------------
-       RÈGLE DU JEU
-    --------------------------------------------------------- */
+    /* =========================================================
+       RÈGLE DU JEU (SOUS LA 4E DE COUV)
+    ========================================================= */
 
     .rules-base {
       position: absolute;
       left: 28px;
       right: 28px;
       top: 28px;
-      z-index: 9000; /* volontairement sous la 4e de couv */
+
+      z-index: 1000; /* ⬅️ volontairement BAS */
 
       background: #ffffff;
-      border: 6px solid #000000;
+      border: 6px solid #000;
       box-shadow: 12px 12px 0 #000;
-      padding: 22px 22px 18px 22px;
+      padding: 28px 28px 22px 28px;
     }
 
-    /* ✅ TITRE DU RECUEIL — ENCORE PLUS GROS */
     .rules-title {
-      margin: 0 0 18px 0;
+      margin: 0 0 22px 0;
       font-family: "EscabeauRegular", sans-serif;
-      font-size: 46px;
-      line-height: 1.05;
+      font-size: 64px;           /* 🔥 ENCORE PLUS GROS */
+      line-height: 0.98;
       color: #ff2fa3;
+      letter-spacing: -0.01em;
     }
 
     .rules-title sup {
-      font-size: 0.45em;
+      font-size: 0.4em;
       vertical-align: super;
-      margin-left: 2px;
+      margin-left: 4px;
     }
 
     .rules-title a {
       animation: none;
       color: inherit;
       text-decoration: none;
-      border-bottom: 1px solid currentColor;
+      border-bottom: 2px solid currentColor;
     }
 
     .rules-text {
-      margin: 0 0 14px 0;
+      margin: 0 0 18px 0;
       font-family: "AdelpheFructidorRegular", serif;
-      font-size: 16px;
-      line-height: 1.55;
+      font-size: 17px;
+      line-height: 1.6;
       color: #ff2fa3;
     }
 
     .rules-footnote {
       margin: 0;
-      padding-top: 10px;
+      padding-top: 12px;
       border-top: 2px solid rgba(255, 47, 163, 0.35);
 
       font-family: "AdelpheFructidorRegular", serif;
       font-size: 14px;
-      line-height: 1.45;
+      line-height: 1.5;
       color: #ff2fa3;
     }
 
     .rules-close {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 12px;
+      right: 12px;
       background: #fff;
       border: 3px solid #000;
       box-shadow: 4px 4px 0 #000;
-      width: 28px;
-      height: 28px;
-      line-height: 22px;
+      width: 30px;
+      height: 30px;
+      line-height: 24px;
       font-size: 18px;
       cursor: pointer;
       padding: 0;
       color: #ff2fa3;
     }
 
-    /* ---------------------------------------------------------
-       POST-ITS GÉNÉRAUX
-    --------------------------------------------------------- */
+    /* =========================================================
+       POST-IT 4E DE COUV (DEVANT TOUT)
+    ========================================================= */
 
-    .postit-poem {
+    .postit-cover {
       position: absolute;
-      width: 360px;
-      max-width: 620px;
-      cursor: grab;
       left: 0;
       top: 0;
-      --accent: #00a8ff;
-      --shadow: #00a8ff;
+
+      width: 560px;
+      max-width: 680px;
+
+      z-index: 99999; /* 🚨 AU-DESSUS DE TOUT */
+
+      --accent: #ff2fa3;
+      --shadow: #ff2fa3;
+
+      cursor: grab;
     }
 
-    .postit-poem:hover {
+    .postit-cover:hover {
       animation: postit-shake 0.25s steps(2) infinite;
     }
 
@@ -146,22 +147,22 @@
 
     .postit-bar {
       background: var(--accent);
-      height: 34px;
+      height: 36px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       border: 4px solid var(--accent);
       border-bottom: none;
-      box-shadow: 10px 10px 0 var(--shadow);
-      padding: 0 6px;
+      box-shadow: 12px 12px 0 var(--shadow);
+      padding: 0 8px;
     }
 
     .close-poem {
       background: #fff;
       border: 2px solid var(--accent);
       color: var(--accent);
-      width: 22px;
-      height: 22px;
+      width: 24px;
+      height: 24px;
       line-height: 18px;
       font-size: 16px;
       cursor: pointer;
@@ -170,52 +171,34 @@
     .postit-content {
       background: #ffffff;
       border: 4px solid var(--accent);
-      box-shadow: 10px 10px 0 var(--shadow);
-      padding: 18px;
+      box-shadow: 12px 12px 0 var(--shadow);
+      padding: 22px;
 
-      font-family: "AdelpheFructidorRegular", serif;
-      font-size: 16px;
-      line-height: 1.5;
+      font-family: "DINdong", serif;
+      font-size: 19px;
+      line-height: 1.35;
+      color: #ff2fa3;
 
-      color: var(--accent);
       white-space: pre-wrap;
-
-      max-height: 55vh;
+      max-height: 60vh;
       overflow: auto;
     }
 
-    /* ---------------------------------------------------------
-       POST-IT QUATRIÈME DE COUVERTURE
-    --------------------------------------------------------- */
-
-    .postit-cover {
-      --accent: #ff2fa3;
-      --shadow: #ff2fa3;
-      width: 520px;
-      max-width: 640px;
-      z-index: 10000; /* 🔥 AU-DESSUS DE LA RÈGLE */
-    }
-
-    .postit-cover .postit-content {
-      font-family: "DINdong", serif;
-      font-size: 18px;
-      line-height: 1.35;
-      color: #ff2fa3;
-    }
-
-    /* ---------------------------------------------------------
+    /* =========================================================
        MOBILE
-    --------------------------------------------------------- */
+    ========================================================= */
+
     @media (max-width: 700px) {
-      .rules-base {
+      .rules-base,
+      .postit-cover {
         position: static;
+        width: 100%;
+        max-width: none;
         margin-bottom: 18px;
       }
 
-      .postit-poem {
-        position: static;
-        width: 100% !important;
-        margin: 18px 0;
+      .rules-title {
+        font-size: 42px;
       }
     }
   </style>
@@ -242,66 +225,54 @@
       </p>
     </div>
 
+    <!-- POST-IT 4E DE COUV -->
+    <div id="cover-postit" class="postit-cover">
+      <div class="postit-bar">
+        <button class="close-poem" aria-label="fermer">×</button>
+      </div>
+      <div class="postit-content">
+« j’ai commencé à écrire pour essayer de trouver le chemin des temples cachés sur mes îles intérieures et dont j’ignore encore, un jour sur deux, la voie d’accès. le soleil peut aider, la lune aussi mais le monde tangible — celui que beaucoup appelle "le vrai" — est une vraie plaie : il bourdonne trop fort et ne fait pas beaucoup de miel. »
+      </div>
+    </div>
+
   </div>
 
   <script>
   (function () {
 
-    const page = document.querySelector(".page");
-    const rulesBase = document.getElementById("rules-base");
-    const closeRulesBtn = document.getElementById("close-rules");
+    const cover = document.getElementById("cover-postit");
+    const closeCover = cover.querySelector(".close-poem");
+    const rules = document.getElementById("rules-base");
+    const closeRules = document.getElementById("close-rules");
 
-    let topZ = 100;
+    // position aléatoire dès le départ
+    const maxX = window.innerWidth  - cover.offsetWidth  - 40;
+    const maxY = window.innerHeight - cover.offsetHeight - 40;
 
-    const coverText = `« j’ai commencé à écrire pour essayer de trouver le chemin des temples cachés sur mes îles intérieures et dont j’ignore encore, un jour sur deux, la voie d’accès. le soleil peut aider, la lune aussi mais le monde tangible — celui que beaucoup appelle "le vrai" — est une vraie plaie : il bourdonne trop fort et ne fait pas beaucoup de miel. »`;
+    cover.style.left = Math.max(20, Math.random() * maxX) + "px";
+    cover.style.top  = Math.max(20, Math.random() * maxY) + "px";
 
-    function bringToFront(el) {
-      topZ++;
-      el.style.zIndex = topZ;
-    }
+    // drag simple
+    let dragging=false,sx,sy,sl,st;
+    cover.addEventListener("mousedown", e => {
+      dragging=true;
+      sx=e.clientX; sy=e.clientY;
+      sl=cover.offsetLeft; st=cover.offsetTop;
+    });
+    document.addEventListener("mousemove", e => {
+      if(!dragging) return;
+      cover.style.left = sl + (e.clientX-sx) + "px";
+      cover.style.top  = st + (e.clientY-sy) + "px";
+    });
+    document.addEventListener("mouseup", () => dragging=false);
 
-    function randomize(el) {
-      const x = Math.random() * (window.innerWidth - 200);
-      const y = Math.random() * (window.innerHeight - 200);
-      el.style.left = x + "px";
-      el.style.top  = y + "px";
-    }
-
-    function makeDraggable(el) {
-      let d=false,sx,sy,sl,st;
-      el.onmousedown = e => {
-        bringToFront(el);
-        d=true; sx=e.clientX; sy=e.clientY;
-        sl=el.offsetLeft; st=el.offsetTop;
-      };
-      document.onmousemove = e => {
-        if(!d) return;
-        el.style.left = sl + (e.clientX-sx) + "px";
-        el.style.top  = st + (e.clientY-sy) + "px";
-      };
-      document.onmouseup = () => d=false;
-    }
-
-    /* ✅ POST-IT 4e DE COUV — sans titre, devant tout */
-    const cover = document.createElement("div");
-    cover.className = "postit-poem postit-cover";
-    cover.innerHTML = `
-      <div class="postit-bar">
-        <button class="close-poem">×</button>
-      </div>
-      <div class="postit-content">${coverText}</div>
-    `;
-    page.appendChild(cover);
-    randomize(cover);
-    makeDraggable(cover);
-
-    cover.querySelector(".close-poem").onclick = e => {
+    closeCover.onclick = e => {
       e.stopPropagation();
       cover.style.display = "none";
     };
 
-    closeRulesBtn.onclick = () => {
-      rulesBase.style.display = "none";
+    closeRules.onclick = () => {
+      rules.style.display = "none";
     };
 
   })();
