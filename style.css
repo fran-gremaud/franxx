@@ -442,30 +442,24 @@ a:hover {
   text-indent: 0;
 }
 
-/* MERDE pleine largeur */
+/* MERDE étiré sur toute la largeur du post-it */
 .full-width-line{
-  display: block;
+  display: flex;
   width: 100%;
-  box-sizing: border-box;
-  text-align: center;
+  justify-content: space-between;
+  align-items: baseline;
+
   font-weight: 700;
-  letter-spacing: 0.04em;
-}
+  font-size: 2em;      /* ajuste ici si besoin */
+  line-height: 0.95;
 
-}
-/* ligne pleine largeur, indépendante du flux */
-.full-width-line{
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-
-  text-align: center;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-
-  /* annule tout effet d'indent / hanging */
   padding-left: 0;
   text-indent: 0;
+}
+
+.full-width-line span{
+  display: block;
+
 }
 
 
