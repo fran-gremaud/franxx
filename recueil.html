@@ -776,49 +776,51 @@ en capitales :<br>
 <script>
 (function () {
 
-  function linesFromBr(html){
-    // split qui conserve les <br>
-    return html.split(/<br\s*\/?>/gi);
-  }
-
   function applyIndentToContent(contentEl){
-    // pas sur la 4e de couv
+    // jamais sur la 4e de couv
     if (contentEl.closest(".postit-cover")) return;
 
     const raw = contentEl.innerHTML;
-    if(!raw || raw.trim() === "") return;
+    if (!raw || raw.trim() === "") return;
 
-    // on remplace le contenu par une liste de lignes-blocs
-    const parts = linesFromBr(raw);
+    // split sur <br>
+    const parts = raw.split(/<br\s*\/?>/gi);
 
-    contentEl.innerHTML = "";
+    // reconstruction ULTRA rapide (1 seul innerHTML)
+    let out = "";
 
-    parts.forEach((chunk) => {
-      // chunk vide = saut de ligne (ou double saut)
+    for (let i = 0; i < parts.length; i++) {
+      const chunk = parts[i];
+
+      // ligne vide -> espace (double saut)
       if (chunk.trim() === "") {
-        const gap = document.createElement("div");
-        gap.className = "poem-line poem-gap";
-        contentEl.appendChild(gap);
-        return;
+        out += `<div class="poem-line poem-gap"></div>`;
+        continue;
       }
 
-      const line = document.createElement("div");
-      line.className = "poem-line";
-      line.innerHTML = chunk; // ✅ garde <em>, <span>, etc.
-      contentEl.appendChild(line);
-    });
+      // exceptions : lignes qui ne doivent pas être indentées
+      const noIndent =
+        chunk.includes("full-width-line") ||
+        chunk.includes("bombs-line") ||
+        chunk.includes("aside-question") ||
+        chunk.includes("dedicace");
+
+      out += `<div class="poem-line${noIndent ? " no-indent" : ""}">${chunk}</div>`;
+    }
+
+    contentEl.innerHTML = out;
   }
 
   function applyIndentEverywhere(){
     document.querySelectorAll(".postit-content").forEach(applyIndentToContent);
   }
 
-  // important : lancer APRÈS création des post-its
-  // si ton script est déjà en bas de page, ça suffit :
+  // lance une fois, après injection des post-its
   applyIndentEverywhere();
 
 })();
 </script>
+
 
 </body>
 </html>
