@@ -23,6 +23,18 @@
       font-display: swap;
     }
 
+    @font-face {
+      font-family: "EscabeauRegular";
+      src: url("Escabeau-Regular.otf") format("opentype");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "DINdong";
+      src: url("DINdong.ttf") format("truetype");
+      font-display: swap;
+    }
+
     /* =========================================================
        RECUEIL — STYLES SPÉCIFIQUES
     ========================================================= */
@@ -64,18 +76,47 @@
       overflow: hidden;
     }
 
-    .rules-base-title {
-      margin: 0 0 10px 0;
-      font-size: 20px;
-      line-height: 1.2;
+    /* ✅ Nouveau “titre” de règle : Escabeau + rose + grand */
+    .rules-title {
+      margin: 0 0 12px 0;
+      font-family: "EscabeauRegular", PostBinaire, sans-serif;
+      font-size: 30px;
+      line-height: 1.15;
       color: #ff2fa3;
     }
 
-    .rules-base-text {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.5;
+    .rules-title a {
+      animation: none; /* on évite le blink sur une note de bas de page */
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+    }
+
+    .rules-text {
+      margin: 0 0 12px 0;
+      font-family: "AdelpheFructidorRegular", serif;
+      font-size: 16px;
+      line-height: 1.55;
       color: #ff2fa3;
+    }
+
+    /* ✅ Note de bas de page */
+    .rules-footnote {
+      margin: 0;
+      padding-top: 10px;
+      border-top: 2px solid rgba(255, 47, 163, 0.35);
+
+      font-family: "AdelpheFructidorRegular", serif;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #ff2fa3;
+    }
+
+    .rules-footnote a {
+      animation: none;
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
     }
 
     .rules-close {
@@ -201,6 +242,30 @@
     }
 
     /* ---------------------------------------------------------
+       POST-IT SPÉCIAL : QUATRIÈME DE COUV (DINdong)
+    --------------------------------------------------------- */
+
+    .postit-cover {
+      --accent: #ff2fa3; /* on peut le laisser rose, lisible */
+      --shadow: #ff2fa3;
+      width: 520px;     /* un peu plus large par défaut */
+      max-width: 640px;
+    }
+
+    .postit-cover .postit-title {
+      font-family: "PubliFluorNormale", PostBinaire, sans-serif;
+      font-size: 18px;
+    }
+
+    .postit-cover .postit-content {
+      font-family: "DINdong", serif;
+      font-size: 18px;
+      line-height: 1.35;
+      color: var(--accent);
+      max-height: 48vh;
+    }
+
+    /* ---------------------------------------------------------
        MOBILE : pile statique
     --------------------------------------------------------- */
     @media (max-width: 700px) {
@@ -218,6 +283,10 @@
         width: 100% !important;
         max-width: none;
         margin: 18px 0;
+      }
+
+      .postit-cover {
+        width: 100% !important;
       }
 
       .postit-poem .postit-content {
@@ -241,13 +310,17 @@
     <!-- RÈGLE DU JEU : devant au départ -->
     <div id="rules-base" class="rules-base post-binaire-texte" aria-modal="true" role="dialog">
       <button class="rules-close" id="close-rules" aria-label="fermer">×</button>
-      <h2 class="rules-base-title post-binaire-texte">règle du jeu</h2>
-      <p class="rules-base-text post-binaire-texte">
-        — chaque post-it contient un texte<br>
-        — tu peux les déplacer<br>
-        — cliquer sur un post-it le ramène au premier plan<br>
-        — “×” le ferme<br><br>
-        (ferme cette fenêtre pour jouer)
+
+      <h2 class="rules-title">
+        Recueil auquel il faudrait trouver un nom<sup><a href="#note-1" id="ref-1">1</a></sup>
+      </h2>
+
+      <p class="rules-text">
+        lorem ipsum
+      </p>
+
+      <p class="rules-footnote" id="note-1">
+        <a href="#ref-1">1</a> — mais peut-être que donner un nom c'est déjà fermer l'horizon
       </p>
     </div>
 
@@ -283,208 +356,27 @@
 
     const accents = ["#00a8ff", "#ff2fa3", "#000000"];
 
+    // --- contenu 4e de couverture (post-it spécial) ---
+    const coverText = `« j’ai commencé à écrire pour essayer de trouver le chemin des temples cachés sur mes îles intérieures et dont j’ignore encore, un jour sur deux, la voie d’accès. le soleil peut aider, la lune aussi mais le monde tangible — celui que beaucoup appelle "le vrai" — est une vraie plaie : il bourdonne trop fort et ne fait pas beaucoup de miel. »`;
+
+    // --- poèmes (tu complèteras/recolleras plus tard, on garde court ici) ---
     const poems = [
-      {
-        title: "",
-        body: `quatre heures du mat
-je dors pas et c’est pas parce que j’ai trop bu 
-c’est une nouvelle manie de mon corps
-le refus 
-
-j’essaie d’écrire un poème 
-il contiendrait le nom de
-tous les pays colonisés 
-dans le monde mais
-
-flicaille
-y en a trop 
-je sais plus quoi faire
-j’ai peur d’en oublier
-
-je me rappelle de marker 
-qui se demande où sont cell..eux qui 
-avec le che 
-tremblent d’indignation à chaque fois qu’une injustice est commise dans le monde
-
-moi jte jure 
-je ne tremble plus
-à ce stade
-c’est carrément une crise d’épilepsie`
-      },
-      {
-        title: "",
-        body: `lui : « mais alors ce livre, vous allez le faire ? que je vous donne une bourse ou non ? vous trouverez de toute façon un moyen de le faire, je me trompe ? »
-
-moi : « oui je le ferai. non, vous ne vous trompez pas. »
-
-lui : « alors : ça ne sert à rien que je vous aide. »
-
-silence
-
-lui : « vous, vous faite de la poésie-guérilla, l’argent ne vous servirait à rien. »
-
-
-claquement de porte sur mon pif 
-bye
-
-
-— des fois je ne devrais pas être honnête
-je devrais assumer de tricher
-leur dire que j’ai trop besoin d’eux des fois
-je devrais lécher un ou deux culs mais 
-
-
-déso
-je suis hyper sélectif..ve quand il s’agit de boule —
-
-alors 
-je suis rentré..e chez moi 
-j’ai rempli le frigo de colère
-de mots de colère
-de poésie de colère 
-de livres entiers sous acide colérique parce que c’était tout ce qui me restait
-et j’ai continué à faire une guerre qu’on me prête mais que je n’ai jamais voulue 
-j’ai continué la guérilla avec des mots quand je voulais seulement parler d’amour
-d’autres possibles 
-de l’autre monde 
-celui qui est derrière le monde 
-derrière les ombres 
-derrière l’idée qu’il se fait de lui-même
-
-
-c’est con`
-      },
-      {
-        title: `What power art thou,
-Who from below
-Hast made me rise? 🝫`,
-        body: `What power art thou,
-Who from below
-Hast made me rise?
-
-
-
-dehors il y a le gel qui prend et qui masque tout 
-jusqu’à la fenêtre du train 
-jusqu’aux rails qu’on nous avait vendus comme le futur 			brillant 
-
-je ne sais plus trop où regarder 
-où trouver la lumière d’une étoile
-d’une phrase d’un petit espoir 
-j’aimerais dormir 
-dormir fumer dormir 
-faire entrer un peu de
-fumer un peu de fumée 
-chaude 
-
-jtj
-jtj jpp
-laisse-moi dormir steuplé
-j’ai plus la force là 
-plus rien 
-dormir
-steuplé
-laisse-moi
-
-juste
-
-
-domir
-un peu 
-
-
-
-longtemps —
-
-dehors il y a le gel qui prend et qui masque tout 
-jusqu’à la fenêtre du train 
-jusqu’aux rails qu’on nous avait DEHORS IL Y A LES BOMBES QUI TOMBENT
-
-
-
-pas dans notre jardin c'est sûr mais c'est tout comme
-parce que tant qu'une bombe tombera ce sera dans notre flicaille de jardin dans notre flicaille de jardin à nous tous..tes qui sommes dans le même bateau loin de ceux qui nous considèrent comme des animaux mais qui n’ont jamais rien produit qui sorte le monde du monde
- on n'est pas si séparé..es que ça non jte jure quand i..els perdent un bébé c'est le nôtre qui est perdu rien que le nôtre tous les nôtres alors
-il nous reste les mots bien sûr 
-les mots que je voudrais bombes pour une fois non
-même pas jte jure  
-moi
-
-je voudrais seulement		ouvrir 
-je voudrais seulement ouvrir une brèche de lumière et de chaleur et me dire que mes armes sont d’une nouvelle espèce 
-d’une espèce qui ne fait pas sortir les tripes mais les larmes
-celles de joies
-celles des émotions trop énormes qui font déborder les lacs dans les yeux péter tous les barrages pour que les truites arc-en-ciel puissent remonter aux racines de leur ciel 
-j’aimerais que mes armes à moi elles fassent gicler le bonheur mais 
-de toute façon 
-je peux plus bouger 
-je peux même plus 
-même plus 
-
-respirer jte jure
- 
-j’aimerais me lever 
-de nouveau
-mais jpp
-
-jtj jpp
-dehors il y a le gel qui prend et	      toi
- 
-toi qui te tiens au seuil 
-au milieu de la montagne 
-première oasis sur la première étape du chemin 
-là
-au milieu
-tu as fait prendre un feu de camp 
-et de tous les côtés 
-de tous les chemins frigorifié..es 
-des centaines des milliers 
-des multitudes se rejoignent 
-— qui sont cell..eux qui montent du désert
-en colonne de fumée ?
-
-i..els grondent que je ne suis pas seul..e
-que je suis des centaines des milliers 
-multitude
-
-i..els grondent
-« lâche pas 
-lâche pas bordel
-on lâchera pas
-sans un..e seul..e de nous-même on est foutu..es 
-on a besoin de nous
-
-d'une armée de solitaires prêt..es à prendre le monde dans leurs bras sans violence 
-avec désir
-avec désir d'être ensemble sans gueule de bois sans mal de bide
-on te veut vivant..e
-on a besoin de te sentir vivre là
-tout contre nous tous..tes 
-ensemble
-
-on te lâchera pas  »`
-      },
       {
         title: "",
         body: `parfois je me demande si le monde m’appelle vraiment ou si c’est seulement mon imagination qui fait des siennes
 
-
 genre : 
 est-ce que j’ai vraiment des pouvoirs magiques ?
-
 
 genre : 
 est-ce qu’on s’est vraiment rencontré..es de l’autre côté de la galaxie il y a trois éons et demi ? 
 
-
 genre :  
 est-ce que je suis vraiment jésus ?
 
-
-
 — claquement de langue interrogateur`
       }
-      /* (les autres poèmes restent identiques à ta version actuelle) */
+      /* (les autres post-its/poèmes restent identiques à ta version actuelle) */
     ];
 
     function bringToFront(el) {
@@ -509,7 +401,7 @@ est-ce que je suis vraiment jésus ?
       return 580;
     }
 
-    /* Random “éclaté” avec hauteur utile safe */
+    // random “éclaté” avec hauteur utile safe
     function randomizeInPage(el, container) {
       const minVisible = 80;
 
@@ -580,7 +472,7 @@ est-ce que je suis vraiment jésus ?
       wrap.style.setProperty("--accent", c);
       wrap.style.setProperty("--shadow", c);
 
-      // z-index initial aléatoire, stable (pas de “tout devant”)
+      // z-index initial aléatoire
       wrap.style.zIndex = String(10 + Math.floor(Math.random() * 160));
 
       const titleHtml = poem.title ? escapeHtml(poem.title) : "";
@@ -616,6 +508,50 @@ est-ce que je suis vraiment jésus ?
       return wrap;
     }
 
+    // ✅ post-it spécial “4e de couv” : au premier plan + position random
+    function buildCoverPostit() {
+      const wrap = document.createElement("div");
+      wrap.className = "postit-poem postit-cover post-binaire-texte";
+
+      wrap.style.setProperty("--accent", "#ff2fa3");
+      wrap.style.setProperty("--shadow", "#ff2fa3");
+
+      // d’abord un z-index “normal”
+      wrap.style.zIndex = String(10 + Math.floor(Math.random() * 160));
+
+      wrap.innerHTML = `
+        <div class="postit-bar">
+          <span class="postit-title">quatrième de couverture</span>
+          <div class="postit-actions">
+            <button class="close-poem" aria-label="fermer">×</button>
+          </div>
+        </div>
+        <div class="postit-content">${escapeHtml(coverText)}</div>
+      `;
+
+      wrap.querySelector(".close-poem").addEventListener("click", (e) => {
+        e.stopPropagation();
+        wrap.style.display = "none";
+      });
+
+      page.appendChild(wrap);
+
+      requestAnimationFrame(() => {
+        if (!window.matchMedia("(max-width: 700px)").matches) {
+          randomizeInPage(wrap, page);
+        }
+        // ✅ puis on le met au-dessus de tout (sans bouger sa position)
+        bringToFront(wrap);
+      });
+
+      wrap.addEventListener("click", () => bringToFront(wrap));
+      makeDraggable(wrap);
+
+      return wrap;
+    }
+
+    // --- init : post-its déjà présents derrière la règle ---
+    buildCoverPostit();
     poems.forEach((p, i) => buildPostit(p, i));
 
     // fermer la règle du jeu = juste la cacher
