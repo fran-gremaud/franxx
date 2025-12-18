@@ -444,21 +444,18 @@ a:hover {
 
 /* MERDE étiré sur toute la largeur du post-it */
 .full-width-line{
-  display: flex;
+  display: block;
   width: 100%;
-  justify-content: space-between;
-  align-items: baseline;
+
+  text-align: center;
+  white-space: nowrap;
 
   font-weight: 700;
-  font-size: 2em;      /* ajuste ici si besoin */
   line-height: 0.95;
 
   padding-left: 0;
   text-indent: 0;
 }
-
-.full-width-line span{
-  display: block;
 
 }
 
