@@ -413,3 +413,10 @@ a:hover {
   margin-bottom: 0.5em;
 }
 
+.postit-content .wrap-line{
+  display: block;
+}
+
+.postit-content .wrap-line.continue{
+  padding-left: 1.2em;
+}
