@@ -420,3 +420,25 @@ a:hover {
 .postit-content .wrap-line.continue{
   padding-left: 1.2em;
 }
+
+/* =========================================================
+   INDENT WRAP (safe) : seulement sur les lignes "br"
+========================================================= */
+
+.poem-line{
+  display: block;
+  margin: 0;
+  padding-left: 1.2em;     /* ✅ valeur visible, comme tu voulais */
+  text-indent: -1.2em;     /* 1ère ligne revient à gauche, les wraps restent indentés */
+}
+
+.poem-gap{
+  height: 1em;             /* espace pour les doubles sauts de ligne */
+}
+
+/* exceptions : lignes spéciales */
+.poem-line .bombs-line{
+  padding-left: 0;
+  text-indent: 0;
+}
+
