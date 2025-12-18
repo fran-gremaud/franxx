@@ -818,6 +818,22 @@ en capitales :<br>
   // lance une fois, après injection des post-its
   applyIndentEverywhere();
 
+  // étire les lignes "full-width-line" lettre par lettre
+document.querySelectorAll(".full-width-line").forEach(el => {
+  if (el.dataset.split === "1") return;
+  el.dataset.split = "1";
+
+  const txt = el.textContent;
+  el.textContent = "";
+
+  [...txt].forEach(ch => {
+    const s = document.createElement("span");
+    s.textContent = ch === " " ? "\u00A0" : ch;
+    el.appendChild(s);
+  });
+});
+
+
 })();
 </script>
 
