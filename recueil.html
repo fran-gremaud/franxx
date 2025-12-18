@@ -212,7 +212,6 @@
       line-height: 1.5;
       color: var(--accent);
 
-      /* scroll interne */
       max-height: 60vh;
       overflow: auto;
       overscroll-behavior: contain;
@@ -247,10 +246,6 @@
       color: #ff2fa3;
     }
 
-    /* =========================================================
-       MOBILE : pile
-    ========================================================= */
-
     @media (max-width: 700px) {
       .rules-base,
       .postit {
@@ -279,7 +274,6 @@
 
   <div class="page">
 
-    <!-- RÈGLE DU JEU -->
     <div id="rules-base" class="rules-base">
       <button class="rules-close" id="close-rules" aria-label="fermer">×</button>
 
@@ -296,14 +290,10 @@
       </p>
     </div>
 
-    <!-- POST-ITS injectés par JS -->
-
   </div>
 
-  <!-- FOOTER -->
   <div id="footer-placeholder"></div>
 
-  <!-- ÉCRAN GLITCH -->
   <div id="glitch-screen">
     <img src="glitch.png" alt="">
   </div>
@@ -327,9 +317,14 @@
 
     const palette = ["#ff2fa3", "#000000", "#00a8ff"];
 
-    let topZ = 500; // sous la 4e de couv (99999)
+    let topZ = 500;
 
     function bringToFront(el) {
+      // ✅ la 4e de couv reste toujours au top
+      if (el && el.dataset && el.dataset.pin === "top") {
+        el.style.zIndex = "99999";
+        return;
+      }
       topZ += 1;
       el.style.zIndex = topZ;
     }
@@ -364,7 +359,7 @@
       const minY = -(el.offsetHeight - minVisible);
 
       const x = minX + Math.random() * (maxX - minX);
-      const y = minY + Math.random() * (maxY - minY);
+      const y = minY + Math.random() * (maxY - minVisible);
 
       el.style.left = x + "px";
       el.style.top  = y + "px";
@@ -414,7 +409,6 @@
       }
     }
 
-    // IMPORTANT : body est injecté en HTML (pour <br>)
     function buildPostit({ title, body }, accent, extraClass = "") {
       const wrap = document.createElement("div");
       wrap.className = `postit post-binaire-texte ${extraClass}`.trim();
@@ -441,8 +435,6 @@
       }
 
       wrap.style.width = pickWidthForText(title, body) + "px";
-
-      // injecte le body comme HTML (pour <br>)
       wrap.querySelector(".postit-content").innerHTML = body || "";
 
       wrap.querySelector(".close-postit").addEventListener("click", (e) => {
@@ -464,7 +456,7 @@
       return wrap;
     }
 
-    // 4E DE COUV
+    // 4E DE COUV (pinned top)
     const coverText = `« j’ai commencé à écrire pour essayer de trouver le chemin des temples cachés sur mes îles intérieures et dont j’ignore encore, un jour sur deux, la voie d’accès. le soleil peut aider, la lune aussi mais le monde tangible — celui que beaucoup appelle "le vrai" — est une vraie plaie : il bourdonne trop fort et ne fait pas beaucoup de miel. »`;
 
     const cover = buildPostit(
@@ -472,6 +464,7 @@
       "#ff2fa3",
       "postit-cover"
     );
+    cover.dataset.pin = "top";
     cover.style.zIndex = "99999";
 
     // 15 POÈMES (1 rempli)
@@ -503,20 +496,10 @@ je ne tremble plus<br>
 à ce stade<br>
 c’est carrément une crise d’épilepsie`
       },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" },
-      { title: "", body: "" }
+      { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" },
+      { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" },
+      { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" },
+      { title: "", body: "" }, { title: "", body: "" }
     ];
 
     poems.forEach((p, i) => {
