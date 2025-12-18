@@ -406,4 +406,10 @@ a:hover {
   margin-top: 0.5em;
 }
 
+.postit-content .dedicace{
+  display: block;
+  text-align: right;
+  font-style: italic;
+  margin-bottom: 0.5em;
+}
 
