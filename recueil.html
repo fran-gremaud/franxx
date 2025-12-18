@@ -54,7 +54,6 @@
       left: 28px;
       right: 28px;
       top: 28px;
-
       z-index: 1000;
 
       background: #ffffff;
@@ -218,19 +217,7 @@
     }
 
     /* =========================================================
-       AUTO-INDENT DES WRAPS (lignes “accidentelles”)
-    ========================================================= */
-
-    .postit-content .wrap-line {
-      display: block;
-    }
-
-    .postit-content .wrap-line.continue {
-      padding-left: 1.2em;
-    }
-
-    /* =========================================================
-       LIGNE SPÉCIALE : "BOMBES"
+       SPÉCIAUX
     ========================================================= */
 
     .postit-content .bombs-line{
@@ -242,20 +229,12 @@
       letter-spacing: 0.015em;
     }
 
-    /* =========================================================
-       ASIDE (claquement de langue)
-    ========================================================= */
-
     .postit-content .aside-question{
       display: block;
       text-align: right;
       font-style: italic;
       margin-top: 0.5em;
     }
-
-    /* =========================================================
-       DÉDICACE (à u. k. l g.)
-    ========================================================= */
 
     .postit-content .dedicace{
       display: block;
@@ -278,13 +257,8 @@
       --shadow: #ff2fa3;
     }
 
-    .postit-cover .postit-title {
-      display: none;
-    }
-
-    .postit-cover .postit-bar {
-      justify-content: flex-end;
-    }
+    .postit-cover .postit-title { display: none; }
+    .postit-cover .postit-bar { justify-content: flex-end; }
 
     .postit-cover .postit-content {
       font-family: "DINdong", serif;
@@ -306,17 +280,9 @@
         margin: 18px 0;
       }
 
-      .rules-title {
-        font-size: 42px;
-      }
-
-      .page {
-        min-height: auto;
-      }
-
-      .postit-content {
-        max-height: 65vh;
-      }
+      .rules-title { font-size: 42px; }
+      .page { min-height: auto; }
+      .postit-content { max-height: 65vh; }
     }
   </style>
 </head>
@@ -341,10 +307,14 @@
       </p>
     </div>
 
+    <!-- post-its injectés par JS -->
+
   </div>
 
+  <!-- FOOTER -->
   <div id="footer-placeholder"></div>
 
+  <!-- GLITCH -->
   <div id="glitch-screen">
     <img src="glitch.png" alt="">
   </div>
@@ -371,20 +341,12 @@
     let topZ = 500;
 
     function bringToFront(el) {
-      // la 4e de couv reste toujours au top
       if (el && el.dataset && el.dataset.pin === "top") {
         el.style.zIndex = "99999";
         return;
       }
       topZ += 1;
       el.style.zIndex = topZ;
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
     }
 
     function pickWidthForText(title, body) {
@@ -434,7 +396,7 @@
         startX = evt.clientX;
         startY = evt.clientY;
         startLeft = el.offsetLeft;
-        startTop = el.offsetTop;
+        startTop  = el.offsetTop;
 
         document.addEventListener("mousemove", drag);
         document.addEventListener("mouseup", stopDrag);
@@ -466,14 +428,11 @@
 
       wrap.style.setProperty("--accent", accent);
       wrap.style.setProperty("--shadow", accent);
-
       wrap.style.zIndex = String(50 + Math.floor(Math.random() * 350));
-
-      const titleHtml = title ? escapeHtml(title) : "";
 
       wrap.innerHTML = `
         <div class="postit-bar">
-          <span class="postit-title">${titleHtml}</span>
+          <span class="postit-title"></span>
           <div class="postit-actions">
             <button class="close-postit" aria-label="fermer">×</button>
           </div>
@@ -481,12 +440,10 @@
         <div class="postit-content"></div>
       `;
 
-      if (!title) {
-        wrap.querySelector(".postit-title").textContent = "";
-      }
+      wrap.querySelector(".postit-title").innerHTML = title || "";
+      wrap.querySelector(".postit-content").innerHTML = body || "";
 
       wrap.style.width = pickWidthForText(title, body) + "px";
-      wrap.querySelector(".postit-content").innerHTML = body || "";
 
       wrap.querySelector(".close-postit").addEventListener("click", (e) => {
         e.stopPropagation();
@@ -507,10 +464,7 @@
       return wrap;
     }
 
-    // ---------------------------------------------------------
     // 4E DE COUV (pinned top)
-    // ---------------------------------------------------------
-
     const coverText = `« j’ai commencé à écrire pour essayer de trouver le chemin des temples cachés sur mes îles intérieures et dont j’ignore encore, un jour sur deux, la voie d’accès. le soleil peut aider, la lune aussi mais le monde tangible — celui que beaucoup appelle "le vrai" — est une vraie plaie : il bourdonne trop fort et ne fait pas beaucoup de miel. »`;
 
     const cover = buildPostit(
@@ -521,10 +475,7 @@
     cover.dataset.pin = "top";
     cover.style.zIndex = "99999";
 
-    // ---------------------------------------------------------
-    // POÈMES (remplis : 1 à 5)
-    // ---------------------------------------------------------
-
+    // POÈMES (1 à 5 remplis, 6 à 15 placeholders)
     const poems = [
       {
         title: "",
@@ -561,7 +512,7 @@ moi : « oui je le ferai. non, vous ne vous trompez pas. »<br><br>
 
 lui : « alors : ça ne sert à rien que je vous aide. »<br><br>
 
-<em>silence</em><br><br>
+silence<br><br>
 
 lui : « vous, vous faite de la poésie-guérilla, l’argent ne vous servirait à rien. »<br><br><br>
 
@@ -574,7 +525,7 @@ leur dire que j’ai trop besoin d’eux des fois<br>
 je devrais lécher un ou deux culs mais<br><br><br>
 
 <em>déso</em><br>
-je suis hyper sélectif..ve quand il s’agit de boule —<br><br>
+<em>je suis hyper sélectif..ve quand il s’agit de boule —</em><br><br>
 
 alors<br>
 je suis rentré..e chez moi<br>
@@ -603,7 +554,7 @@ où trouver la lumière d’une étoile<br>
 d’une phrase d’un petit espoir<br>
 j’aimerais dormir<br>
 dormir fumer dormir<br>
-faire entrer un peu de<br>
+faire entrer un peu de
 fumer un peu de fumée<br>
 chaude<br><br>
 
@@ -721,7 +672,7 @@ gris que rien ne perce depuis des semaines<br><br>
 le pays défile par la fenêtre du train<br>
 et moi je me sens<br>
 complètement<br>
-absolument<br>
+absolument
 imperméable<br><br>
 
 je déréalise y a rien qui <em>strike</em> le monde est un flipper et j’ai pas de pièce de cinq francs pour le faire fonctionner le truc reste sans couleur<br>
@@ -798,7 +749,6 @@ on a dormi sur une pierre chaude<br>
 pas plus loin que l’année passée`
       },
 
-      /* placeholders */
       { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" },
       { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" },
       { title: "", body: "" }, { title: "", body: "" }
@@ -812,97 +762,6 @@ pas plus loin que l’année passée`
     closeRules.addEventListener("click", () => {
       rules.style.display = "none";
     });
-
-  })();
-  </script>
-
-  <script>
-  (function(){
-
-    function applyWrapIndent(el){
-      if(!el || !el.innerHTML) return;
-
-      const original = el.innerHTML;
-      const blocks = original.split(/<br\s*\/?>/i);
-
-      el.innerHTML = "";
-
-      blocks.forEach((block, idx) => {
-
-        if(block.trim() === ""){
-          el.appendChild(document.createElement("br"));
-          return;
-        }
-
-        const temp = document.createElement("span");
-        temp.innerHTML = block;
-        el.appendChild(temp);
-
-        const range = document.createRange();
-        range.selectNodeContents(temp);
-        const rects = range.getClientRects();
-
-        if(rects.length <= 1){
-          const s = document.createElement("span");
-          s.className = "wrap-line";
-          s.innerHTML = block;
-          el.replaceChild(s, temp);
-        } else {
-          const words = temp.textContent.split(/(\s+)/);
-          const lines = [];
-
-          const meas = document.createElement("span");
-          meas.style.position = "absolute";
-          meas.style.visibility = "hidden";
-          meas.style.whiteSpace = "normal";
-          meas.style.width = el.clientWidth + "px";
-          meas.style.font = getComputedStyle(el).font;
-          meas.style.lineHeight = getComputedStyle(el).lineHeight;
-          document.body.appendChild(meas);
-
-          let current = "";
-
-          words.forEach(w => {
-            meas.textContent = current + w;
-            const h1 = meas.getBoundingClientRect().height;
-
-            meas.textContent = current;
-            const h0 = meas.getBoundingClientRect().height;
-
-            if(h1 > h0 && current.trim() !== ""){
-              lines.push(current.trimEnd());
-              current = w.trimStart();
-            } else {
-              current += w;
-            }
-          });
-
-          if(current.trim() !== "") lines.push(current.trimEnd());
-          document.body.removeChild(meas);
-
-          const frag = document.createDocumentFragment();
-          lines.forEach((ln, i) => {
-            const s = document.createElement("span");
-            s.className = "wrap-line" + (i > 0 ? " continue" : "");
-            s.textContent = ln;
-            frag.appendChild(s);
-          });
-
-          el.replaceChild(frag, temp);
-        }
-
-        if(idx < blocks.length - 1){
-          el.appendChild(document.createElement("br"));
-        }
-      });
-    }
-
-    function applyAll(){
-      document.querySelectorAll(".postit-content").forEach(applyWrapIndent);
-    }
-
-    applyAll();
-    window.addEventListener("resize", applyAll);
 
   })();
   </script>
