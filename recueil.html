@@ -818,20 +818,42 @@ en capitales :<br><br>
   // lance une fois, après injection des post-its
   applyIndentEverywhere();
 
-  // étire les lignes "full-width-line" lettre par lettre
-document.querySelectorAll(".full-width-line").forEach(el => {
-  if (el.dataset.split === "1") return;
-  el.dataset.split = "1";
+ <script>
+(function () {
 
-  const txt = el.textContent;
-  el.textContent = "";
+  function fitTextToWidth(el){
+    const parent = el.parentElement;
+    if (!parent) return;
 
-  [...txt].forEach(ch => {
-    const s = document.createElement("span");
-    s.textContent = ch === " " ? "\u00A0" : ch;
-    el.appendChild(s);
-  });
-});
+    // reset
+    el.style.fontSize = "1px";
+
+    const maxWidth = parent.clientWidth;
+    let size = 1;
+
+    // on augmente jusqu'à dépasser
+    while (el.scrollWidth <= maxWidth && size < 300) {
+      size += 1;
+      el.style.fontSize = size + "px";
+    }
+
+    // on revient d’un cran pour être safe
+    el.style.fontSize = (size - 1) + "px";
+  }
+
+  function fitAll(){
+    document.querySelectorAll(".full-width-line").forEach(fitTextToWidth);
+  }
+
+  // au chargement
+  window.addEventListener("load", fitAll);
+
+  // si la fenêtre change (responsive)
+  window.addEventListener("resize", fitAll);
+
+})();
+</script>
+
 
 
 })();
