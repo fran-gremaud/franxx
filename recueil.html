@@ -27,6 +27,12 @@
        RECUEIL — STYLES SPÉCIFIQUES
     ========================================================= */
 
+    /* ✅ Plateau de jeu : sinon la hauteur "utile" est minuscule
+       (les éléments en absolute ne comptent pas dans la hauteur) */
+    .page {
+      min-height: 78vh;
+    }
+
     .recueil-header {
       margin-bottom: 18px;
     }
@@ -210,10 +216,11 @@
     @media (max-width: 700px) {
       .rules-base {
         position: static;
-        left: auto;
-        right: auto;
-        top: auto;
         margin: 0 0 18px 0;
+      }
+
+      .page {
+        min-height: auto;
       }
 
       .postit-poem {
@@ -282,12 +289,10 @@
     const rulesBase = document.getElementById("rules-base");
     const closeRulesBtn = document.getElementById("close-rules");
 
-    let topZ = 200; // on garde une marge au-dessus des z-index initiaux
+    let topZ = 200;
 
-    // Palette SANS jaune
     const accents = ["#00a8ff", "#ff2fa3", "#000000"];
 
-    // Textes 1 → 10 (complets, tels que collés)
     const poems = [
       {
         title: "",
@@ -498,7 +503,40 @@ long
 bas 
 gris que rien ne perce depuis des semaines
 
-[...]`
+le pays défile par la fenêtre du train 
+et moi je me sens 
+complètement
+absolument
+imperméable
+
+je déréalise y a rien qui strike le monde est un flipper et j’ai pas de pièce de cinq francs pour le faire fonctionner le truc reste sans couleur 
+sans son 
+sans rien qui se passe d’intéressant pas de rebonds d’élastiques colorés pas de rampes de dingos de multiball de possibilités de combos impossibles 
+
+rien
+
+de 
+
+rien 
+y a rien qui strike
+
+le compteur des points reste vide 
+zéro sur des millions de possibles je déréalise 
+je résonne dans le vide je suis extra-terrestre extra-plan-physique-planétaire extra-exhausted		aussi
+surtout
+
+
+
+je déréalise
+là-bas 
+de l’autre côté 
+je vois les sommets si proches sur lesquels je ne poserai jamais les pieds et 
+je me perds dans ce qu’il reste de neige dans ce qu’il reste de mystère dans ce qu’il reste d’histoires et 
+je me dis que
+si j’écrivais un livre de science-fiction 
+il y aurait
+
+...`
       },
       {
         title: "",
@@ -517,19 +555,19 @@ toi et moi
 tous..tes les deux 
 on the edge
 
-[...]`
+...`
       },
       {
         title: "",
         body: `des fois je me dis 
 — je regarde un rayon de soleil 
-[...]`
+...`
       },
       {
         title: "",
         body: `il faut que je rachète 
 des chaussettes blanches
-[...]`
+...`
       },
       {
         title: "",
@@ -550,13 +588,34 @@ tout notre respect`
       el.style.zIndex = topZ;
     }
 
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
+    function pickWidthForPoem(poem) {
+      const text = (poem.title || "") + "\n" + (poem.body || "");
+      const len = text.length;
+
+      if (len < 500) return 360;
+      if (len < 1100) return 420;
+      if (len < 2000) return 500;
+      return 580;
+    }
+
+    /* ✅ random plus vertical : on utilise une “hauteur utile” safe */
     function randomizeInPage(el, container) {
       const minVisible = 80;
 
-      const maxX = container.clientWidth  - minVisible;
-      const maxY = container.clientHeight - minVisible;
+      const safeW = Math.max(container.clientWidth, 680);
+      const safeH = Math.max(container.clientHeight, Math.floor(window.innerHeight * 0.78));
 
-      const minX = -(el.offsetWidth  - minVisible);
+      const maxX = safeW - minVisible;
+      const maxY = safeH - minVisible;
+
+      const minX = -(el.offsetWidth - minVisible);
       const minY = -(el.offsetHeight - minVisible);
 
       const x = minX + Math.random() * (maxX - minX);
@@ -609,23 +668,6 @@ tout notre respect`
       }
     }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
-    }
-
-    function pickWidthForPoem(poem) {
-      const text = (poem.title || "") + "\n" + (poem.body || "");
-      const len = text.length;
-
-      if (len < 500) return 360;
-      if (len < 1100) return 420;
-      if (len < 2000) return 500;
-      return 580;
-    }
-
     function buildPostit(poem, idx) {
       const wrap = document.createElement("div");
       wrap.className = "postit-poem post-binaire-texte";
@@ -634,7 +676,6 @@ tout notre respect`
       wrap.style.setProperty("--accent", c);
       wrap.style.setProperty("--shadow", c);
 
-      // z-index initial aléatoire (pas de “tout devant”)
       wrap.style.zIndex = String(10 + Math.floor(Math.random() * 140));
 
       const titleHtml = poem.title ? escapeHtml(poem.title) : "";
