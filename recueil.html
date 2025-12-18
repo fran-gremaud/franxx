@@ -218,6 +218,53 @@
     }
 
     /* =========================================================
+       AUTO-INDENT DES WRAPS (lignes “accidentelles”)
+    ========================================================= */
+
+    .postit-content .wrap-line {
+      display: block;
+    }
+
+    .postit-content .wrap-line.continue {
+      padding-left: 1.2em;
+    }
+
+    /* =========================================================
+       LIGNE SPÉCIALE : "BOMBES"
+    ========================================================= */
+
+    .postit-content .bombs-line{
+      display: block;
+      text-align: right;
+      font-size: 2em;
+      line-height: 0.75;
+      margin-top: -0.7em;
+      letter-spacing: 0.015em;
+    }
+
+    /* =========================================================
+       ASIDE (claquement de langue)
+    ========================================================= */
+
+    .postit-content .aside-question{
+      display: block;
+      text-align: right;
+      font-style: italic;
+      margin-top: 0.5em;
+    }
+
+    /* =========================================================
+       DÉDICACE (à u. k. l g.)
+    ========================================================= */
+
+    .postit-content .dedicace{
+      display: block;
+      text-align: right;
+      font-style: italic;
+      margin-bottom: 0.5em;
+    }
+
+    /* =========================================================
        POST-IT 4E DE COUV (devant tout, sans titre)
     ========================================================= */
 
@@ -245,6 +292,10 @@
       line-height: 1.35;
       color: #ff2fa3;
     }
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
 
     @media (max-width: 700px) {
       .rules-base,
@@ -320,7 +371,7 @@
     let topZ = 500;
 
     function bringToFront(el) {
-      // ✅ la 4e de couv reste toujours au top
+      // la 4e de couv reste toujours au top
       if (el && el.dataset && el.dataset.pin === "top") {
         el.style.zIndex = "99999";
         return;
@@ -359,7 +410,7 @@
       const minY = -(el.offsetHeight - minVisible);
 
       const x = minX + Math.random() * (maxX - minX);
-      const y = minY + Math.random() * (maxY - minVisible);
+      const y = minY + Math.random() * (maxY - minY);
 
       el.style.left = x + "px";
       el.style.top  = y + "px";
@@ -456,7 +507,10 @@
       return wrap;
     }
 
+    // ---------------------------------------------------------
     // 4E DE COUV (pinned top)
+    // ---------------------------------------------------------
+
     const coverText = `« j’ai commencé à écrire pour essayer de trouver le chemin des temples cachés sur mes îles intérieures et dont j’ignore encore, un jour sur deux, la voie d’accès. le soleil peut aider, la lune aussi mais le monde tangible — celui que beaucoup appelle "le vrai" — est une vraie plaie : il bourdonne trop fort et ne fait pas beaucoup de miel. »`;
 
     const cover = buildPostit(
@@ -467,7 +521,10 @@
     cover.dataset.pin = "top";
     cover.style.zIndex = "99999";
 
-    // 15 POÈMES (1 rempli)
+    // ---------------------------------------------------------
+    // POÈMES (remplis : 1 à 5)
+    // ---------------------------------------------------------
+
     const poems = [
       {
         title: "",
@@ -496,8 +553,9 @@ je ne tremble plus<br>
 à ce stade<br>
 c’est carrément une crise d’épilepsie`
       },
-      
-{ title: "", body: `lui : « mais alors ce livre, vous allez le faire ? que je vous donne une bourse ou non ? vous trouverez de <em>toute façon</em> un moyen de le faire, je me trompe ? »<br><br>
+      {
+        title: "",
+        body: `lui : « mais alors ce livre, vous allez le faire ? que je vous donne une bourse ou non ? vous trouverez de <em>toute façon</em> un moyen de le faire, je me trompe ? »<br><br>
 
 moi : « oui je le ferai. non, vous ne vous trompez pas. »<br><br>
 
@@ -533,11 +591,10 @@ derrière les ombres<br>
 derrière l’idée qu’il se fait de lui-même<br><br><br>
 
 c’est con`
- }, 
-      
-      { title: `What power art thou,
-Who from below
-Hast made me rise?`, body: `dehors il y a le gel qui prend et qui masque tout<br>
+      },
+      {
+        title: `What power art thou,<br>Who from below<br>Hast made me rise? 🝫`,
+        body: `dehors il y a le gel qui prend et qui masque tout<br>
 jusqu’à la fenêtre du train<br>
 jusqu’aux rails qu’on nous avait vendus comme le futur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;brillant<br><br>
 
@@ -632,26 +689,28 @@ tout contre nous tous..tes<br>
 ensemble<br><br>
 
 on te lâchera pas »`
- }, { title: "", body: `parfois je me demande<br>
+      },
+      {
+        title: "",
+        body: `parfois je me demande<br>
 si le monde m’appelle vraiment<br>
 ou si c’est seulement mon imagination<br>
 qui fait des siennes<br><br>
 
-genre :<br>
+genre<br>
 est-ce que j’ai vraiment des pouvoirs magiques ?<br><br>
 
-genre :<br>
+genre<br>
 est-ce qu’on s’est vraiment rencontré de l’autre côté de la galaxie il y a trois éons et demi ?<br><br>
 
-genre :<br>
+genre<br>
 est-ce que je suis vraiment jésus ?<br><br>
 
 <span class="aside-question">—&nbsp;claquement de langue interrogateur</span>`
-}, 
-      
-      { title: `affleurement léger du réel dans le processus de 
-déréalisation inhérent au monde du grand capital`
-, body: `<span class="dedicace">à u. k. l g.</span><br><br>
+      },
+      {
+        title: `affleurement léger du réel dans le processus de<br>déréalisation inhérent au monde du grand capital`,
+        body: `<span class="dedicace">à u. k. l g.</span><br><br>
 
 ce matin<br>
 je regarde le ciel<br>
@@ -730,14 +789,16 @@ ouais<br><br>
 dans ce monde-là y aurait des enfants partout<br>
 qui viendraient courir jouer chanter s’assoir à côté<br>
 et sans doute qu’on saurait les aimer<br>
-même sans connaître leurs noms<br><br><br><br><br>
+même sans connaître leurs noms<br><br>
 
 je me redresse sur mon siège<br>
 le cul engourdi le cœur un peu léger je réalise<br>
 que sur ces sommets<br>
 on a dormi sur une pierre chaude<br>
 pas plus loin que l’année passée`
- },
+      },
+
+      /* placeholders */
       { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" },
       { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" }, { title: "", body: "" },
       { title: "", body: "" }, { title: "", body: "" }
@@ -754,81 +815,97 @@ pas plus loin que l’année passée`
 
   })();
   </script>
-<script>
-(function(){
 
-  function applyWrapIndent(el){
-    if(!el || !el.innerHTML) return;
+  <script>
+  (function(){
 
-    const original = el.innerHTML;
-    const blocks = original.split(/<br\s*\/?>/i);
+    function applyWrapIndent(el){
+      if(!el || !el.innerHTML) return;
 
-    el.innerHTML = "";
+      const original = el.innerHTML;
+      const blocks = original.split(/<br\s*\/?>/i);
 
-    blocks.forEach((block, idx) => {
+      el.innerHTML = "";
 
-      if(block.trim() === ""){
-        el.appendChild(document.createElement("br"));
-        return;
-      }
+      blocks.forEach((block, idx) => {
 
-      const temp = document.createElement("span");
-      temp.innerHTML = block;
-      el.appendChild(temp);
+        if(block.trim() === ""){
+          el.appendChild(document.createElement("br"));
+          return;
+        }
 
-      const range = document.createRange();
-      range.selectNodeContents(temp);
-      const rects = range.getClientRects();
+        const temp = document.createElement("span");
+        temp.innerHTML = block;
+        el.appendChild(temp);
 
-      // une seule ligne → pas de wrap
-      if(rects.length <= 1){
-        const s = document.createElement("span");
-        s.className = "wrap-line";
-        s.innerHTML = block;
-        el.replaceChild(s, temp);
-      } else {
-        // wrap détecté → on reconstruit ligne par ligne
-        const words = temp.textContent.split(/(\s+)/);
-        const lines = [];
+        const range = document.createRange();
+        range.selectNodeContents(temp);
+        const rects = range.getClientRects();
 
-        const meas = document.createElement("span");
-        meas.style.position = "absolute";
-        meas.style.visibility = "hidden";
-        meas.style.whiteSpace = "normal";
-        meas.style.width = el.clientWidth + "px";
-        meas.style.font = getComputedStyle(el).font;
-        meas.style.lineHeight = getComputedStyle(el).lineHeight;
-        document.body.appendChild(meas);
-
-        let current = "";
-
-        words.forEach(w => {
-          meas.textContent = current + w;
-          const h1 = meas.getBoundingClientRect().height;
-
-          meas.textContent = current;
-          const h0 = meas.getBoundingClientRect().height;
-
-          if(h1 > h0 && current.trim() !== ""){
-            lines.push(current.trimEnd());
-            current = w.trimStart();
-          } else {
-            current += w;
-          }
-        });
-
-        if(current.trim() !== "") lines.push(current.trimEnd());
-        document.body.removeChild(meas);
-
-        const frag = document.createDocumentFragment();
-        lines.forEach((ln, i) => {
+        if(rects.length <= 1){
           const s = document.createElement("span");
-          s.className = "wrap-line" + (i > 0 ? " continue" : "");
-          s.textContent = ln;
-          frag.appendChild(s);
-        });
+          s.className = "wrap-line";
+          s.innerHTML = block;
+          el.replaceChild(s, temp);
+        } else {
+          const words = temp.textContent.split(/(\s+)/);
+          const lines = [];
 
-        el.replaceChild(frag, t
+          const meas = document.createElement("span");
+          meas.style.position = "absolute";
+          meas.style.visibility = "hidden";
+          meas.style.whiteSpace = "normal";
+          meas.style.width = el.clientWidth + "px";
+          meas.style.font = getComputedStyle(el).font;
+          meas.style.lineHeight = getComputedStyle(el).lineHeight;
+          document.body.appendChild(meas);
+
+          let current = "";
+
+          words.forEach(w => {
+            meas.textContent = current + w;
+            const h1 = meas.getBoundingClientRect().height;
+
+            meas.textContent = current;
+            const h0 = meas.getBoundingClientRect().height;
+
+            if(h1 > h0 && current.trim() !== ""){
+              lines.push(current.trimEnd());
+              current = w.trimStart();
+            } else {
+              current += w;
+            }
+          });
+
+          if(current.trim() !== "") lines.push(current.trimEnd());
+          document.body.removeChild(meas);
+
+          const frag = document.createDocumentFragment();
+          lines.forEach((ln, i) => {
+            const s = document.createElement("span");
+            s.className = "wrap-line" + (i > 0 ? " continue" : "");
+            s.textContent = ln;
+            frag.appendChild(s);
+          });
+
+          el.replaceChild(frag, temp);
+        }
+
+        if(idx < blocks.length - 1){
+          el.appendChild(document.createElement("br"));
+        }
+      });
+    }
+
+    function applyAll(){
+      document.querySelectorAll(".postit-content").forEach(applyWrapIndent);
+    }
+
+    applyAll();
+    window.addEventListener("resize", applyAll);
+
+  })();
+  </script>
 
 </body>
 </html>
