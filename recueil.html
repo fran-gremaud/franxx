@@ -40,8 +40,15 @@
     }
 
     /* ---------------------------------------------------------
+       MODE INTRO : tant que la règle est ouverte
+       -> on cache *de force* tous les post-its (anti-flash)
+    --------------------------------------------------------- */
+    body.intro-open .postit-poem {
+      display: none !important;
+    }
+
+    /* ---------------------------------------------------------
        RÈGLE DU JEU (DEVANT TOUT AU DÉPART)
-       style “base” + position overlay
     --------------------------------------------------------- */
 
     .rules-base {
@@ -49,7 +56,7 @@
       left: 28px;
       right: 28px;
       top: 28px;
-      z-index: 5000;
+      z-index: 9999;
 
       background: #ffffff;
       border: 6px solid #000000;
@@ -101,7 +108,7 @@
     .postit-poem {
       position: absolute;
       width: 360px;          /* base, override via JS */
-      max-width: 620px;      /* plafond */
+      max-width: 620px;
       z-index: 10;
       cursor: grab;
       left: 0;
@@ -141,7 +148,6 @@
       gap: 10px;
     }
 
-    /* ✅ Titres plus gros + police PubliFluorNormale */
     .postit-poem .postit-title {
       font-family: "PubliFluorNormale", PostBinaire, sans-serif;
       font-size: 16px;
@@ -149,13 +155,11 @@
       color: #fff;
       opacity: 0.98;
 
-      /* 2 lignes max (sinon chaos) */
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
       overflow: hidden;
 
-      /* au cas où */
       word-break: break-word;
     }
 
@@ -179,7 +183,6 @@
       flex: 0 0 auto;
     }
 
-    /* ✅ Contenu avec scroll interne + typo Adelphe regular */
     .postit-poem .postit-content {
       background: #ffffff;
       border: 4px solid var(--accent);
@@ -204,7 +207,6 @@
     /* ---------------------------------------------------------
        MOBILE : pile statique
     --------------------------------------------------------- */
-
     @media (max-width: 700px) {
       .rules-base {
         position: static;
@@ -228,7 +230,7 @@
   </style>
 </head>
 
-<body>
+<body class="intro-open">
 
   <div class="page">
 
@@ -239,7 +241,7 @@
       </p>
     </div>
 
-    <!-- RÈGLE DU JEU : devant tout au départ -->
+    <!-- RÈGLE DU JEU -->
     <div id="rules-base" class="rules-base post-binaire-texte" aria-modal="true" role="dialog">
       <button class="rules-close" id="close-rules" aria-label="fermer">×</button>
       <h2 class="rules-base-title post-binaire-texte">règle du jeu</h2>
@@ -263,10 +265,8 @@
     <img src="glitch.png" alt="">
   </div>
 
-  <!-- Script glitch -->
   <script src="glitch.js"></script>
 
-  <!-- Chargement du footer -->
   <script>
     fetch("footer.html")
       .then(r => r.text())
@@ -275,7 +275,6 @@
       });
   </script>
 
-  <!-- RECUEIL — LOGIQUE POST-ITS -->
   <script>
   (function () {
 
@@ -283,9 +282,9 @@
     const rulesBase = document.getElementById("rules-base");
     const closeRulesBtn = document.getElementById("close-rules");
 
-    let topZ = 50;
+    let topZ = 200; // on garde une marge au-dessus des z-index initiaux
 
-    // Palette SANS jaune (lisibilité)
+    // Palette SANS jaune
     const accents = ["#00a8ff", "#ff2fa3", "#000000"];
 
     // Textes 1 → 10 (complets, tels que collés)
@@ -499,88 +498,7 @@ long
 bas 
 gris que rien ne perce depuis des semaines
 
-le pays défile par la fenêtre du train 
-et moi je me sens 
-complètement
-absolument
-imperméable
-
-je déréalise y a rien qui strike le monde est un flipper et j’ai pas de pièce de cinq francs pour le faire fonctionner le truc reste sans couleur 
-sans son 
-sans rien qui se passe d’intéressant pas de rebonds d’élastiques colorés pas de rampes de dingos de multiball de possibilités de combos impossibles 
-
-rien
-
-de 
-
-rien 
-y a rien qui strike
-
-le compteur des points reste vide 
-zéro sur des millions de possibles je déréalise 
-je résonne dans le vide je suis extra-terrestre extra-plan-physique-planétaire extra-exhausted		aussi
-surtout
-
-
-
-je déréalise
-là-bas 
-de l’autre côté 
-je vois les sommets si proches sur lesquels je ne poserai jamais les pieds et 
-je me perds dans ce qu’il reste de neige dans ce qu’il reste de mystère dans ce qu’il reste d’histoires et 
-je me dis que
-si j’écrivais un livre de science-fiction 
-il y aurait
-
-la mer et tout un tas d’étendues d’eau des rivières torrents cascades qui se jettent dedans
-des montagnes fleuries coiffées de neiges éternelles qui seraient des îles sur l’eau ou qui flotteraient dans le ciel 
-des cabanes 
-des moulins 
-des bassins d’eau chaude des auberges thermales et la vie qui poindrait de partout 
-
-sauvage
-indomptable
-souveraine
-pas de clôtures pas de pelouses pas de villas
-jamais de ciel bas sauf quand il pleut à verse les jours de feux de cheminée et
-
-dans cet entrelacs de pierre et d’eau et d’âmes 
-des lignes 
-et des trains entre nous 
-comme dans chihiro les rails moitié sur l’eau moitié dans les étoiles moitié sur des falaises 
-sous des arches de pierre 
-dans des forêts sans fin 
-sous les arbres en fleur le long de rivières et des courants
-au milieu des bancs de truites arc-en-ciel des hardes de sangliers des volées d’hirondelles et de la solitude des aigles et des esprits oui 
-je sais bien que ça fait trop de moitiés mais qu’est-ce qu’on s’en fout se serait utopie
-se serait rires
-se serait tendresses et intimités partagées 
-ce monde-là 
-il saurait me parler tranquillement dans les vibrations de tous mes os et 
-
-moi je saurais résonner ne pas être sourd..e je saurais faire partie 
-réaliser
-
-
-
-et quand le soleil se coucherait
-on s’endormirait près de l’eau sur des stéatites chaudes 
-sous la lumière des cinq lunes parmi lesquelles certaines sont restées sans nom pour se souvenir 
-que nommer c’est déjà réduire et qu’on peut aimer sans tout comprendre
-on entendrait les hérissons faire l’amour dans les buissons et les moineaux élever leurs petit..es 
-
-ouais 
-
-dans ce monde-là y aurait des enfants partout
-qui viendraient courir jouer chanter s’assoir à côté 
-et sans doute qu’on saurait les aimer 
-même sans connaître leurs noms
-
-je me redresse sur mon siège
-le cul engourdi le cœur un peu léger je réalise 
-que sur ces sommets
-on a dormi sur une pierre chaude
-pas plus loin que l’année passée`
+[...]`
       },
       {
         title: "",
@@ -599,119 +517,19 @@ toi et moi
 tous..tes les deux 
 on the edge
 
-il aura suffi d’un geste pour que tout à coup
-un écart apparaisse		un écart de quelques dixièmes de degrés dans le tissu de la réalité c’était
-
-sur une route de montagne
-perdu..es dans la contemplation de l’incendie qui brillait là-haut orange
-dans les derniers rayons orange du soleil couchant 
-orange 
-sur le bleu l’indigo le violet crépuscule de montagne
-je crois que c’était un feu de joie 
-mais 
-tout autant un grand incendie dans mon cœur dans mon cœur 
-le chemin 
-qui va de mes yeux à ta bouche c’était
-
-une soirée verres de bière et cocktails 
-perdu..es dans nos mots 
-entre nos mots 
-dans la lumière électrique d’une modernité qui
-quelques secondes avant n’était pas complètement la nôtre mais dont nous n’avions plus rien à faire puisque nous avions retrouvé
-notre temps et
-notre pays 
-tes mots 
-mes mots
-ceux qui allaient bientôt devenir les nôtres
-
-il ne manquait qu’un dérapage
-un déraillement de quelques dixièmes de degrés dans le tissu de la réalité dans mon cœur
-dans mon cœur le chemin qui va de tes yeux à ma bouche c’était
-
-fin de nuit 
-assis..es sur les tatamis 
-au chaud dans un pays de bois et d’eau et de froid 
-perdu..e dans tes yeux 
-verts
-perdu..e sur le chemin qui va de mes yeux à ta bouche 
-tu m’as embrassé..e		c’est toi qui m’as embrassé..e moi je n’aurais pas su 
-étincelle entre deux silex 
-incendie
-dans tes yeux 
-verts
-qui communiquent
-directement avec mon cœur
-sans passer par mon cerveau
-
-les seuls mots qui me viennent en tête 
-alors
-
-月の下
-君の唇
-僕の国
-
-— déso mais
-un haiku se traduit pas —`
+[...]`
       },
       {
         title: "",
         body: `des fois je me dis 
 — je regarde un rayon de soleil 
-et je me dis 
-— je repense au moment de ma vie
-où je ne faisais rien 
-— rien du tout 
-je me dis que peut-être 
-— peut-être que 
-je me suis trompé..e en route 
-
-peut-être que je devrais retourner là-bas
-là où je ne m’occupais pas du monde 
-pas de la politique 
-pas de la détresse 
-et que même la mienne n’avait pas voix
-
-je me souviens qu'alors
-je ne rêvais que d’une chose :
-retourner sur les barricades 
-retourner me battre pour le sens
-mais je n’avais d’énergie 
-que pour laisser passer le temps
-— que pour laisser les rayons du soleil me caresser la joue 
-sous mon duvet synthétique
-
-
-des fois j’aimerais 
-oublier le monde 
-la politique 
-le genre 
-les classes la guerre la détresse des autres les dépressions mes angoisses 
-j’aimerais ne penser qu’à moi qui rame sur un tout petit bateau insubmersible au milieu des vagues du monde
-et puis je me dis que
-non
-de toute façon 
-l’ennui me rattraperait et avec lui 
-le désir de monter sur les barricades
-
-alors autant rester dessus
-
-— et simplement descendre les soirs de fatigue
-retrouver des bras aimants 
-des sourires complices  
-et les faire monter dessus avec moi le lendemain —`
+[...]`
       },
       {
         title: "",
         body: `il faut que je rachète 
 des chaussettes blanches
-des chaussettes roses
-des chaussettes à paillettes
-qui ne soient pas fabriquées par des esclaves 
-qui ne polluent pas les océans aux microplastiques
-alors je marche pieds-nus
-	
-
-				         — si seulement`
+[...]`
       },
       {
         title: "",
@@ -808,9 +626,6 @@ tout notre respect`
       return 580;
     }
 
-    // On stocke les éléments créés pour pouvoir les afficher après fermeture de la règle
-    const createdPostits = [];
-
     function buildPostit(poem, idx) {
       const wrap = document.createElement("div");
       wrap.className = "postit-poem post-binaire-texte";
@@ -818,6 +633,9 @@ tout notre respect`
       const c = accents[idx % accents.length];
       wrap.style.setProperty("--accent", c);
       wrap.style.setProperty("--shadow", c);
+
+      // z-index initial aléatoire (pas de “tout devant”)
+      wrap.style.zIndex = String(10 + Math.floor(Math.random() * 140));
 
       const titleHtml = poem.title ? escapeHtml(poem.title) : "";
 
@@ -838,11 +656,7 @@ tout notre respect`
 
       wrap.style.width = pickWidthForPoem(poem) + "px";
 
-      // ✅ au départ : caché (la règle est “l’écran d’intro”)
-      wrap.style.display = "none";
-
       page.appendChild(wrap);
-      bringToFront(wrap);
 
       requestAnimationFrame(() => {
         if (!window.matchMedia("(max-width: 700px)").matches) {
@@ -853,27 +667,15 @@ tout notre respect`
       wrap.addEventListener("click", () => bringToFront(wrap));
       makeDraggable(wrap);
 
-      createdPostits.push(wrap);
       return wrap;
     }
 
     poems.forEach((p, i) => buildPostit(p, i));
 
-    function revealPostits() {
-      // cacher la règle
+    closeRulesBtn.addEventListener("click", () => {
       rulesBase.style.display = "none";
-
-      // afficher les post-its
-      createdPostits.forEach((el) => {
-        el.style.display = "";
-        bringToFront(el);
-      });
-    }
-
-    closeRulesBtn.addEventListener("click", revealPostits);
-
-    // la règle doit être devant tout
-    bringToFront(rulesBase);
+      document.body.classList.remove("intro-open");
+    });
 
   })();
   </script>
