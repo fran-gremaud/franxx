@@ -490,14 +490,14 @@ body::after{
 
   -webkit-mask-image: url("riso-dither.png");
   -webkit-mask-repeat: repeat;
-  -webkit-mask-size: 512px 512px;
+  -webkit-mask-size: 360px 360px;
 
   mask-image: url("riso-dither.png");
   mask-repeat: repeat;
-  mask-size: 512px 512px;
+  mask-size: 360px 360px;
 
   mix-blend-mode: multiply;
-  opacity: 0.85;
+  opacity: 0.90;
 }
 
 body > *{
