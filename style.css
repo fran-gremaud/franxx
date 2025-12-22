@@ -57,6 +57,25 @@ body {
   overflow: visible;
   position: relative;
 }
+.page{
+  border: 0;                 /* on enlève le trait vectoriel */
+  box-shadow: 12px 12px 0 #111;
+  background-color: #ffffff; /* inchangé */
+  position: relative;
+}
+
+.page::before{
+  content:"";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  border: 6px solid #111;     /* encre noire */
+  mix-blend-mode: multiply;   /* imprimée sur le rose */
+  opacity: 0.9;
+
+  transform: translate(0.6px, 0.6px); /* micro “raté” */
+}
 
 .titre {
   font-size: 48px;
@@ -504,23 +523,3 @@ body > *{
   position: relative;
   z-index: 2;
 }
-
-.page::before{
-  content:"";
-  position:absolute;
-  inset:-6px;
-  pointer-events:none;
-
-  background: #000;
-  -webkit-mask-image: url("halftone.png");
-  -webkit-mask-repeat: repeat;
-  -webkit-mask-size: 380px 380px;
-
-  mask-image: url("halftone.png");
-  mask-repeat: repeat;
-  mask-size: 380px 380px;
-
-  mix-blend-mode: multiply;
-  opacity: 0.9;
-}
-
