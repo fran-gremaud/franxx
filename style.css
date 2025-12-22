@@ -456,3 +456,56 @@ a:hover {
   padding-left: 0;
   text-indent: 0;
 }
+
+/* =========================================================
+   RISO GLOBAL (toutes les pages) — plan A
+   Dépend de: riso-paper.png + riso-dither.png
+========================================================= */
+
+:root{
+  --riso-paper-tint: #f6f1e6; /* teinte papier de base */
+}
+
+/* fond papier global */
+body{
+  background-color: var(--riso-paper-tint);
+}
+
+/* 1) couche papier (douce, partout) */
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background-image: url("riso-paper.png");
+  background-size: 512px 512px;
+  background-repeat: repeat;
+
+  opacity: 0.55;         /* ↓ baisse à 0.35 si tu veux plus discret */
+  mix-blend-mode: normal;
+}
+
+/* 2) couche trame (points irréguliers, partout MAIS très subtil) */
+body::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  background-image: url("riso-dither.png");
+  background-size: 512px 512px;
+  background-repeat: repeat;
+
+  opacity: 0.20;          /* ↑ monte à 0.30 si tu veux voir plus les points */
+  mix-blend-mode: multiply;
+}
+
+/* s’assure que ton contenu passe au-dessus des overlays */
+body > *{
+  position: relative;
+  z-index: 2;
+}
+
