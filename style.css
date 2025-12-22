@@ -457,21 +457,15 @@ a:hover {
   text-indent: 0;
 }
 
-/* =========================================================
-   FOND ROSE "ENCRE RISO" (toutes les pages)
-   Dépend de: riso-paper.png + riso-dither.png
-========================================================= */
-
 :root{
-  --riso-pink: #ff2fa3;  /* ton rose */
+  --riso-paper: #f6f1e6;
+  --riso-ink-pink: #ff2fa3;
 }
 
-/* 1) papier en vrai fond */
 body{
-  background: #f6f1e6;
+  background: var(--riso-paper);
 }
 
-/* 2) texture papier (douce, partout) */
 body::before{
   content:"";
   position: fixed;
@@ -480,40 +474,32 @@ body::before{
   z-index: 0;
 
   background-image: url("riso-paper.png");
-  background-size: 512px 512px;
   background-repeat: repeat;
-
-  opacity: 0.75; /* ajuste 0.55 → 0.90 */
+  background-size: 512px 512px;
+  opacity: 0.75;
 }
 
-/* 3) couche "encre rose" tramée (c’est ça le riso) */
-html::before{
+body::after{
   content:"";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
 
-  /* encre + trame irrégulière dans la même couche */
-  background-image:
-    linear-gradient(var(--riso-pink), var(--riso-pink)),
-    url("riso-dither.png");
+  background: var(--riso-ink-pink);
 
-  background-size: cover, 512px 512px;
-  background-repeat: no-repeat, repeat;
+  -webkit-mask-image: url("riso-dither.png");
+  -webkit-mask-repeat: repeat;
+  -webkit-mask-size: 512px 512px;
 
-  /* mélange encre/trame */
-  background-blend-mode: multiply;
+  mask-image: url("riso-dither.png");
+  mask-repeat: repeat;
+  mask-size: 512px 512px;
 
-  /* l’encre imprimée sur papier */
   mix-blend-mode: multiply;
-  opacity: 0.72; /* ajuste 0.55 → 0.85 */
-
-  /* mini “mauvais calage” très léger */
-  background-position: 0 0, 1px 1px;
+  opacity: 0.85;
 }
 
-/* 4) tout ton contenu au-dessus */
 body > *{
   position: relative;
   z-index: 2;
