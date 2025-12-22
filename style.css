@@ -505,3 +505,22 @@ body > *{
   z-index: 2;
 }
 
+.page::before{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  pointer-events:none;
+
+  background: #000;
+  -webkit-mask-image: url("halftone.png");
+  -webkit-mask-repeat: repeat;
+  -webkit-mask-size: 380px 380px;
+
+  mask-image: url("halftone.png");
+  mask-repeat: repeat;
+  mask-size: 380px 380px;
+
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+}
+
