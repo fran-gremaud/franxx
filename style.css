@@ -579,3 +579,5 @@ body::before{
   isolation: isolate;
   z-index: 9999;
 }
+/* TEST : si ça ne change rien, c'est que le CSS n'est pas lu / pas la bonne page / cache */
+.page { outline: 8px solid lime !important; }
