@@ -458,20 +458,20 @@ a:hover {
 }
 
 /* =========================================================
-   RISO GLOBAL (toutes les pages) — plan A
+   FOND ROSE "ENCRE RISO" (toutes les pages)
    Dépend de: riso-paper.png + riso-dither.png
 ========================================================= */
 
 :root{
-  --riso-paper-tint: #f6f1e6; /* teinte papier de base */
+  --riso-pink: #ff2fa3;  /* ton rose */
 }
 
-/* fond papier global */
+/* 1) papier en vrai fond */
 body{
-  background-color: var(--riso-paper-tint);
+  background: #f6f1e6;
 }
 
-/* 1) couche papier (douce, partout) */
+/* 2) texture papier (douce, partout) */
 body::before{
   content:"";
   position: fixed;
@@ -483,29 +483,38 @@ body::before{
   background-size: 512px 512px;
   background-repeat: repeat;
 
-  opacity: 0.55;         /* ↓ baisse à 0.35 si tu veux plus discret */
-  mix-blend-mode: normal;
+  opacity: 0.75; /* ajuste 0.55 → 0.90 */
 }
 
-/* 2) couche trame (points irréguliers, partout MAIS très subtil) */
-body::after{
+/* 3) couche "encre rose" tramée (c’est ça le riso) */
+html::before{
   content:"";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
 
-  background-image: url("riso-dither.png");
-  background-size: 512px 512px;
-  background-repeat: repeat;
+  /* encre + trame irrégulière dans la même couche */
+  background-image:
+    linear-gradient(var(--riso-pink), var(--riso-pink)),
+    url("riso-dither.png");
 
-  opacity: 0.20;          /* ↑ monte à 0.30 si tu veux voir plus les points */
+  background-size: cover, 512px 512px;
+  background-repeat: no-repeat, repeat;
+
+  /* mélange encre/trame */
+  background-blend-mode: multiply;
+
+  /* l’encre imprimée sur papier */
   mix-blend-mode: multiply;
+  opacity: 0.72; /* ajuste 0.55 → 0.85 */
+
+  /* mini “mauvais calage” très léger */
+  background-position: 0 0, 1px 1px;
 }
 
-/* s’assure que ton contenu passe au-dessus des overlays */
+/* 4) tout ton contenu au-dessus */
 body > *{
   position: relative;
   z-index: 2;
 }
-
