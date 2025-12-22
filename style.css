@@ -460,4 +460,122 @@ a:hover {
 }
 
 
+/* =========================================================
+   AJOUT : RISO NIVEAU 2 (PAPIER + GRAIN + SURIMPRESSION + DOUBLE ENCRE)
+   -> Ajouté SANS supprimer tes règles existantes
+========================================================= */
 
+/* "encres" riso : on se base sur ton magenta + ton bleu postit + ton jaune */
+:root{
+  --riso-paper: #f6f1e6;
+  --riso-ink-a: #ff2fa3; /* ton magenta */
+  --riso-ink-b: #00a8ff; /* ton bleu */
+  --riso-ink-c: #EFFF0F; /* ton jaune acide */
+  --riso-ink-k: #111111;
+}
+
+/* Papier global : on garde ton fond magenta mais on lui met un "papier" en sur-couche */
+body{
+  position: relative;
+  background-color: #ff2fa3; /* inchangé, pour garder ton monde fluo */
+}
+
+/* Papier/grain en overlay (sous la page blanche, au-dessus du fond magenta) */
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events:none;
+  z-index: 0;
+
+  background-image:
+    radial-gradient(circle at 45% 30%, rgba(255,255,255,0.20), transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  background-size: cover, 260px 260px;
+  mix-blend-mode: overlay;
+  opacity: 0.35;
+}
+
+/* Important : on isole la page pour que les blend-modes restent propres */
+.page{
+  isolation: isolate;
+}
+
+/* Grain + mini trame à l’intérieur de la page (effet “impression”) */
+.page::before{
+  content:"";
+  position:absolute;
+  inset:-10px;
+  pointer-events:none;
+  z-index: 1;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  mix-blend-mode: multiply;
+  opacity: 0.18;
+}
+
+.page::after{
+  content:"";
+  position:absolute;
+  inset:-10px;
+  pointer-events:none;
+  z-index: 2;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,0,0,0.02),
+      rgba(0,0,0,0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.14;
+}
+
+/* Tout ce qui est “contenu” dans la page passe au-dessus des overlays */
+.page > *{
+  position: relative;
+  z-index: 3;
+}
+
+/* Double encre sur le texte principal (subtil, mais “riso”) */
+.post-binaire-texte{
+  text-shadow:
+    1px 0 0 rgba(0,168,255,0.35),
+    -1px 1px 0 rgba(239,255,15,0.22);
+}
+
+/* Tu as déjà .texte en magenta : on le “surimprime” plutôt que néon numérique */
+.texte{
+  mix-blend-mode: multiply;
+}
+
+/* Le lien > : double couche d’encre + surimpression */
+.glitch-link.intro-arrow{
+  position: relative;
+  display: inline-block;
+  mix-blend-mode: multiply;
+  text-decoration: none;
+  filter: saturate(1.25) contrast(1.06);
+}
+
+.glitch-link.intro-arrow::after{
+  content: ">";
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(1px, 1px);
+  color: var(--riso-ink-b);
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* On garantit que le glitch reste “par-dessus tout” et pas teinté par nos overlays */
+#glitch-screen{
+  isolation: isolate;
+  z-index: 9999;
+}
