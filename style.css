@@ -13,13 +13,13 @@
   src: url("Adelphe-Trouble-FlorealBold.otf") format("opentype");
 }
 
-.font-fructidor {
-  font-family: "AdelpheFructidorBold", serif;
-}
-
 @font-face {
   font-family: "AdelpheFructidorBold";
   src: url("Adelphe-Trouble-FructidorBold.woff2") format("woff2");
+}
+
+.font-fructidor {
+  font-family: "AdelpheFructidorBold", serif;
 }
 
 html, body {
@@ -31,50 +31,26 @@ body {
   font-family: PostBinaire, sans-serif;
   font-size: 20px;
   line-height: 1.6;
-  background-color: #ff2fa3;
   color: #000;
-}
-
-.post-binaire-texte {
-  font-feature-settings: "liga" 1, "dlig" 1, "salt" 1;
-}
-
-.normal {
-  font-style: normal;
 }
 
 /* =========================================================
    STRUCTURE GÉNÉRALE
 ========================================================= */
 
-.page {
+.page{
   max-width: 680px;
   margin: 120px auto 40px auto;
   padding: 48px;
   background-color: #ffffff;
-  border: 6px solid #000000;
-  box-shadow: 12px 12px 0 #000;
+
   overflow: visible;
   position: relative;
-}
-.page{
-  border: 0;                 /* on enlève le trait vectoriel */
-  box-shadow: 12px 12px 0 #111;
-  background-color: #ffffff; /* inchangé */
-  position: relative;
-}
 
-.page::before{
-  content:"";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-
-  border: 6px solid #111;     /* encre noire */
-  mix-blend-mode: multiply;   /* imprimée sur le rose */
-  opacity: 0.9;
-
-  transform: translate(0.6px, 0.6px); /* micro “raté” */
+  /* on supprime le cadre/ombre vectoriels d’origine :
+     ils sont remplacés par les versions tramées plus bas */
+  border: 0;
+  box-shadow: none;
 }
 
 .titre {
@@ -100,6 +76,14 @@ body {
 .emoji {
   font-size: 0.8em;
   margin-left: 0.005em;
+}
+
+.post-binaire-texte {
+  font-feature-settings: "liga" 1, "dlig" 1, "salt" 1;
+}
+
+.normal {
+  font-style: normal;
 }
 
 /* =========================================================
@@ -336,6 +320,11 @@ a:hover {
 .site-footer a:hover {
   opacity: 0.7;
 }
+
+/* =========================================================
+   GLITCH SCREEN
+========================================================= */
+
 #glitch-screen {
   position: fixed;
   top: 0;
@@ -363,6 +352,7 @@ a:hover {
   opacity: 1;
   pointer-events: all;
 }
+
 #glitch-screen::after {
   content: "";
   position: absolute;
@@ -378,6 +368,11 @@ a:hover {
   mix-blend-mode: overlay;
   pointer-events: none;
 }
+
+/* =========================================================
+   MISC
+========================================================= */
+
 .align-right {
   text-align: right;
 }
@@ -387,10 +382,9 @@ a:hover {
   margin-top: 18px;
   line-height: 2.6em;
   font-weight: bold;
-  font-size: 1.4em;   /* ⬅️ ICI : taille du slogan */
+  font-size: 1.4em;
   white-space: nowrap;
 }
-
 
 /* lettres individuelles */
 .full-love .letter {
@@ -414,7 +408,7 @@ a:hover {
   text-align:right;
   font-size: 2em;
   line-height: 0.9;
-  margin-top: -0.55em; /* “mord” un peu sur la ligne du dessus */
+  margin-top: -0.55em;
   letter-spacing: 0.01em;
 }
 
@@ -455,13 +449,11 @@ a:hover {
   height: 1em;
 }
 
-/* lignes spéciales : pas d'indent */
 .poem-line.no-indent{
   padding-left: 0;
   text-indent: 0;
 }
 
-/* MERDE étiré sur toute la largeur du post-it */
 .full-width-line{
   display: block;
   width: 100%;
@@ -475,6 +467,11 @@ a:hover {
   padding-left: 0;
   text-indent: 0;
 }
+
+/* =========================================================
+   RISO GLOBAL (papier + rose tramé)
+   Dépend de: riso-paper.png + riso-dither.png
+========================================================= */
 
 :root{
   --riso-paper: #f6f1e6;
@@ -522,4 +519,76 @@ body::after{
 body > *{
   position: relative;
   z-index: 2;
+}
+
+/* =========================================================
+   CADRE + OMBRE TRAMÉS (dither noir)
+   Dépend de: dither-noir.png (512x512)
+========================================================= */
+
+/* Ombre tramée, plus légère */
+.page::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index: 1;
+
+  transform: translate(12px, 12px);
+
+  background: #111;
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+
+  -webkit-mask-image: url("dither-noir.png");
+  -webkit-mask-repeat: repeat;
+  -webkit-mask-size: 512px 512px;
+
+  mask-image: url("dither-noir.png");
+  mask-repeat: repeat;
+  mask-size: 512px 512px;
+}
+
+/* Cadre tramé */
+.page::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index: 2;
+
+  background: #111;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+
+  padding: 6px; /* épaisseur du cadre */
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+
+  /* trame */
+  -webkit-mask-image:
+    url("dither-noir.png"),
+    none;
+  -webkit-mask-repeat: repeat, no-repeat;
+  -webkit-mask-size: 512px 512px, auto;
+
+  mask-image:
+    url("dither-noir.png"),
+    none;
+  mask-repeat: repeat, no-repeat;
+  mask-size: 512px 512px, auto;
+}
+
+/* contenu au-dessus du cadre/ombre */
+.page > *{
+  position: relative;
+  z-index: 3;
 }
