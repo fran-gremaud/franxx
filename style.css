@@ -13,17 +13,16 @@
   src: url("Adelphe-Trouble-FlorealBold.otf") format("opentype");
 }
 
+.font-fructidor {
+  font-family: "AdelpheFructidorBold", serif;
+}
+
 @font-face {
   font-family: "AdelpheFructidorBold";
   src: url("Adelphe-Trouble-FructidorBold.woff2") format("woff2");
 }
 
-.font-fructidor {
-  font-family: "AdelpheFructidorBold", serif;
-}
-
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
 }
@@ -98,15 +97,9 @@ a:hover {
 }
 
 @keyframes arrow-pulse {
-  0% {
-    color: hotpink;
-  }
-  50% {
-    color: white;
-  }
-  100% {
-    color: hotpink;
-  }
+  0% { color: hotpink; }
+  50% { color: white; }
+  100% { color: hotpink; }
 }
 
 /* =========================================================
@@ -163,48 +156,51 @@ a:hover {
 }
 
 .postit-bar {
-  background: #00a8ff;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  border: 4px solid #00a8ff;
-  border-bottom: none;
-  box-shadow: 10px 10px 0 #00a8ff;
+  background:#00a8ff;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  border:4px solid #00a8ff;
+  border-bottom:none;
+  box-shadow:10px 10px 0 #00a8ff;
 }
 
 #close-postit {
-  background: #fff;
-  border: 2px solid #00a8ff;
-  color: #00a8ff;
-  width: 22px;
-  height: 22px;
-  line-height: 18px;
-  margin-right: 4px;
-  font-size: 16px;
-  cursor: pointer;
+  background:#fff;
+  border:2px solid #00a8ff;
+  color:#00a8ff;
+  width:22px;
+  height:22px;
+  line-height:18px;
+  margin-right:4px;
+  font-size:16px;
+  cursor:pointer;
 }
 
 .postit-content {
-  background: #ffffff;
-  border: 4px solid #00a8ff;
-  box-shadow: 10px 10px 0 #00a8ff;
-  padding: 18px;
+  background:#ffffff;
+  border:4px solid #00a8ff;
+  box-shadow:10px 10px 0 #00a8ff;
+  padding:18px;
+
   font-family: "AdelpheFructidorBold", serif;
   font-size: 15px;
   line-height: 1.45;
+
   color: #00a8ff;
   text-align: left;
+
   font-feature-settings: "liga" 1, "dlig" 1;
 }
 
 .postit-source {
-  display: block;
-  margin-top: 12px;
-  font-size: 11px;
-  font-style: italic;
-  opacity: 0.85;
-  text-align: right;
+  display:block;
+  margin-top:12px;
+  font-size:11px;
+  font-style:italic;
+  opacity:.85;
+  text-align:right;
 }
 
 /* =========================================================
@@ -212,13 +208,13 @@ a:hover {
 ========================================================= */
 
 #postit-photo {
-  position: absolute;
-  width: 200px;
-  border: 4px solid #EFFF0F;
-  background: #fff;
-  box-shadow: 16px 16px 0 #EFFF0F;
-  cursor: grab;
-  z-index: 15;
+  position:absolute;
+  width:200px;
+  border:4px solid #EFFF0F;
+  background:#fff;
+  box-shadow:16px 16px 0 #EFFF0F;
+  cursor:grab;
+  z-index:15;
 }
 
 #postit-photo.dragging {
@@ -227,26 +223,26 @@ a:hover {
 }
 
 #postit-photo .postit-bar {
-  background: #EFFF0F;
-  border-color: #EFFF0F;
-  box-shadow: 16px 16px 0 #EFFF0F;
+  background:#EFFF0F;
+  border-color:#EFFF0F;
+  box-shadow:16px 16px 0 #EFFF0F;
 }
 
 #postit-photo .close-photo {
-  background: #fff;
-  border: 2px solid #EFFF0F;
-  color: #EFFF0F;
-  width: 22px;
-  height: 22px;
-  line-height: 18px;
-  margin-right: 4px;
-  font-size: 16px;
-  cursor: pointer;
+  background:#fff;
+  border:2px solid #EFFF0F;
+  color:#EFFF0F;
+  width:22px;
+  height:22px;
+  line-height:18px;
+  margin-right:4px;
+  font-size:16px;
+  cursor:pointer;
 }
 
 #postit-photo img {
-  width: 100%;
-  display: block;
+  width:100%;
+  display:block;
 }
 
 /* =========================================================
@@ -254,12 +250,14 @@ a:hover {
 ========================================================= */
 
 @media (max-width: 700px) {
+
   #postit-pop,
   #postit-photo {
     position: static;
     width: 100%;
     margin: 24px 0;
   }
+
 }
 
 /* =========================================================
@@ -319,11 +317,6 @@ a:hover {
 .site-footer a:hover {
   opacity: 0.7;
 }
-
-/* =========================================================
-   GLITCH SCREEN
-========================================================= */
-
 #glitch-screen {
   position: fixed;
   top: 0;
@@ -331,4 +324,67 @@ a:hover {
   width: 100vw;
   height: 100vh;
   background: black;
-  display:
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 0.2s steps(2);
+}
+
+#glitch-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: screen;
+}
+
+#glitch-screen.active {
+  opacity: 1;
+  pointer-events: all;
+}
+#glitch-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.04),
+      rgba(255,255,255,0.04) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.align-right {
+  text-align: right;
+}
+
+.full-love {
+  display: block;
+  margin-top: 18px;
+  line-height: 2.6em;
+  font-weight: bold;
+  font-size: 1.4em;   /* ⬅️ ICI : taille du slogan */
+  white-space: nowrap;
+}
+
+
+/* lettres individuelles */
+.full-love .letter {
+  display: inline-block;
+  color: hotpink;
+  animation: christmas-flicker 1.8s infinite;
+  animation-delay: var(--delay);
+}
+
+/* animation guirlande */
+@keyframes christmas-flicker {
+  0%   { opacity: 1; transform: translateY(0); }
+  40%  { opacity: 0.25; transform: translateY(-1px); }
+  60%  { opacity: 0.9; transform: translateY(1px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
