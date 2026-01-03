@@ -11,7 +11,8 @@
   <div class="page">
 
     <h1 class="post-binaire-texte titre">
-      bienvenu..e <span class="emoji">❤️‍🔥</span>
+      <span class="full-love" id="title-love">bienvenu..e</span>
+      <span class="emoji">❤️‍🔥</span>
     </h1>
 
     <p class="post-binaire-texte texte"> 
@@ -43,11 +44,22 @@
     <div class="postit-bar">
       <button id="close-agenda" aria-label="Fermer le post-it agenda">×</button>
     </div>
+
     <div class="postit-content">
       <p><strong>prochaines lectures & performances</strong></p>
+
       <ul>
-        <li>31.01.25 — 18:30 — <a href="https://www.boutiquedulivre.ch/">Boutique du Livre, Neuchâtel</a></li> — Performance <em>"Dieu ressemble vaguement à quelqu'un..e que je connais"</em>
-        <li>date et heure à confirmer —  <a href="https://www.instagram.com/jazz.a.la.bourg/">Jazz à la Bourg, Fribourg</a></li> — Lecture du <em>"Recueil auquel il faudrait trouver un nom"</em>
+        <li>
+          31.01.25 — 18:30 —
+          <a href="https://www.boutiquedulivre.ch/">Boutique du Livre, Neuchâtel</a>
+          — Performance <em>"Dieu ressemble vaguement à quelqu'un..e que je connais"</em>
+        </li>
+
+        <li>
+          date et heure à confirmer —
+          <a href="https://www.instagram.com/jazz.a.la.bourg/">Jazz à la Bourg, Fribourg</a>
+          — Lecture du <em>"Recueil auquel il faudrait trouver un nom"</em>
+        </li>
       </ul>
     </div>
   </div>
@@ -80,9 +92,7 @@
 
       if (!agenda) return;
 
-      // centre le post-it au chargement (sur grands écrans)
       function centerAgenda() {
-        // sur mobile on le laisse dans le flux normal
         if (window.matchMedia("(max-width: 700px)").matches) {
           agenda.style.position = "static";
           agenda.style.left = "";
@@ -102,11 +112,9 @@
         agenda.style.top  = y + "px";
       }
 
-      // centre au départ
       window.addEventListener('load', centerAgenda);
       window.addEventListener('resize', centerAgenda);
 
-      // bouton fermer
       if (closeBtn) {
         closeBtn.addEventListener('click', function (e) {
           e.stopPropagation();
@@ -114,18 +122,12 @@
         });
       }
 
-      // DRAG
       var dragging = false;
       var startX = 0, startY = 0;
       var startLeft = 0, startTop = 0;
 
       function startDrag(e) {
-        if (window.matchMedia("(max-width: 700px)").matches) {
-          // sur mobile, on évite le drag compliqué
-          return;
-        }
-
-        // ne pas draguer si on clique sur le bouton fermer
+        if (window.matchMedia("(max-width: 700px)").matches) return;
         if (e.target === closeBtn) return;
 
         var evt = e.touches ? e.touches[0] : e;
@@ -171,10 +173,37 @@
         document.removeEventListener('touchend', stopDrag);
       }
 
-      // on peut draguer en cliquant n'importe où sur le post-it (sauf la croix)
       agenda.addEventListener('mousedown', startDrag);
       agenda.addEventListener('touchstart', startDrag, { passive: false });
+    })();
+  </script>
 
+  <!-- Script magique : transforme le titre en lettres .letter -->
+  <script>
+    (function() {
+      function sprinkleLove(el) {
+        if (!el) return;
+
+        const text = el.innerText;
+        el.innerHTML = "";
+
+        let delay = 0;
+        for (const char of text) {
+          if (char === " ") {
+            el.innerHTML += " ";
+            continue;
+          }
+
+          const span = document.createElement("span");
+          span.className = "letter";
+          span.style.setProperty("--delay", delay + "s");
+          span.textContent = char;
+          el.appendChild(span);
+          delay += 0.08;
+        }
+      }
+
+      sprinkleLove(document.getElementById("title-love"));
     })();
   </script>
 
