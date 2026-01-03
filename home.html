@@ -21,7 +21,7 @@
       il naît aussi lentement que mes poèmes...<br>
       mais il sera bientôt là.<br> 
       peut-être.<br> 
-      quand j'aurais fini tout ce qui traine dans mes tiroirs.<br>
+      quand j'aurai fini tout ce qui traîne dans mes tiroirs.<br>
       <br>
       bisous si consentis.<br>
       <br>
@@ -30,6 +30,21 @@
       fran·
     </p>
 
+  </div>
+
+  <!-- Post-it agenda rose -->
+  <div id="postit-agenda">
+    <div class="postit-bar">
+      <button id="close-agenda" aria-label="Fermer le post-it agenda">×</button>
+    </div>
+    <div class="postit-content">
+      <p><strong>prochaines lectures & performances</strong></p>
+      <ul>
+        <li>date — lieu — événement</li>
+        <li>date — lieu — événement</li>
+      </ul>
+      <p style="margin-top:10px;">(je mets tout ici dès que c’est calé ✨)</p>
+    </div>
   </div>
 
   <!-- ICI le footer partagé -->
@@ -50,6 +65,20 @@
       .then(data => {
         document.getElementById("footer-placeholder").innerHTML = data;
       });
+  </script>
+
+  <!-- Script de fermeture du post-it agenda -->
+  <script>
+    (function() {
+      var agenda = document.getElementById('postit-agenda');
+      var closeBtn = document.getElementById('close-agenda');
+
+      if (agenda && closeBtn) {
+        closeBtn.addEventListener('click', function () {
+          agenda.style.display = 'none';
+        });
+      }
+    })();
   </script>
 
 </body>
