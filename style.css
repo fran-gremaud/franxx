@@ -22,6 +22,13 @@
   src: url("Adelphe-Trouble-FructidorBold.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: "PubliFluorNormale";
+  src: url("PubliFluorNormale.otf") format("opentype");
+  font-display: swap;
+}
+
+
 html, body {
   margin: 0;
   padding: 0;
@@ -245,22 +252,21 @@ a:hover {
   display:block;
 }
 /* =========================================================
-   POST-IT ROSE AGENDA (HOME)
+   POST-IT ROSE AGENDA (HOME) – VERSION BLEU FLUO
 ========================================================= */
 
 #postit-agenda {
   position: fixed;
-  z-index: 12000;     /* bien devant le reste */
+  z-index: 12000;
   cursor: grab;
 }
 
-/* quand on est en train de le tirer */
 #postit-agenda.dragging {
   cursor: grabbing;
   user-select: none;
 }
 
-/* petit tremblement agressif au survol */
+/* petit tremblement au survol */
 #postit-agenda:hover {
   animation: postit-shake 0.25s steps(2) infinite;
 }
@@ -273,24 +279,24 @@ a:hover {
   100% { transform: translate(0,0); }
 }
 
-/* barre du haut spécifique à l'agenda (rose) */
+/* barre du haut en bleu fluo */
 #postit-agenda .postit-bar {
-  background:#ff2fa3;
+  background:#00a8ff;
   min-height: 32px;
   display:flex;
   align-items:center;
   justify-content:flex-end;
-  border:4px solid #ff2fa3;
+  border:4px solid #00a8ff;
   border-bottom:none;
-  box-shadow:10px 10px 0 #ff2fa3;
+  box-shadow:10px 10px 0 #00a8ff;
   padding: 4px 6px;
 }
 
-/* bouton fermer */
+/* bouton fermer bleu fluo */
 #postit-agenda #close-agenda {
   background:#fff;
-  border:2px solid #ff2fa3;
-  color:#ff2fa3;
+  border:2px solid #00a8ff;
+  color:#00a8ff;
   width:24px;
   height:24px;
   line-height:20px;
@@ -300,18 +306,18 @@ a:hover {
   padding:0;
 }
 
-/* contenu du post-it — plus GROS, parce que c’est important */
+/* contenu du post-it : texte + cadres en bleu fluo */
 #postit-agenda .postit-content {
   background:#ffffff;
-  border:4px solid #ff2fa3;
-  box-shadow:10px 10px 0 #ff2fa3;
+  border:4px solid #00a8ff;
+  box-shadow:10px 10px 0 #00a8ff;
   padding:20px;
 
   font-family: "AdelpheFructidorBold", serif;
-  font-size: 18px;      /* ⬅️ plus gros qu’avant */
+  font-size: 18px;
   line-height: 1.55;
 
-  color: #ff2fa3;
+  color: #00a8ff;
   text-align: left;
 
   font-feature-settings: "liga" 1, "dlig" 1;
@@ -326,23 +332,16 @@ a:hover {
   padding-left: 20px;
 }
 
-#postit-agenda .postit-content strong {
-  font-size: 1.1em;
+/* titre du bloc : PubliFluor + lettres bleues */
+#agenda-love {
+  font-family: "PubliFluorNormale", PostBinaire, sans-serif;
 }
 
-/* version mobile : on le remet dans le flux, comme les autres post-it */
-@media (max-width: 700px) {
-
-  #postit-pop,
-  #postit-photo,
-  #postit-agenda {
-    position: static;
-    width: 100%;
-    margin: 24px 0;
-    transform: none;
-  }
-
+/* override la couleur hotpink des lettres juste dans l’agenda */
+#postit-agenda .full-love .letter {
+  color: #00a8ff;
 }
+
 
 
 /* =========================================================
