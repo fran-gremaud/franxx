@@ -487,3 +487,30 @@ a:hover {
   60%  { opacity: 0.9; transform: translateY(1px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+
+   /* =========================================================
+   AGENDA : emphase date/lieu + titre en PostBinaire
+========================================================= */
+
+#postit-agenda .agenda-when,
+#postit-agenda .agenda-where {
+  font-weight: 700;              /* emphase */
+}
+
+#postit-agenda .agenda-when {
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+#postit-agenda .agenda-where a {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+#postit-agenda .agenda-title {
+  display: block;
+  margin-top: 4px;
+  font-family: "PostBinaire", sans-serif; /* ta ma-police.woff2 */
+  font-size: 0.95em;
+}
+
