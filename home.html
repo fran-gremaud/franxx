@@ -51,7 +51,6 @@
           </span>
         </strong>
       </p>
-
       <ul>
         <li>
           31.01.25 — 18:30 —
@@ -193,33 +192,45 @@
     })();
   </script>
 
-  <!-- Script magique : transforme "prochaines lectures & performances" en lettres .letter -->
+  <!-- Script d'animation aléatoire façon "FULL LOVE ON FULL MOON" -->
   <script>
-    (function() {
-      function sprinkleLove(el) {
-        if (!el) return;
+    window.addEventListener("load", () => {
+      const fullLove = document.getElementById("agenda-love");
+      if (!fullLove) return;
 
-        const text = el.innerText;
-        el.innerHTML = "";
+      const text = fullLove.textContent.trim();
+      fullLove.innerHTML = "";
 
-        let delay = 0;
-        for (const char of text) {
-          if (char === " ") {
-            el.innerHTML += " ";
-            continue;
-          }
+      const letters = [...text];
+      const spans = [];
 
-          const span = document.createElement("span");
-          span.className = "letter";
+      // création initiale des lettres
+      letters.forEach((char) => {
+        const span = document.createElement("span");
+        span.className = "letter";
+        span.textContent = char === " " ? "\u00A0" : char;
+        fullLove.appendChild(span);
+        spans.push(span);
+      });
+
+      // fonction de randomisation des délais
+      function randomizeSequence() {
+        spans.forEach((span, i) => {
+          const base = i * 0.08;                       // structure de vague
+          const jitter = (Math.random() - 0.5) * 1.4;  // chaos doux
+          const groupDrift = Math.floor(Math.random() * 4) * 0.2;
+
+          const delay = base + jitter + groupDrift;
           span.style.setProperty("--delay", delay + "s");
-          span.textContent = char;
-          el.appendChild(span);
-          delay += 0.08;
-        }
+        });
       }
 
-      sprinkleLove(document.getElementById("agenda-love"));
-    })();
+      // première constellation
+      randomizeSequence();
+
+      // 🔁 re-randomisation toutes les 6 secondes
+      setInterval(randomizeSequence, 6000);
+    });
   </script>
 
 </body>
