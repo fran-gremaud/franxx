@@ -73,17 +73,109 @@
       });
   </script>
 
-  <!-- Script de fermeture du post-it agenda -->
+  <!-- Script post-it agenda : centré, draggable, fermable -->
   <script>
     (function() {
       var agenda = document.getElementById('postit-agenda');
       var closeBtn = document.getElementById('close-agenda');
 
-      if (agenda && closeBtn) {
-        closeBtn.addEventListener('click', function () {
+      if (!agenda) return;
+
+      // centre le post-it au chargement (sur grands écrans)
+      function centerAgenda() {
+        // sur mobile on le laisse dans le flux normal
+        if (window.matchMedia("(max-width: 700px)").matches) {
+          agenda.style.position = "static";
+          agenda.style.left = "";
+          agenda.style.top = "";
+          return;
+        }
+
+        agenda.style.position = "fixed";
+        agenda.style.left = "0px";
+        agenda.style.top = "0px";
+
+        var rect = agenda.getBoundingClientRect();
+        var x = (window.innerWidth  - rect.width)  / 2;
+        var y = Math.max(40, (window.innerHeight - rect.height) / 2);
+
+        agenda.style.left = x + "px";
+        agenda.style.top  = y + "px";
+      }
+
+      // centre au départ
+      window.addEventListener('load', centerAgenda);
+      window.addEventListener('resize', centerAgenda);
+
+      // bouton fermer
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
           agenda.style.display = 'none';
         });
       }
+
+      // DRAG
+      var dragging = false;
+      var startX = 0, startY = 0;
+      var startLeft = 0, startTop = 0;
+
+      function startDrag(e) {
+        if (window.matchMedia("(max-width: 700px)").matches) {
+          // sur mobile, on évite le drag compliqué
+          return;
+        }
+
+        // ne pas draguer si on clique sur le bouton fermer
+        if (e.target === closeBtn) return;
+
+        var evt = e.touches ? e.touches[0] : e;
+        dragging = true;
+        agenda.classList.add('dragging');
+
+        var rect = agenda.getBoundingClientRect();
+        startLeft = rect.left;
+        startTop  = rect.top;
+        startX = evt.clientX;
+        startY = evt.clientY;
+
+        agenda.style.position = "fixed";
+        agenda.style.left = startLeft + "px";
+        agenda.style.top  = startTop  + "px";
+
+        document.addEventListener('mousemove', onDragMove);
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('touchmove', onDragMove, { passive: false });
+        document.addEventListener('touchend', stopDrag);
+      }
+
+      function onDragMove(e) {
+        if (!dragging) return;
+        e.preventDefault();
+
+        var evt = e.touches ? e.touches[0] : e;
+        var dx = evt.clientX - startX;
+        var dy = evt.clientY - startY;
+
+        agenda.style.left = (startLeft + dx) + "px";
+        agenda.style.top  = (startTop  + dy) + "px";
+      }
+
+      function stopDrag() {
+        if (!dragging) return;
+        dragging = false;
+        agenda.classList.remove('dragging');
+
+        document.removeEventListener('mousemove', onDragMove);
+        document.removeEventListener('mouseup', stopDrag);
+        document.removeEventListener('touchmove', onDragMove);
+        document.removeEventListener('touchend', stopDrag);
+      }
+
+      // on peut draguer en cliquant n'importe où sur le post-it (sauf la croix)
+      agenda.addEventListener('mousedown', startDrag);
+      agenda.addEventListener('touchstart', startDrag, { passive: false });
+
     })();
   </script>
 
