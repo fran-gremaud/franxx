@@ -244,57 +244,72 @@ a:hover {
   width:100%;
   display:block;
 }
-
 /* =========================================================
    POST-IT ROSE AGENDA (HOME)
 ========================================================= */
 
 #postit-agenda {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 330px;
-  z-index: 30;
-  cursor: default;
+  z-index: 12000;     /* bien devant le reste */
+  cursor: grab;
 }
 
-/* barre du haut */
+/* quand on est en train de le tirer */
+#postit-agenda.dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+/* petit tremblement agressif au survol */
+#postit-agenda:hover {
+  animation: postit-shake 0.25s steps(2) infinite;
+}
+
+@keyframes postit-shake {
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(-2px,1px); }
+  50%  { transform: translate(2px,-1px); }
+  75%  { transform: translate(-1px,-2px); }
+  100% { transform: translate(0,0); }
+}
+
+/* barre du haut spécifique à l'agenda (rose) */
 #postit-agenda .postit-bar {
-  background: #ff2fa3;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  border: 4px solid #ff2fa3;
-  border-bottom: none;
-  box-shadow: 10px 10px 0 #ff2fa3;
+  background:#ff2fa3;
+  min-height: 32px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  border:4px solid #ff2fa3;
+  border-bottom:none;
+  box-shadow:10px 10px 0 #ff2fa3;
+  padding: 4px 6px;
 }
 
 /* bouton fermer */
 #postit-agenda #close-agenda {
-  background: #fff;
-  border: 2px solid #ff2fa3;
-  color: #ff2fa3;
-  width: 22px;
-  height: 22px;
-  line-height: 18px;
-  margin-right: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 0;
+  background:#fff;
+  border:2px solid #ff2fa3;
+  color:#ff2fa3;
+  width:24px;
+  height:24px;
+  line-height:20px;
+  margin-right:4px;
+  font-size:18px;
+  cursor:pointer;
+  padding:0;
 }
 
-/* contenu du post-it */
+/* contenu du post-it — plus GROS, parce que c’est important */
 #postit-agenda .postit-content {
-  background: #ffffff;
-  border: 4px solid #ff2fa3;
-  box-shadow: 10px 10px 0 #ff2fa3;
-  padding: 18px;
+  background:#ffffff;
+  border:4px solid #ff2fa3;
+  box-shadow:10px 10px 0 #ff2fa3;
+  padding:20px;
 
   font-family: "AdelpheFructidorBold", serif;
-  font-size: 15px;
-  line-height: 1.45;
+  font-size: 18px;      /* ⬅️ plus gros qu’avant */
+  line-height: 1.55;
 
   color: #ff2fa3;
   text-align: left;
@@ -303,12 +318,16 @@ a:hover {
 }
 
 #postit-agenda .postit-content p {
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
 }
 
 #postit-agenda .postit-content ul {
-  margin: 0;
-  padding-left: 18px;
+  margin: 0 0 6px 0;
+  padding-left: 20px;
+}
+
+#postit-agenda .postit-content strong {
+  font-size: 1.1em;
 }
 
 /* version mobile : on le remet dans le flux, comme les autres post-it */
