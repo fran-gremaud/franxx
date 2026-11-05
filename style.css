@@ -259,6 +259,9 @@ a:hover {
   position: fixed;
   z-index: 12000;
   cursor: grab;
+
+  max-width: 66vw;          /* jamais plus des 2/3 de l'écran */
+  box-sizing: border-box;   /* padding/bordures inclus dans la largeur */
 }
 
 #postit-agenda.dragging {
@@ -321,6 +324,8 @@ a:hover {
   text-align: left;
 
   font-feature-settings: "liga" 1, "dlig" 1;
+
+  overflow-wrap: break-word;  /* casse les longs mots/liens qui débordent */
 }
 
 #postit-agenda .postit-content p {
@@ -337,10 +342,11 @@ a:hover {
   font-family: "PubliFluorNormale", PostBinaire, sans-serif;
 }
 
-/* override la couleur hotpink des lettres juste dans l’agenda */
+/* override la couleur hotpink des lettres juste dans l'agenda */
 #postit-agenda .full-love .letter {
   color: #00a8ff;
 }
+
 
 
 
