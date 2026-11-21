@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>métier passion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="page">
+    <h2 class="post-binaire-texte titre">Crédits typographiques</h2>
+
+    <p class="post-binaire-texte texte">
+     je propose 
+
+      <a href="https://typotheque.genderfluid.space/fr/fontes/adelphe-trouble" target="_blank">
+        <span class="font-fructidor">* Adelphe Trouble Fructidor Bold</span>
+      </a> de Cédric Rossignol-Brunet et Eugénie Bidaut
+
+      <br><br>
+      Un énooooooorme merci aux typographes, aux ateliers, aux collectif..ves qui rendent ces formes possibles et nos existences visibles. 
+      <br><br>
+
+      <!-- ✅ SLOGAN CENTRÉ -->
+      <span class="full-love" id="full-love" style="text-align:center;">
+        FULL LOVE ON FULL MOON.
+      </span>
+    </p>
+  </div>
+
+  <!-- Footer partagé -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Écran de transition glitch -->
+  <div id="glitch-screen">
+    <img src="glitch.png" alt="">
+  </div>
+
+  <!-- Script glitch -->
+  <script src="glitch.js"></script>
+
+  <!-- Script de chargement du footer -->
+  <script>
+    fetch("footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer-placeholder").innerHTML = data;
+      });
+  </script>
+
+<script>
+window.addEventListener("load", () => {
+  const fullLove = document.getElementById("full-love");
+  if (!fullLove) return;
+
+  const text = fullLove.textContent.trim();
+  fullLove.innerHTML = "";
+
+  const letters = [...text];
+  const spans = [];
+
+  // création initiale des lettres
+  letters.forEach((char) => {
+    const span = document.createElement("span");
+    span.className = "letter";
+    span.textContent = char === " " ? "\u00A0" : char;
+    fullLove.appendChild(span);
+    spans.push(span);
+  });
+
+  // fonction de randomisation des délais
+  function randomizeSequence() {
+    spans.forEach((span, i) => {
+      const base = i * 0.08;                       // structure de vague
+      const jitter = (Math.random() - 0.5) * 1.4; // chaos doux
+      const groupDrift = Math.floor(Math.random() * 4) * 0.2;
+
+      const delay = base + jitter + groupDrift;
+      span.style.setProperty("--delay", delay + "s");
+    });
+  }
+
+  // première constellation
+  randomizeSequence();
+
+  // 🔁 re-randomisation toutes les 6 secondes
+  setInterval(randomizeSequence, 6000);
+});
+</script>
+
+</script>
+
+
+</body>
+</html>
