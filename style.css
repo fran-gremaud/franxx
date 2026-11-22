@@ -388,7 +388,7 @@ a:hover {
 
 .footer-top {
   display: grid;
-  grid-template-columns: repeat(4, auto);
+  grid-template-columns: repeat(5, auto);
   justify-content: center;
   align-items: center;
   column-gap: 48px;
