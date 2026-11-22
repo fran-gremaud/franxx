@@ -104,111 +104,137 @@
       });
   </script>
 
-  <!-- Script post-it agenda : centré, draggable, fermable -->
-  <script>
-    (function() {
-      var agenda = document.getElementById('postit-agenda');
-      var closeBtn = document.getElementById('close-agenda');
+<script>
+  (function() {
+    var agenda = document.getElementById('postit-agenda');
+    var closeBtn = document.getElementById('close-agenda');
+    var STORAGE_KEY = 'agenda-dismissed-date';
 
-      if (!agenda) return;
+    if (!agenda) return;
 
-      // centre le post-it au chargement (sur grands écrans)
-      function centerAgenda() {
-        // sur mobile on le laisse dans le flux normal
-        if (window.matchMedia("(max-width: 700px)").matches) {
-          agenda.style.position = "static";
-          agenda.style.left = "";
-          agenda.style.top = "";
-          return;
-        }
+    // --- petit bouton en bas à droite ---
+    var reopenBtn = document.createElement('div');
+    reopenBtn.id = 'reopen-agenda';
+    reopenBtn.textContent = '⚷';
+    reopenBtn.setAttribute('aria-label', 'Rouvrir le post-it agenda');
+    document.body.appendChild(reopenBtn);
 
-        agenda.style.position = "fixed";
-        agenda.style.left = "0px";
-        agenda.style.top = "0px";
+    // --- logique "une fois par jour" ---
+    function today() {
+      return new Date().toISOString().slice(0, 10);
+    }
 
-        var rect = agenda.getBoundingClientRect();
-        var x = (window.innerWidth  - rect.width)  / 2;
-        var y = Math.max(40, (window.innerHeight - rect.height) / 2);
+    function shouldShow() {
+      return localStorage.getItem(STORAGE_KEY) !== today();
+    }
 
-        agenda.style.left = x + "px";
-        agenda.style.top  = y + "px";
+    function dismiss() {
+      localStorage.setItem(STORAGE_KEY, today());
+      agenda.style.display = 'none';
+      reopenBtn.style.display = 'flex';
+    }
+
+    function show() {
+      agenda.style.display = '';
+      reopenBtn.style.display = 'none';
+      centerAgenda();
+    }
+
+    // --- centrage ---
+    function centerAgenda() {
+      if (window.matchMedia("(max-width: 700px)").matches) {
+        agenda.style.position = "static";
+        agenda.style.left = "";
+        agenda.style.top = "";
+        return;
       }
+      agenda.style.position = "fixed";
+      agenda.style.left = "0px";
+      agenda.style.top = "0px";
+      var rect = agenda.getBoundingClientRect();
+      var x = (window.innerWidth  - rect.width)  / 2;
+      var y = Math.max(40, (window.innerHeight - rect.height) / 2);
+      agenda.style.left = x + "px";
+      agenda.style.top  = y + "px";
+    }
 
-      // centre au départ
-      window.addEventListener('load', centerAgenda);
-      window.addEventListener('resize', centerAgenda);
+    // --- init ---
+    if (shouldShow()) {
+      window.addEventListener('load', function() {
+        centerAgenda();
+        reopenBtn.style.display = 'none';
+      });
+    } else {
+      agenda.style.display = 'none';
+      reopenBtn.style.display = 'flex';
+    }
 
-      // bouton fermer
-      if (closeBtn) {
-        closeBtn.addEventListener('click', function (e) {
-          e.stopPropagation();
-          agenda.style.display = 'none';
-        });
-      }
+    window.addEventListener('resize', function() {
+      if (agenda.style.display !== 'none') centerAgenda();
+    });
 
-      // DRAG
-      var dragging = false;
-      var startX = 0, startY = 0;
-      var startLeft = 0, startTop = 0;
+    // --- fermer ---
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dismiss();
+      });
+    }
 
-      function startDrag(e) {
-        if (window.matchMedia("(max-width: 700px)").matches) {
-          // sur mobile, on évite le drag compliqué
-          return;
-        }
+    // --- rouvrir ---
+    reopenBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      show();
+    });
 
-        // ne pas draguer si on clique sur le bouton fermer
-        if (e.target === closeBtn) return;
+    // --- DRAG ---
+    var dragging = false;
+    var startX = 0, startY = 0;
+    var startLeft = 0, startTop = 0;
 
-        var evt = e.touches ? e.touches[0] : e;
-        dragging = true;
-        agenda.classList.add('dragging');
+    function startDrag(e) {
+      if (window.matchMedia("(max-width: 700px)").matches) return;
+      if (e.target === closeBtn) return;
+      var evt = e.touches ? e.touches[0] : e;
+      dragging = true;
+      agenda.classList.add('dragging');
+      var rect = agenda.getBoundingClientRect();
+      startLeft = rect.left;
+      startTop  = rect.top;
+      startX = evt.clientX;
+      startY = evt.clientY;
+      agenda.style.position = "fixed";
+      agenda.style.left = startLeft + "px";
+      agenda.style.top  = startTop  + "px";
+      document.addEventListener('mousemove', onDragMove);
+      document.addEventListener('mouseup', stopDrag);
+      document.addEventListener('touchmove', onDragMove, { passive: false });
+      document.addEventListener('touchend', stopDrag);
+    }
 
-        var rect = agenda.getBoundingClientRect();
-        startLeft = rect.left;
-        startTop  = rect.top;
-        startX = evt.clientX;
-        startY = evt.clientY;
+    function onDragMove(e) {
+      if (!dragging) return;
+      e.preventDefault();
+      var evt = e.touches ? e.touches[0] : e;
+      agenda.style.left = (startLeft + (evt.clientX - startX)) + "px";
+      agenda.style.top  = (startTop  + (evt.clientY - startY)) + "px";
+    }
 
-        agenda.style.position = "fixed";
-        agenda.style.left = startLeft + "px";
-        agenda.style.top  = startTop  + "px";
+    function stopDrag() {
+      if (!dragging) return;
+      dragging = false;
+      agenda.classList.remove('dragging');
+      document.removeEventListener('mousemove', onDragMove);
+      document.removeEventListener('mouseup', stopDrag);
+      document.removeEventListener('touchmove', onDragMove);
+      document.removeEventListener('touchend', stopDrag);
+    }
 
-        document.addEventListener('mousemove', onDragMove);
-        document.addEventListener('mouseup', stopDrag);
-        document.addEventListener('touchmove', onDragMove, { passive: false });
-        document.addEventListener('touchend', stopDrag);
-      }
+    agenda.addEventListener('mousedown', startDrag);
+    agenda.addEventListener('touchstart', startDrag, { passive: false });
 
-      function onDragMove(e) {
-        if (!dragging) return;
-        e.preventDefault();
-
-        var evt = e.touches ? e.touches[0] : e;
-        var dx = evt.clientX - startX;
-        var dy = evt.clientY - startY;
-
-        agenda.style.left = (startLeft + dx) + "px";
-        agenda.style.top  = (startTop  + dy) + "px";
-      }
-
-      function stopDrag() {
-        if (!dragging) return;
-        dragging = false;
-        agenda.classList.remove('dragging');
-
-        document.removeEventListener('mousemove', onDragMove);
-        document.removeEventListener('mouseup', stopDrag);
-        document.removeEventListener('touchmove', onDragMove);
-        document.removeEventListener('touchend', stopDrag);
-      }
-
-      // on peut draguer en cliquant n'importe où sur le post-it (sauf la croix)
-      agenda.addEventListener('mousedown', startDrag);
-      agenda.addEventListener('touchstart', startDrag, { passive: false });
-
-    })();
-  </script>
+  })();
+</script>
 
   <!-- Script d'animation aléatoire façon "FULL LOVE ON FULL MOON" -->
   <script>
